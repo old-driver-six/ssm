@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Spring MVC</title>
+</head>
+<body>
+<a href="/fileUploadPage">上传</a>
+
+<h2>用户登录</h2>
+<form modelAttribute="command" method="POST" action="/selectUserController/selectUser">
+    <table>
+        <tr>
+            <td><label path="username">用户名：</label></td>
+            <td><input path="username" name="username" /></td>
+        </tr>
+        <tr>
+            <td><label path="password">密码：</label></td>
+            <td><input path="password" name="password"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="提交"/>
+            </td>
+        </tr>
+
+    </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bj186.crm.mapper.BillFoodMapper">    <!--命名空间在代码中要使用-->
+    <resultMap id="billFoodMap" type="BillFood">
+        <id property="bfID" column="bfID"></id>
+        <result property="number" column="number"></result>
+        <association property="food" resultMap="com.bj186.crm.mapper.FoodMapper.foodMap"></association>
+    </resultMap>
+    <!--<select id="selectBillById" parameterType="long" resultMap="billMap">-->
+       <!--SELECT * FROM (SELECT a.*,b.foodID FROM bill a left join billfood b on a.billID = b.billID) a left join food b on a.foodID = b.foodID where a.billID = #{id}-->
+    <!--</select>-->
+</mapper>
