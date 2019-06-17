@@ -1,0 +1,149 @@
+#order{
+
+}
+span.x-red{
+    font-size: 20px;
+}
+div.nav{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 350px;
+}
+ul#type_nav{
+    margin: 0 10px;
+    list-style: none;
+    font-size: 20px;
+    color: #72736f;
+}
+ul#type_nav li{
+    margin: 10px 20px;
+    float: left;
+    cursor:pointer;
+}
+#order2_top{
+    display: block;
+}
+#order2{
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    background-color: #f4f4f4;
+    -webkit-transform: translateZ(0);
+    z-index: 10;
+}
+.increase{
+    float: left;
+    text-align: center;
+    line-height: 13px;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #c5c5c5;
+    cursor:pointer;
+}
+.div01{
+    margin-top: 1px;
+    float: right;
+}
+.input01{
+    font-size: 10px;
+    float: left;
+    height: 15px;
+    width: 30px;
+    border: 1px solid #cccccc;
+    text-align: center;
+}
+#ul1 li{
+    padding: 10px;
+    font-size: 18px;
+    margin: 5px;
+    border: 1px solid #c7c7c7;
+    float: left;
+    font-weight: bolder;
+}
+#ul1 li button{
+    float: right;
+    line-height: 0px;
+    color: #2a2a2a;
+    border: none;
+    width: 28px;
+    height: 28px;
+    font-size: 24px;
+    border-radius: 50%;
+    background-color: #ffc942;
+    cursor:pointer;
+}
+#ul1 li button:active{
+    background-color: #d3a635;
+}
+#ul1 li div.num{
+    margin-top: -25px;
+}
+
+#ul1 li div.num p{
+    width: 25px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 2px 10px;
+    background-color: #ffc942;
+    border-radius: 20%;
+    float: left;
+    display: none;
+}
+#ul1 li p{
+    margin-top: 20px;
+}
+#ul1 li p.money{
+    width: 100px;
+    color: red;
+}
+#order2_1{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+#order2_1 p{
+    cursor:pointer;
+    float: right;
+    margin-right: 20px;
+}
+#order2_2 span{
+    color: #ffa04e;
+    float: right;
+}
+#order2_2 ul li{
+    margin: 20px;
+}
+#order2_3{
+    font-size: 15px;
+    text-align: right;
+    padding: 5px 20px;
+}
+#order2_3 span{
+    color: rgba(255, 0, 0, 0.82);
+    font-size: 35px;
+    font-weight: bold;
+}
+#order2_4_1{
+    float: left;
+    background-color: #333333;
+    width: 60%;
+    height: 60px;
+    cursor:pointer;
+}
+
+#order2_4_2{
+    float: left;
+    background-color: #ffc942;
+    width:40%;
+    height: 60px;
+    color: #2b2b2b;
+    font-size: 25px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 55px;
+    cursor:pointer;
+}
+#order2_4_1 img{
+    margin: 8px;
+}
