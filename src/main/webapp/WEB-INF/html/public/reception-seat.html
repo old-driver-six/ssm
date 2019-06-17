@@ -39,14 +39,17 @@
     <div class="layui-row">
         <div class="layui-row">
             <form class="layui-form layui-col-md12 x-so" action="">
-                <div class="layui-input-inline">
-                    <input class="layui-input" placeholder="开始日" name="start" id="start">
+                <div class="layui-col-md6" style="width: 150px">
+                    <select name="city" lay-verify="">
+                        <option value="">请选择搜索条件</option>
+                        <option value="010">标题</option>
+                        <option value="021">通知人</option>
+                        <option value="0571">时间</option>
+                    </select>
                 </div>
+                &nbsp;
                 <div class="layui-input-inline">
-                    <input class="layui-input" placeholder="截止日" name="end" id="end" >
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" name="saleID"  placeholder="请输入账单号" autocomplete="off" class="layui-input">
+                    <input class="layui-input" placeholder="搜索值" name="end" id="end" >
                 </div>
                 <div class="layui-input-inline">
                     <button class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
