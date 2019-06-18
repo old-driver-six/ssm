@@ -1,78 +1,78 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bj186.oas.mapper.UsersMapper">
-  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Users">
-    <id column="users_id" jdbcType="INTEGER" property="usersId" />
-    <result column="users_phone" jdbcType="VARCHAR" property="usersPhone" />
-    <result column="users_password" jdbcType="VARCHAR" property="usersPassword" />
-    <result column="users_state" jdbcType="CHAR" property="usersState" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bj186.oas.mapper.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Users" >
+    <id column="users_id" property="usersId" jdbcType="INTEGER" />
+    <result column="users_phone" property="usersPhone" jdbcType="VARCHAR" />
+    <result column="users_password" property="usersPassword" jdbcType="VARCHAR" />
+    <result column="users_state" property="usersState" jdbcType="CHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     users_id, users_phone, users_password, users_state
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from oas_users
     where users_id = #{usersId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_users
     where users_id = #{usersId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Users">
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Users" >
     insert into oas_users (users_id, users_phone, users_password, 
       users_state)
     values (#{usersId,jdbcType=INTEGER}, #{usersPhone,jdbcType=VARCHAR}, #{usersPassword,jdbcType=VARCHAR}, 
       #{usersState,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Users">
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Users" >
     insert into oas_users
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="usersId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="usersId != null" >
         users_id,
       </if>
-      <if test="usersPhone != null">
+      <if test="usersPhone != null" >
         users_phone,
       </if>
-      <if test="usersPassword != null">
+      <if test="usersPassword != null" >
         users_password,
       </if>
-      <if test="usersState != null">
+      <if test="usersState != null" >
         users_state,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="usersId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="usersId != null" >
         #{usersId,jdbcType=INTEGER},
       </if>
-      <if test="usersPhone != null">
+      <if test="usersPhone != null" >
         #{usersPhone,jdbcType=VARCHAR},
       </if>
-      <if test="usersPassword != null">
+      <if test="usersPassword != null" >
         #{usersPassword,jdbcType=VARCHAR},
       </if>
-      <if test="usersState != null">
+      <if test="usersState != null" >
         #{usersState,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Users">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
-    <set>
-      <if test="usersPhone != null">
+    <set >
+      <if test="usersPhone != null" >
         users_phone = #{usersPhone,jdbcType=VARCHAR},
       </if>
-      <if test="usersPassword != null">
+      <if test="usersPassword != null" >
         users_password = #{usersPassword,jdbcType=VARCHAR},
       </if>
-      <if test="usersState != null">
+      <if test="usersState != null" >
         users_state = #{usersState,jdbcType=CHAR},
       </if>
     </set>
     where users_id = #{usersId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Users">
+  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
     set users_phone = #{usersPhone,jdbcType=VARCHAR},
       users_password = #{usersPassword,jdbcType=VARCHAR},

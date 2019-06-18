@@ -1,26 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bj186.oas.mapper.CalendarMapper">
-  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Calendar">
-    <id column="calendar_id" jdbcType="VARCHAR" property="calendarId" />
-    <result column="calendar_stff_id" jdbcType="INTEGER" property="calendarStffId" />
-    <result column="calendar_type" jdbcType="CHAR" property="calendarType" />
-    <result column="calendar_startTime" jdbcType="TIMESTAMP" property="calendarStarttime" />
-    <result column="calendar_sendTime" jdbcType="TIMESTAMP" property="calendarSendtime" />
-    <result column="calendar_adjunctUrl" jdbcType="VARCHAR" property="calendarAdjuncturl" />
-    <result column="calerdar_createTime" jdbcType="TIMESTAMP" property="calerdarCreatetime" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bj186.oas.mapper.CalendarMapper" >
+  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Calendar" >
+    <id column="calendar_id" property="calendarId" jdbcType="VARCHAR" />
+    <result column="calendar_stff_id" property="calendarStffId" jdbcType="INTEGER" />
+    <result column="calendar_type" property="calendarType" jdbcType="CHAR" />
+    <result column="calendar_startTime" property="calendarStarttime" jdbcType="TIMESTAMP" />
+    <result column="calendar_sendTime" property="calendarSendtime" jdbcType="TIMESTAMP" />
+    <result column="calendar_adjunctUrl" property="calendarAdjuncturl" jdbcType="VARCHAR" />
+    <result column="calerdar_createTime" property="calerdarCreatetime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Calendar">
-    <result column="calendar_content" jdbcType="LONGVARCHAR" property="calendarContent" />
+  <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Calendar" extends="BaseResultMap" >
+    <result column="calendar_content" property="calendarContent" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     calendar_id, calendar_stff_id, calendar_type, calendar_startTime, calendar_sendTime, 
     calendar_adjunctUrl, calerdar_createTime
   </sql>
-  <sql id="Blob_Column_List">
+  <sql id="Blob_Column_List" >
     calendar_content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -28,11 +28,11 @@
     from oas_calendar
     where calendar_id = #{calendarId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_calendar
     where calendar_id = #{calendarId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Calendar">
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Calendar" >
     insert into oas_calendar (calendar_id, calendar_stff_id, calendar_type, 
       calendar_startTime, calendar_sendTime, 
       calendar_adjunctUrl, calerdar_createTime, 
@@ -42,89 +42,89 @@
       #{calendarAdjuncturl,jdbcType=VARCHAR}, #{calerdarCreatetime,jdbcType=TIMESTAMP}, 
       #{calendarContent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Calendar">
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Calendar" >
     insert into oas_calendar
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="calendarId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="calendarId != null" >
         calendar_id,
       </if>
-      <if test="calendarStffId != null">
+      <if test="calendarStffId != null" >
         calendar_stff_id,
       </if>
-      <if test="calendarType != null">
+      <if test="calendarType != null" >
         calendar_type,
       </if>
-      <if test="calendarStarttime != null">
+      <if test="calendarStarttime != null" >
         calendar_startTime,
       </if>
-      <if test="calendarSendtime != null">
+      <if test="calendarSendtime != null" >
         calendar_sendTime,
       </if>
-      <if test="calendarAdjuncturl != null">
+      <if test="calendarAdjuncturl != null" >
         calendar_adjunctUrl,
       </if>
-      <if test="calerdarCreatetime != null">
+      <if test="calerdarCreatetime != null" >
         calerdar_createTime,
       </if>
-      <if test="calendarContent != null">
+      <if test="calendarContent != null" >
         calendar_content,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="calendarId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="calendarId != null" >
         #{calendarId,jdbcType=VARCHAR},
       </if>
-      <if test="calendarStffId != null">
+      <if test="calendarStffId != null" >
         #{calendarStffId,jdbcType=INTEGER},
       </if>
-      <if test="calendarType != null">
+      <if test="calendarType != null" >
         #{calendarType,jdbcType=CHAR},
       </if>
-      <if test="calendarStarttime != null">
+      <if test="calendarStarttime != null" >
         #{calendarStarttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="calendarSendtime != null">
+      <if test="calendarSendtime != null" >
         #{calendarSendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="calendarAdjuncturl != null">
+      <if test="calendarAdjuncturl != null" >
         #{calendarAdjuncturl,jdbcType=VARCHAR},
       </if>
-      <if test="calerdarCreatetime != null">
+      <if test="calerdarCreatetime != null" >
         #{calerdarCreatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="calendarContent != null">
+      <if test="calendarContent != null" >
         #{calendarContent,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Calendar">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Calendar" >
     update oas_calendar
-    <set>
-      <if test="calendarStffId != null">
+    <set >
+      <if test="calendarStffId != null" >
         calendar_stff_id = #{calendarStffId,jdbcType=INTEGER},
       </if>
-      <if test="calendarType != null">
+      <if test="calendarType != null" >
         calendar_type = #{calendarType,jdbcType=CHAR},
       </if>
-      <if test="calendarStarttime != null">
+      <if test="calendarStarttime != null" >
         calendar_startTime = #{calendarStarttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="calendarSendtime != null">
+      <if test="calendarSendtime != null" >
         calendar_sendTime = #{calendarSendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="calendarAdjuncturl != null">
+      <if test="calendarAdjuncturl != null" >
         calendar_adjunctUrl = #{calendarAdjuncturl,jdbcType=VARCHAR},
       </if>
-      <if test="calerdarCreatetime != null">
+      <if test="calerdarCreatetime != null" >
         calerdar_createTime = #{calerdarCreatetime,jdbcType=TIMESTAMP},
       </if>
-      <if test="calendarContent != null">
+      <if test="calendarContent != null" >
         calendar_content = #{calendarContent,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where calendar_id = #{calendarId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Calendar">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Calendar" >
     update oas_calendar
     set calendar_stff_id = #{calendarStffId,jdbcType=INTEGER},
       calendar_type = #{calendarType,jdbcType=CHAR},
@@ -135,7 +135,7 @@
       calendar_content = #{calendarContent,jdbcType=LONGVARCHAR}
     where calendar_id = #{calendarId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Calendar">
+  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Calendar" >
     update oas_calendar
     set calendar_stff_id = #{calendarStffId,jdbcType=INTEGER},
       calendar_type = #{calendarType,jdbcType=CHAR},

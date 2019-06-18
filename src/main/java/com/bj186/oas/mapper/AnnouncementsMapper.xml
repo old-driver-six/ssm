@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bj186.oas.mapper.AnnouncementsMapper">
-  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Announcements">
-    <id column="announcements_id" jdbcType="INTEGER" property="announcementsId" />
-    <result column="announcements_date" jdbcType="TIMESTAMP" property="announcementsDate" />
-    <result column="announcements_notifier" jdbcType="VARCHAR" property="announcementsNotifier" />
-    <result column="announcements_content" jdbcType="VARCHAR" property="announcementsContent" />
-    <result column="announcements_notifierId" jdbcType="INTEGER" property="announcementsNotifierid" />
-    <result column="announcements_topic" jdbcType="VARCHAR" property="announcementsTopic" />
-    <result column="announcements_state" jdbcType="INTEGER" property="announcementsState" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bj186.oas.mapper.AnnouncementsMapper" >
+  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Announcements" >
+    <id column="announcements_id" property="announcementsId" jdbcType="INTEGER" />
+    <result column="announcements_date" property="announcementsDate" jdbcType="TIMESTAMP" />
+    <result column="announcements_notifier" property="announcementsNotifier" jdbcType="VARCHAR" />
+    <result column="announcements_content" property="announcementsContent" jdbcType="VARCHAR" />
+    <result column="announcements_notifierId" property="announcementsNotifierid" jdbcType="INTEGER" />
+    <result column="announcements_topic" property="announcementsTopic" jdbcType="VARCHAR" />
+    <result column="announcements_state" property="announcementsState" jdbcType="INTEGER" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     announcements_id, announcements_date, announcements_notifier, announcements_content, 
     announcements_notifierId, announcements_topic, announcements_state
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from oas_announcements
     where announcements_id = #{announcementsId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_announcements
     where announcements_id = #{announcementsId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Announcements">
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Announcements" >
     insert into oas_announcements (announcements_id, announcements_date, 
       announcements_notifier, announcements_content, 
       announcements_notifierId, announcements_topic, 
@@ -34,80 +34,80 @@
       #{announcementsNotifierid,jdbcType=INTEGER}, #{announcementsTopic,jdbcType=VARCHAR}, 
       #{announcementsState,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Announcements">
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Announcements" >
     insert into oas_announcements
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="announcementsId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="announcementsId != null" >
         announcements_id,
       </if>
-      <if test="announcementsDate != null">
+      <if test="announcementsDate != null" >
         announcements_date,
       </if>
-      <if test="announcementsNotifier != null">
+      <if test="announcementsNotifier != null" >
         announcements_notifier,
       </if>
-      <if test="announcementsContent != null">
+      <if test="announcementsContent != null" >
         announcements_content,
       </if>
-      <if test="announcementsNotifierid != null">
+      <if test="announcementsNotifierid != null" >
         announcements_notifierId,
       </if>
-      <if test="announcementsTopic != null">
+      <if test="announcementsTopic != null" >
         announcements_topic,
       </if>
-      <if test="announcementsState != null">
+      <if test="announcementsState != null" >
         announcements_state,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="announcementsId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="announcementsId != null" >
         #{announcementsId,jdbcType=INTEGER},
       </if>
-      <if test="announcementsDate != null">
+      <if test="announcementsDate != null" >
         #{announcementsDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="announcementsNotifier != null">
+      <if test="announcementsNotifier != null" >
         #{announcementsNotifier,jdbcType=VARCHAR},
       </if>
-      <if test="announcementsContent != null">
+      <if test="announcementsContent != null" >
         #{announcementsContent,jdbcType=VARCHAR},
       </if>
-      <if test="announcementsNotifierid != null">
+      <if test="announcementsNotifierid != null" >
         #{announcementsNotifierid,jdbcType=INTEGER},
       </if>
-      <if test="announcementsTopic != null">
+      <if test="announcementsTopic != null" >
         #{announcementsTopic,jdbcType=VARCHAR},
       </if>
-      <if test="announcementsState != null">
+      <if test="announcementsState != null" >
         #{announcementsState,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Announcements">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Announcements" >
     update oas_announcements
-    <set>
-      <if test="announcementsDate != null">
+    <set >
+      <if test="announcementsDate != null" >
         announcements_date = #{announcementsDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="announcementsNotifier != null">
+      <if test="announcementsNotifier != null" >
         announcements_notifier = #{announcementsNotifier,jdbcType=VARCHAR},
       </if>
-      <if test="announcementsContent != null">
+      <if test="announcementsContent != null" >
         announcements_content = #{announcementsContent,jdbcType=VARCHAR},
       </if>
-      <if test="announcementsNotifierid != null">
+      <if test="announcementsNotifierid != null" >
         announcements_notifierId = #{announcementsNotifierid,jdbcType=INTEGER},
       </if>
-      <if test="announcementsTopic != null">
+      <if test="announcementsTopic != null" >
         announcements_topic = #{announcementsTopic,jdbcType=VARCHAR},
       </if>
-      <if test="announcementsState != null">
+      <if test="announcementsState != null" >
         announcements_state = #{announcementsState,jdbcType=INTEGER},
       </if>
     </set>
     where announcements_id = #{announcementsId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Announcements">
+  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Announcements" >
     update oas_announcements
     set announcements_date = #{announcementsDate,jdbcType=TIMESTAMP},
       announcements_notifier = #{announcementsNotifier,jdbcType=VARCHAR},

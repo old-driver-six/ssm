@@ -59,6 +59,11 @@ public class Staff {
     private String staffEmail;
 
     /**
+     * 员工部门id(外键)
+     */
+    private Integer staffDepid;
+
+    /**
      * 员工ID（主键 10001自增）
      * @return staff_id 员工ID（主键 10001自增）
      */
@@ -172,7 +177,7 @@ public class Staff {
 
     /**
      * 员工职位(外键对应职位表)
-     * @return staff_positionid 员工职位(外键对应职位表)
+     * @return staff_positionID 员工职位(外键对应职位表)
      */
     public Integer getStaffPositionid() {
         return staffPositionid;
@@ -232,5 +237,21 @@ public class Staff {
      */
     public void setStaffEmail(String staffEmail) {
         this.staffEmail = staffEmail == null ? null : staffEmail.trim();
+    }
+
+    /**
+     * 员工部门id(外键)
+     * @return staff_depID 员工部门id(外键)
+     */
+    public Integer getStaffDepid() {
+        return staffDepid;
+    }
+
+    /**
+     * 员工部门id(外键)
+     * @param staffDepid 员工部门id(外键)
+     */
+    public void setStaffDepid(Integer staffDepid) {
+        this.staffDepid = staffDepid;
     }
 }

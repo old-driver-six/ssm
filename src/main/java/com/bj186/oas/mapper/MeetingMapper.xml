@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bj186.oas.mapper.MeetingMapper">
-  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Meeting">
-    <id column="meeting_id" jdbcType="VARCHAR" property="meetingId" />
-    <result column="meeting_title" jdbcType="VARCHAR" property="meetingTitle" />
-    <result column="meeting_type" jdbcType="CHAR" property="meetingType" />
-    <result column="meeting_stff_id" jdbcType="INTEGER" property="meetingStffId" />
-    <result column="meeting_location" jdbcType="VARCHAR" property="meetingLocation" />
-    <result column="meeting_time" jdbcType="TIMESTAMP" property="meetingTime" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bj186.oas.mapper.MeetingMapper" >
+  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Meeting" >
+    <id column="meeting_id" property="meetingId" jdbcType="VARCHAR" />
+    <result column="meeting_title" property="meetingTitle" jdbcType="VARCHAR" />
+    <result column="meeting_type" property="meetingType" jdbcType="CHAR" />
+    <result column="meeting_stff_id" property="meetingStffId" jdbcType="INTEGER" />
+    <result column="meeting_location" property="meetingLocation" jdbcType="VARCHAR" />
+    <result column="meeting_time" property="meetingTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Meeting">
-    <result column="meeting_content" jdbcType="LONGVARCHAR" property="meetingContent" />
+  <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Meeting" extends="BaseResultMap" >
+    <result column="meeting_content" property="meetingContent" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     meeting_id, meeting_title, meeting_type, meeting_stff_id, meeting_location, meeting_time
   </sql>
-  <sql id="Blob_Column_List">
+  <sql id="Blob_Column_List" >
     meeting_content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -26,11 +26,11 @@
     from oas_meeting
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_meeting
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Meeting">
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Meeting" >
     insert into oas_meeting (meeting_id, meeting_title, meeting_type, 
       meeting_stff_id, meeting_location, meeting_time, 
       meeting_content)
@@ -38,80 +38,80 @@
       #{meetingStffId,jdbcType=INTEGER}, #{meetingLocation,jdbcType=VARCHAR}, #{meetingTime,jdbcType=TIMESTAMP}, 
       #{meetingContent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Meeting">
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Meeting" >
     insert into oas_meeting
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="meetingId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="meetingId != null" >
         meeting_id,
       </if>
-      <if test="meetingTitle != null">
+      <if test="meetingTitle != null" >
         meeting_title,
       </if>
-      <if test="meetingType != null">
+      <if test="meetingType != null" >
         meeting_type,
       </if>
-      <if test="meetingStffId != null">
+      <if test="meetingStffId != null" >
         meeting_stff_id,
       </if>
-      <if test="meetingLocation != null">
+      <if test="meetingLocation != null" >
         meeting_location,
       </if>
-      <if test="meetingTime != null">
+      <if test="meetingTime != null" >
         meeting_time,
       </if>
-      <if test="meetingContent != null">
+      <if test="meetingContent != null" >
         meeting_content,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="meetingId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="meetingId != null" >
         #{meetingId,jdbcType=VARCHAR},
       </if>
-      <if test="meetingTitle != null">
+      <if test="meetingTitle != null" >
         #{meetingTitle,jdbcType=VARCHAR},
       </if>
-      <if test="meetingType != null">
+      <if test="meetingType != null" >
         #{meetingType,jdbcType=CHAR},
       </if>
-      <if test="meetingStffId != null">
+      <if test="meetingStffId != null" >
         #{meetingStffId,jdbcType=INTEGER},
       </if>
-      <if test="meetingLocation != null">
+      <if test="meetingLocation != null" >
         #{meetingLocation,jdbcType=VARCHAR},
       </if>
-      <if test="meetingTime != null">
+      <if test="meetingTime != null" >
         #{meetingTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="meetingContent != null">
+      <if test="meetingContent != null" >
         #{meetingContent,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Meeting">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Meeting" >
     update oas_meeting
-    <set>
-      <if test="meetingTitle != null">
+    <set >
+      <if test="meetingTitle != null" >
         meeting_title = #{meetingTitle,jdbcType=VARCHAR},
       </if>
-      <if test="meetingType != null">
+      <if test="meetingType != null" >
         meeting_type = #{meetingType,jdbcType=CHAR},
       </if>
-      <if test="meetingStffId != null">
+      <if test="meetingStffId != null" >
         meeting_stff_id = #{meetingStffId,jdbcType=INTEGER},
       </if>
-      <if test="meetingLocation != null">
+      <if test="meetingLocation != null" >
         meeting_location = #{meetingLocation,jdbcType=VARCHAR},
       </if>
-      <if test="meetingTime != null">
+      <if test="meetingTime != null" >
         meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="meetingContent != null">
+      <if test="meetingContent != null" >
         meeting_content = #{meetingContent,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Meeting">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Meeting" >
     update oas_meeting
     set meeting_title = #{meetingTitle,jdbcType=VARCHAR},
       meeting_type = #{meetingType,jdbcType=CHAR},
@@ -121,7 +121,7 @@
       meeting_content = #{meetingContent,jdbcType=LONGVARCHAR}
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Meeting">
+  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Meeting" >
     update oas_meeting
     set meeting_title = #{meetingTitle,jdbcType=VARCHAR},
       meeting_type = #{meetingType,jdbcType=CHAR},

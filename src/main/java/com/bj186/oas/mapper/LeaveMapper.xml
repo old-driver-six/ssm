@@ -1,28 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bj186.oas.mapper.LeaveMapper">
-  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Leave">
-    <id column="leave_Id" jdbcType="VARCHAR" property="leaveId" />
-    <result column="leave_staff_id" jdbcType="INTEGER" property="leaveStaffId" />
-    <result column="leave_processing" jdbcType="CHAR" property="leaveProcessing" />
-    <result column="leave_title" jdbcType="VARCHAR" property="leaveTitle" />
-    <result column="leave_type" jdbcType="CHAR" property="leaveType" />
-    <result column="leave_time" jdbcType="INTEGER" property="leaveTime" />
-    <result column="leave_startTime" jdbcType="TIMESTAMP" property="leaveStarttime" />
-    <result column="leave_sendTime" jdbcType="TIMESTAMP" property="leaveSendtime" />
-    <result column="leave_state" jdbcType="CHAR" property="leaveState" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bj186.oas.mapper.LeaveMapper" >
+  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Leave" >
+    <id column="leave_Id" property="leaveId" jdbcType="VARCHAR" />
+    <result column="leave_staff_id" property="leaveStaffId" jdbcType="INTEGER" />
+    <result column="leave_processing" property="leaveProcessing" jdbcType="CHAR" />
+    <result column="leave_title" property="leaveTitle" jdbcType="VARCHAR" />
+    <result column="leave_type" property="leaveType" jdbcType="CHAR" />
+    <result column="leave_time" property="leaveTime" jdbcType="INTEGER" />
+    <result column="leave_startTime" property="leaveStarttime" jdbcType="TIMESTAMP" />
+    <result column="leave_sendTime" property="leaveSendtime" jdbcType="TIMESTAMP" />
+    <result column="leave_state" property="leaveState" jdbcType="CHAR" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Leave">
-    <result column="leave_reason" jdbcType="LONGVARCHAR" property="leaveReason" />
+  <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Leave" extends="BaseResultMap" >
+    <result column="leave_reason" property="leaveReason" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     leave_Id, leave_staff_id, leave_processing, leave_title, leave_type, leave_time, 
     leave_startTime, leave_sendTime, leave_state
   </sql>
-  <sql id="Blob_Column_List">
+  <sql id="Blob_Column_List" >
     leave_reason
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -30,11 +30,11 @@
     from oas_leave
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_leave
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Leave">
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Leave" >
     insert into oas_leave (leave_Id, leave_staff_id, leave_processing, 
       leave_title, leave_type, leave_time, 
       leave_startTime, leave_sendTime, leave_state, 
@@ -44,107 +44,107 @@
       #{leaveStarttime,jdbcType=TIMESTAMP}, #{leaveSendtime,jdbcType=TIMESTAMP}, #{leaveState,jdbcType=CHAR}, 
       #{leaveReason,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Leave">
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Leave" >
     insert into oas_leave
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="leaveId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="leaveId != null" >
         leave_Id,
       </if>
-      <if test="leaveStaffId != null">
+      <if test="leaveStaffId != null" >
         leave_staff_id,
       </if>
-      <if test="leaveProcessing != null">
+      <if test="leaveProcessing != null" >
         leave_processing,
       </if>
-      <if test="leaveTitle != null">
+      <if test="leaveTitle != null" >
         leave_title,
       </if>
-      <if test="leaveType != null">
+      <if test="leaveType != null" >
         leave_type,
       </if>
-      <if test="leaveTime != null">
+      <if test="leaveTime != null" >
         leave_time,
       </if>
-      <if test="leaveStarttime != null">
+      <if test="leaveStarttime != null" >
         leave_startTime,
       </if>
-      <if test="leaveSendtime != null">
+      <if test="leaveSendtime != null" >
         leave_sendTime,
       </if>
-      <if test="leaveState != null">
+      <if test="leaveState != null" >
         leave_state,
       </if>
-      <if test="leaveReason != null">
+      <if test="leaveReason != null" >
         leave_reason,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="leaveId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="leaveId != null" >
         #{leaveId,jdbcType=VARCHAR},
       </if>
-      <if test="leaveStaffId != null">
+      <if test="leaveStaffId != null" >
         #{leaveStaffId,jdbcType=INTEGER},
       </if>
-      <if test="leaveProcessing != null">
+      <if test="leaveProcessing != null" >
         #{leaveProcessing,jdbcType=CHAR},
       </if>
-      <if test="leaveTitle != null">
+      <if test="leaveTitle != null" >
         #{leaveTitle,jdbcType=VARCHAR},
       </if>
-      <if test="leaveType != null">
+      <if test="leaveType != null" >
         #{leaveType,jdbcType=CHAR},
       </if>
-      <if test="leaveTime != null">
+      <if test="leaveTime != null" >
         #{leaveTime,jdbcType=INTEGER},
       </if>
-      <if test="leaveStarttime != null">
+      <if test="leaveStarttime != null" >
         #{leaveStarttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="leaveSendtime != null">
+      <if test="leaveSendtime != null" >
         #{leaveSendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="leaveState != null">
+      <if test="leaveState != null" >
         #{leaveState,jdbcType=CHAR},
       </if>
-      <if test="leaveReason != null">
+      <if test="leaveReason != null" >
         #{leaveReason,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Leave">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Leave" >
     update oas_leave
-    <set>
-      <if test="leaveStaffId != null">
+    <set >
+      <if test="leaveStaffId != null" >
         leave_staff_id = #{leaveStaffId,jdbcType=INTEGER},
       </if>
-      <if test="leaveProcessing != null">
+      <if test="leaveProcessing != null" >
         leave_processing = #{leaveProcessing,jdbcType=CHAR},
       </if>
-      <if test="leaveTitle != null">
+      <if test="leaveTitle != null" >
         leave_title = #{leaveTitle,jdbcType=VARCHAR},
       </if>
-      <if test="leaveType != null">
+      <if test="leaveType != null" >
         leave_type = #{leaveType,jdbcType=CHAR},
       </if>
-      <if test="leaveTime != null">
+      <if test="leaveTime != null" >
         leave_time = #{leaveTime,jdbcType=INTEGER},
       </if>
-      <if test="leaveStarttime != null">
+      <if test="leaveStarttime != null" >
         leave_startTime = #{leaveStarttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="leaveSendtime != null">
+      <if test="leaveSendtime != null" >
         leave_sendTime = #{leaveSendtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="leaveState != null">
+      <if test="leaveState != null" >
         leave_state = #{leaveState,jdbcType=CHAR},
       </if>
-      <if test="leaveReason != null">
+      <if test="leaveReason != null" >
         leave_reason = #{leaveReason,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Leave">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Leave" >
     update oas_leave
     set leave_staff_id = #{leaveStaffId,jdbcType=INTEGER},
       leave_processing = #{leaveProcessing,jdbcType=CHAR},
@@ -157,7 +157,7 @@
       leave_reason = #{leaveReason,jdbcType=LONGVARCHAR}
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Leave">
+  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Leave" >
     update oas_leave
     set leave_staff_id = #{leaveStaffId,jdbcType=INTEGER},
       leave_processing = #{leaveProcessing,jdbcType=CHAR},

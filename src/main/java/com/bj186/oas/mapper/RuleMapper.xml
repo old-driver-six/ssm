@@ -1,26 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bj186.oas.mapper.RuleMapper">
-  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Rule">
-    <id column="rule_id" jdbcType="INTEGER" property="ruleId" />
-    <result column="rule_departmentId" jdbcType="INTEGER" property="ruleDepartmentid" />
-    <result column="rule_creatorId" jdbcType="INTEGER" property="ruleCreatorid" />
-    <result column="rule_creator" jdbcType="VARCHAR" property="ruleCreator" />
-    <result column="rule_releaseDate" jdbcType="TIMESTAMP" property="ruleReleasedate" />
-    <result column="rule_title" jdbcType="VARCHAR" property="ruleTitle" />
-    <result column="rule_state" jdbcType="INTEGER" property="ruleState" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bj186.oas.mapper.RuleMapper" >
+  <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Rule" >
+    <id column="rule_id" property="ruleId" jdbcType="INTEGER" />
+    <result column="rule_departmentId" property="ruleDepartmentid" jdbcType="INTEGER" />
+    <result column="rule_creatorId" property="ruleCreatorid" jdbcType="INTEGER" />
+    <result column="rule_creator" property="ruleCreator" jdbcType="VARCHAR" />
+    <result column="rule_releaseDate" property="ruleReleasedate" jdbcType="TIMESTAMP" />
+    <result column="rule_title" property="ruleTitle" jdbcType="VARCHAR" />
+    <result column="rule_state" property="ruleState" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Rule">
-    <result column="rule_content" jdbcType="LONGVARCHAR" property="ruleContent" />
+  <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Rule" extends="BaseResultMap" >
+    <result column="rule_content" property="ruleContent" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     rule_id, rule_departmentId, rule_creatorId, rule_creator, rule_releaseDate, rule_title, 
     rule_state
   </sql>
-  <sql id="Blob_Column_List">
+  <sql id="Blob_Column_List" >
     rule_content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -28,11 +28,11 @@
     from oas_rule
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_rule
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Rule">
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Rule" >
     insert into oas_rule (rule_id, rule_departmentId, rule_creatorId, 
       rule_creator, rule_releaseDate, rule_title, 
       rule_state, rule_content)
@@ -40,89 +40,89 @@
       #{ruleCreator,jdbcType=VARCHAR}, #{ruleReleasedate,jdbcType=TIMESTAMP}, #{ruleTitle,jdbcType=VARCHAR}, 
       #{ruleState,jdbcType=INTEGER}, #{ruleContent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Rule">
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Rule" >
     insert into oas_rule
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="ruleId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ruleId != null" >
         rule_id,
       </if>
-      <if test="ruleDepartmentid != null">
+      <if test="ruleDepartmentid != null" >
         rule_departmentId,
       </if>
-      <if test="ruleCreatorid != null">
+      <if test="ruleCreatorid != null" >
         rule_creatorId,
       </if>
-      <if test="ruleCreator != null">
+      <if test="ruleCreator != null" >
         rule_creator,
       </if>
-      <if test="ruleReleasedate != null">
+      <if test="ruleReleasedate != null" >
         rule_releaseDate,
       </if>
-      <if test="ruleTitle != null">
+      <if test="ruleTitle != null" >
         rule_title,
       </if>
-      <if test="ruleState != null">
+      <if test="ruleState != null" >
         rule_state,
       </if>
-      <if test="ruleContent != null">
+      <if test="ruleContent != null" >
         rule_content,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="ruleId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ruleId != null" >
         #{ruleId,jdbcType=INTEGER},
       </if>
-      <if test="ruleDepartmentid != null">
+      <if test="ruleDepartmentid != null" >
         #{ruleDepartmentid,jdbcType=INTEGER},
       </if>
-      <if test="ruleCreatorid != null">
+      <if test="ruleCreatorid != null" >
         #{ruleCreatorid,jdbcType=INTEGER},
       </if>
-      <if test="ruleCreator != null">
+      <if test="ruleCreator != null" >
         #{ruleCreator,jdbcType=VARCHAR},
       </if>
-      <if test="ruleReleasedate != null">
+      <if test="ruleReleasedate != null" >
         #{ruleReleasedate,jdbcType=TIMESTAMP},
       </if>
-      <if test="ruleTitle != null">
+      <if test="ruleTitle != null" >
         #{ruleTitle,jdbcType=VARCHAR},
       </if>
-      <if test="ruleState != null">
+      <if test="ruleState != null" >
         #{ruleState,jdbcType=INTEGER},
       </if>
-      <if test="ruleContent != null">
+      <if test="ruleContent != null" >
         #{ruleContent,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Rule">
+  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Rule" >
     update oas_rule
-    <set>
-      <if test="ruleDepartmentid != null">
+    <set >
+      <if test="ruleDepartmentid != null" >
         rule_departmentId = #{ruleDepartmentid,jdbcType=INTEGER},
       </if>
-      <if test="ruleCreatorid != null">
+      <if test="ruleCreatorid != null" >
         rule_creatorId = #{ruleCreatorid,jdbcType=INTEGER},
       </if>
-      <if test="ruleCreator != null">
+      <if test="ruleCreator != null" >
         rule_creator = #{ruleCreator,jdbcType=VARCHAR},
       </if>
-      <if test="ruleReleasedate != null">
+      <if test="ruleReleasedate != null" >
         rule_releaseDate = #{ruleReleasedate,jdbcType=TIMESTAMP},
       </if>
-      <if test="ruleTitle != null">
+      <if test="ruleTitle != null" >
         rule_title = #{ruleTitle,jdbcType=VARCHAR},
       </if>
-      <if test="ruleState != null">
+      <if test="ruleState != null" >
         rule_state = #{ruleState,jdbcType=INTEGER},
       </if>
-      <if test="ruleContent != null">
+      <if test="ruleContent != null" >
         rule_content = #{ruleContent,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Rule">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Rule" >
     update oas_rule
     set rule_departmentId = #{ruleDepartmentid,jdbcType=INTEGER},
       rule_creatorId = #{ruleCreatorid,jdbcType=INTEGER},
@@ -133,7 +133,7 @@
       rule_content = #{ruleContent,jdbcType=LONGVARCHAR}
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Rule">
+  <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Rule" >
     update oas_rule
     set rule_departmentId = #{ruleDepartmentid,jdbcType=INTEGER},
       rule_creatorId = #{ruleCreatorid,jdbcType=INTEGER},
