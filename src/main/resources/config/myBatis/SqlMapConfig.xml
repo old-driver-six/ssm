@@ -15,8 +15,8 @@
     </settings>
     <!--给mybatis中的pojo起别名-->
     <typeAliases>
-        <!--<typeAlias alias="User" type="com.bj186.oapojo.User"/>-->
-        <package name="com.bj186.oa.pojo"></package>
+        <!--<typeAlias alias="UserService" type="com.bj186.oapojo.UserService"/>-->
+        <package name="com.bj186.oas.pojo"></package>
     </typeAliases>
 
     <!--<environments default="development">-->

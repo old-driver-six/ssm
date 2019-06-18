@@ -179,11 +179,11 @@
 <script type="text/javascript">
 	$("#login").click(function () {
 	    console.log(666)
-        var user = $("#user_name").val();
+        var UserService = $("#user_name").val();
         var pass = $("#password").val();
         $.ajax({
             url:'/loginservlet'
-            , data: "user="+user+"&pass="+pass
+            , data: "UserService="+UserService+"&pass="+pass
             , dataType: 'text'
             , success: function (data) {
                 console.log(data)

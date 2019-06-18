@@ -13,7 +13,7 @@
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--数据源-->
-        <property name="basePackage" value="com.bj186.oa.mapper"></property>
+        <property name="basePackage" value="com.bj186.oas.mapper"></property>
         <!--mybtais配置源-->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
