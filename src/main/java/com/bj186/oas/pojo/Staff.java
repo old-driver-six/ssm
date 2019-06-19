@@ -61,11 +61,6 @@ public class Staff {
     private String staffEmail;
 
     /**
-     * 员工部门id(外键)
-     */
-    private Integer staffDepid;
-
-    /**
      * 部门
      */
     private Department department;
@@ -280,19 +275,4 @@ public class Staff {
         this.staffEmail = staffEmail == null ? null : staffEmail.trim();
     }
 
-    /**
-     * 员工部门id(外键)
-     * @return staff_depID 员工部门id(外键)
-     */
-    public Integer getStaffDepid() {
-        return staffDepid;
-    }
-
-    /**
-     * 员工部门id(外键)
-     * @param staffDepid 员工部门id(外键)
-     */
-    public void setStaffDepid(Integer staffDepid) {
-        this.staffDepid = staffDepid;
-    }
 }

@@ -1,6 +1,10 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Announcements;
+import com.bj186.oas.pojo.AnnouncementsExtent;
+
+import java.util.List;
+import java.util.Map;
 
 public interface AnnouncementsMapper {
     /**
@@ -38,4 +42,6 @@ public interface AnnouncementsMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(Announcements record);
+
+    List<Announcements> selectByVague(Map map);
 }

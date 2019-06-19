@@ -13,7 +13,6 @@
     <result column="staff_adress" property="staffAdress" jdbcType="VARCHAR" />
     <result column="staff_wage" property="staffWage" jdbcType="VARCHAR" />
     <result column="staff_email" property="staffEmail" jdbcType="VARCHAR" />
-    <result column="staff_depID" property="staffDepid" jdbcType="INTEGER" />
 
     <association property="department" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></association>
     <association property="position" resultMap="com.bj186.oas.mapper.PositionMapper.BaseResultMap"></association>
@@ -187,7 +186,7 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       staff_phone = #{staffPhone,jdbcType=VARCHAR},
       staff_idntityCardID = #{staffIdntitycardid,jdbcType=VARCHAR},
       staff_birthday = #{staffBirthday,jdbcType=TIMESTAMP},
-      staff_positionID = #{position.positionId,,jdbcType=INTEGER},
+      staff_positionID = #{position.positionId,jdbcType=INTEGER},
       staff_adress = #{staffAdress,jdbcType=VARCHAR},
       staff_wage = #{staffWage,jdbcType=VARCHAR},
       staff_email = #{staffEmail,jdbcType=VARCHAR},
