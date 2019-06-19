@@ -2,6 +2,9 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Staff;
 
+import java.util.List;
+import java.util.Map;
+
 public interface StaffMapper {
     /**
      *
@@ -26,6 +29,10 @@ public interface StaffMapper {
      * @mbggenerated 2019-06-18
      */
     Staff selectByPrimaryKey(Integer staffId);
+
+    List<Staff> select(Map<String,Object> map);
+
+    List<Staff> selectAll();
 
     /**
      *

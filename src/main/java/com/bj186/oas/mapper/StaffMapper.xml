@@ -32,12 +32,37 @@ left join oas_staffpower b on a.staff_id = b.sp_staffID)a
 left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
   </select>
 
-  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <!--<select id="select" resultMap="BaseResultMap" parameterType="map" >-->
+   <!--SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM-->
+<!--oas_staff a left join oas_department b-->
+<!--on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a-->
+<!--left join oas_staffpower b on a.staff_id = b.sp_staffID)a-->
+<!--left join oas_power b on a.sp_powerID = b.power_id where ${filed} like ${value} limit #{start},#{end}-->
+  <!--</select>-->
+
+  <select id="select" parameterType="map" resultMap="BaseResultMap">
+    SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
+    oas_staff a left join oas_department b
+    on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
+    left join oas_staffpower b on a.staff_id = b.sp_staffID)a
+    left join oas_power b on a.sp_powerID = b.power_id
+    <where>
+      <if test="filed!=null">
+        and ${filed}
+      </if>
+      <if test="value!= '\'%null%\'' ">
+        and like ${value}
+      </if>
+    </where>
+    limit #{start},#{end}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
    SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
 oas_staff a left join oas_department b
 on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
 left join oas_staffpower b on a.staff_id = b.sp_staffID)a
-left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
+left join oas_power b on a.sp_powerID = b.power_id
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -160,8 +185,8 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       <if test="staffBirthday != null" >
         staff_birthday = #{staffBirthday,jdbcType=TIMESTAMP},
       </if>
-      <if test="staffPositionid != null" >
-        staff_positionID = #{staffPositionid,jdbcType=INTEGER},
+      <if test="position.positionId != null" >
+        staff_positionID = #{position.positionId,jdbcType=INTEGER},
       </if>
       <if test="staffAdress != null" >
         staff_adress = #{staffAdress,jdbcType=VARCHAR},
@@ -172,8 +197,8 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       <if test="staffEmail != null" >
         staff_email = #{staffEmail,jdbcType=VARCHAR},
       </if>
-      <if test="staffDepid != null" >
-        staff_depID = #{staffDepid,jdbcType=INTEGER},
+      <if test="department.depId != null" >
+        staff_depID = #{department.depId,jdbcType=INTEGER},
       </if>
     </set>
     where staff_id = #{staffId,jdbcType=INTEGER}
