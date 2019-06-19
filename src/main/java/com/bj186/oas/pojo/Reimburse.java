@@ -8,30 +8,16 @@ public class Reimburse {
      * 报销编号（主键）
      */
     private Integer reimId;
+
     /**
-     * 员工
+     * 员工编号（外键）
      */
-    private Staff staff;
+    private Integer reimStaffid;
+
     /**
-     * 部门
+     * 部门编号（外键）
      */
-    private Department department;
-
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
+    private Integer reimDepid;
 
     /**
      * 出差事由
@@ -82,6 +68,38 @@ public class Reimburse {
      */
     public void setReimId(Integer reimId) {
         this.reimId = reimId;
+    }
+
+    /**
+     * 员工编号（外键）
+     * @return reim_staffid 员工编号（外键）
+     */
+    public Integer getReimStaffid() {
+        return reimStaffid;
+    }
+
+    /**
+     * 员工编号（外键）
+     * @param reimStaffid 员工编号（外键）
+     */
+    public void setReimStaffid(Integer reimStaffid) {
+        this.reimStaffid = reimStaffid;
+    }
+
+    /**
+     * 部门编号（外键）
+     * @return reim_depid 部门编号（外键）
+     */
+    public Integer getReimDepid() {
+        return reimDepid;
+    }
+
+    /**
+     * 部门编号（外键）
+     * @param reimDepid 部门编号（外键）
+     */
+    public void setReimDepid(Integer reimDepid) {
+        this.reimDepid = reimDepid;
     }
 
     /**

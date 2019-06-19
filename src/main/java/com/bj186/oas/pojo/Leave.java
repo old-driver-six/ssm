@@ -49,11 +49,6 @@ public class Leave {
     private String leaveState;
 
     /**
-     * 创建情假条的时间戳
-     */
-    private Long leaveCeatetime;
-
-    /**
      * 请假的原因,不能为空
      */
     private String leaveReason;
@@ -200,22 +195,6 @@ public class Leave {
      */
     public void setLeaveState(String leaveState) {
         this.leaveState = leaveState == null ? null : leaveState.trim();
-    }
-
-    /**
-     * 创建情假条的时间戳
-     * @return leave_ceateTime 创建情假条的时间戳
-     */
-    public Long getLeaveCeatetime() {
-        return leaveCeatetime;
-    }
-
-    /**
-     * 创建情假条的时间戳
-     * @param leaveCeatetime 创建情假条的时间戳
-     */
-    public void setLeaveCeatetime(Long leaveCeatetime) {
-        this.leaveCeatetime = leaveCeatetime;
     }
 
     /**

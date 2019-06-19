@@ -9,17 +9,9 @@ public class Rent {
     private Integer rentId;
 
     /**
-     * 固定资产
+     * 固定资产id（外键）
      */
-     private Fixed fixed;
-
-    public Fixed getFixed() {
-        return fixed;
-    }
-
-    public void setFixed(Fixed fixed) {
-        this.fixed = fixed;
-    }
+    private Integer rentFixid;
 
     /**
      * 租赁数量
@@ -57,6 +49,21 @@ public class Rent {
         this.rentId = rentId;
     }
 
+    /**
+     * 固定资产id（外键）
+     * @return rent_fixid 固定资产id（外键）
+     */
+    public Integer getRentFixid() {
+        return rentFixid;
+    }
+
+    /**
+     * 固定资产id（外键）
+     * @param rentFixid 固定资产id（外键）
+     */
+    public void setRentFixid(Integer rentFixid) {
+        this.rentFixid = rentFixid;
+    }
 
     /**
      * 租赁数量
