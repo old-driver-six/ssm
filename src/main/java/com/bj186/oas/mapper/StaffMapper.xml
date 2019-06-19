@@ -31,10 +31,12 @@ on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = 
 left join oas_staffpower b on a.staff_id = b.sp_staffID)a
 left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_staff
     where staff_id = #{staffId,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.bj186.oas.pojo.Staff" useGeneratedKeys="true" keyProperty="staffId" >
     insert into oas_staff (staff_id, staff_name, staff_sex, 
       staff_age, staff_phone, staff_idntityCardID, 
@@ -173,11 +175,11 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       staff_phone = #{staffPhone,jdbcType=VARCHAR},
       staff_idntityCardID = #{staffIdntitycardid,jdbcType=VARCHAR},
       staff_birthday = #{staffBirthday,jdbcType=TIMESTAMP},
-      staff_positionID = #{staffPositionid,jdbcType=INTEGER},
+      staff_positionID = #{position.positionId,,jdbcType=INTEGER},
       staff_adress = #{staffAdress,jdbcType=VARCHAR},
       staff_wage = #{staffWage,jdbcType=VARCHAR},
       staff_email = #{staffEmail,jdbcType=VARCHAR},
-      staff_depID = #{staffDepid,jdbcType=INTEGER}
+      staff_depID = #{department.depId,jdbcType=INTEGER}
     where staff_id = #{staffId,jdbcType=INTEGER}
   </update>
 </mapper>
