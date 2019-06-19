@@ -7,7 +7,7 @@
     <result column="dep_managerid" property="depManagerid" jdbcType="INTEGER" />
     <result column="dep_number" property="depNumber" jdbcType="INTEGER" />
     <result column="dep_describe" property="depDescribe" jdbcType="VARCHAR" />
-    <association property="announcements" resultMap="com.bj186.oas.mapper.AnnouncementsMapper.BaseResultMap"></association>
+    <collection property="announcements" resultMap="com.bj186.oas.mapper.AnnouncementsMapper.BaseResultMap"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     dep_id, dep_name, dep_managerid, dep_number, dep_describe
