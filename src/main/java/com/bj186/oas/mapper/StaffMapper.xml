@@ -14,22 +14,28 @@
     <result column="staff_wage" property="staffWage" jdbcType="VARCHAR" />
     <result column="staff_email" property="staffEmail" jdbcType="VARCHAR" />
     <result column="staff_depID" property="staffDepid" jdbcType="INTEGER" />
+
+    <association property="department" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></association>
+    <association property="position" resultMap="com.bj186.oas.mapper.PositionMapper.BaseResultMap"></association>
+
+    <collection property="powerList" resultMap="com.bj186.oas.mapper.PowerMapper.BaseResultMap"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     staff_id, staff_name, staff_sex, staff_age, staff_phone, staff_idntityCardID, staff_birthday, 
     staff_positionID, staff_adress, staff_wage, staff_email, staff_depID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from oas_staff
-    where staff_id = #{staffId,jdbcType=INTEGER}
+   SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
+oas_staff a left join oas_department b
+on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
+left join oas_staffpower b on a.staff_id = b.sp_staffID)a
+left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_staff
     where staff_id = #{staffId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Staff" >
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Staff" useGeneratedKeys="true" keyProperty="staffId" >
     insert into oas_staff (staff_id, staff_name, staff_sex, 
       staff_age, staff_phone, staff_idntityCardID, 
       staff_birthday, staff_positionID, staff_adress, 
@@ -37,8 +43,8 @@
       )
     values (#{staffId,jdbcType=INTEGER}, #{staffName,jdbcType=VARCHAR}, #{staffSex,jdbcType=CHAR}, 
       #{staffAge,jdbcType=TINYINT}, #{staffPhone,jdbcType=VARCHAR}, #{staffIdntitycardid,jdbcType=VARCHAR}, 
-      #{staffBirthday,jdbcType=TIMESTAMP}, #{staffPositionid,jdbcType=INTEGER}, #{staffAdress,jdbcType=VARCHAR}, 
-      #{staffWage,jdbcType=VARCHAR}, #{staffEmail,jdbcType=VARCHAR}, #{staffDepid,jdbcType=INTEGER}
+      #{staffBirthday,jdbcType=TIMESTAMP}, #{position.positionId,jdbcType=INTEGER}, #{staffAdress,jdbcType=VARCHAR},
+      #{staffWage,jdbcType=VARCHAR}, #{staffEmail,jdbcType=VARCHAR}, #{department.depId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Staff" >

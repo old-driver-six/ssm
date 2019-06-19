@@ -1,6 +1,8 @@
 package com.bj186.oas.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Staff {
     /**
@@ -62,6 +64,45 @@ public class Staff {
      * 员工部门id(外键)
      */
     private Integer staffDepid;
+
+    /**
+     * 部门
+     */
+    private Department department;
+
+    /**
+     * 职务
+     */
+    private Position position;
+
+    /**
+     * 权限
+     */
+    private List<Power> powerList = new ArrayList<>();
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public List<Power> getPowerList() {
+        return powerList;
+    }
+
+    public void setPowerList(List<Power> powerList) {
+        this.powerList = powerList;
+    }
 
     /**
      * 员工ID（主键 10001自增）
