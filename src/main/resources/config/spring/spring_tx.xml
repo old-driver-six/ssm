@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--spring对mybatis声明式事物处理-->
     <aop:aspectj-autoproxy/>
     <import resource="spring-jdbc.xml"></import>
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
@@ -11,5 +12,29 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
+    <!--配置声明式事物-->
+    <tx:advice id="tran" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--
+                timeout：超时时间，单位秒
+                rollbackFor：一组异常类的实例，遇到时必须进行回滚
+                rollbackForClassname：一组异常类的名字，遇到时必须进行回滚
+                noRollbackFor：一组异常类的实例，遇到时必须不回滚
+                readOnly：读写性事务，只读性事务，布尔型
+                回滚异常rollback-for,
+            -->
+            <tx:method name="delete*" propagation="REQUIRED"  rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.RuntimeException"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="sel*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--配置事物切面-->
+    <aop:config>
+        <!--把事物控制在DAO层-->
+        <aop:pointcut id="pc" expression="execution(public * com.bj186.oas.service.*.*.*.*(..))"/>
+        <aop:advisor advice-ref="tran" pointcut-ref="pc"/>
+    </aop:config>
 </beans>
