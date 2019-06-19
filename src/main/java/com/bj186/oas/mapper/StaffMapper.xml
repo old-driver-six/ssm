@@ -187,7 +187,7 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       staff_phone = #{staffPhone,jdbcType=VARCHAR},
       staff_idntityCardID = #{staffIdntitycardid,jdbcType=VARCHAR},
       staff_birthday = #{staffBirthday,jdbcType=TIMESTAMP},
-      staff_positionID = #{position.positionId,,jdbcType=INTEGER},
+      staff_positionID = #{position.positionId,jdbcType=INTEGER},
       staff_adress = #{staffAdress,jdbcType=VARCHAR},
       staff_wage = #{staffWage,jdbcType=VARCHAR},
       staff_email = #{staffEmail,jdbcType=VARCHAR},

@@ -17,8 +17,7 @@ public class userController {
     @RequestMapping("/select")
     @ResponseBody
     public Staff selectStaffAll() {
-        return userService.select(null, 0, null, null, 1, 10);
-
+        return userService.selectByPrimaryKey(10001);
     }
 
 }
