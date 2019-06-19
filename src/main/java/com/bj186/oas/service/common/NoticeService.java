@@ -1,6 +1,7 @@
 package com.bj186.oas.service.common;
 
 import com.bj186.oas.pojo.Announcements;
+import com.bj186.oas.pojo.Department;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface NoticeService {
      * @param uId
      * @return
      */
-    List<Announcements> selectAnnByKey(Integer uId);
+    Department selectDepByKey(Integer id);
 }

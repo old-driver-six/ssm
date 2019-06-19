@@ -13,7 +13,6 @@
     <result column="staff_adress" property="staffAdress" jdbcType="VARCHAR" />
     <result column="staff_wage" property="staffWage" jdbcType="VARCHAR" />
     <result column="staff_email" property="staffEmail" jdbcType="VARCHAR" />
-    <result column="staff_depID" property="staffDepid" jdbcType="INTEGER" />
 
     <association property="department" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></association>
     <association property="position" resultMap="com.bj186.oas.mapper.PositionMapper.BaseResultMap"></association>

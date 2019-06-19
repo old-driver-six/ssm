@@ -20,6 +20,13 @@
     from oas_announcements
     where announcements_id = #{announcementsId,jdbcType=INTEGER}
   </select>
+  <select id="selectByVague" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT * FROM (SELECT * FROM (SELECT * FROM
+  oas_announcementsextent a left join oas_announcements b
+  on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
+  on a.announcementsExtent_departmentId = b.dep_id) a left join oas_staff b
+  on a.dep_id = b.staff_depID WHERE staff_id = #{uID,jdbcType=INTEGER} and ${field} like ${content}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_announcements
     where announcements_id = #{announcementsId,jdbcType=INTEGER}

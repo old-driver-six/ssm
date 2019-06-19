@@ -43,6 +43,19 @@ public class Department {
     private List<Announcements> announcements = new ArrayList<>();
 
     /**
+     * 制度列表
+     */
+    private List<Rule> rules = new ArrayList<>();
+
+    public List<Rule> getRules() {
+        return rules;
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
+    }
+
+    /**
      * 部门编号（自增主键）
      * @return dep_id 部门编号（自增主键）
      */
