@@ -7,7 +7,9 @@
     <result column="dep_managerid" property="depManagerid" jdbcType="INTEGER" />
     <result column="dep_number" property="depNumber" jdbcType="INTEGER" />
     <result column="dep_describe" property="depDescribe" jdbcType="VARCHAR" />
+
     <collection property="announcements" resultMap="com.bj186.oas.mapper.AnnouncementsMapper.BaseResultMap"></collection>
+    <collection property="rules" resultMap="com.bj186.oas.mapper.RuleMapper.ResultMapWithBLOBs"></collection>
     <collection property="payList" resultMap="com.bj186.oas.mapper.PayMapper.BaseResultMap"></collection>
     <collection property="reimburses" resultMap="com.bj186.oas.mapper.ReimburseMapper.BaseResultMap"></collection>
   </resultMap>
