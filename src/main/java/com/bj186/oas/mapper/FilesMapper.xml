@@ -8,6 +8,7 @@
     <result column="files_removeDate" property="filesRemovedate" jdbcType="TIMESTAMP" />
     <result column="files_contractId" property="filesContractid" jdbcType="INTEGER" />
     <result column="files_position" property="filesPosition" jdbcType="VARCHAR" />
+    <collection property="rents" resultMap="com.bj186.oas.mapper.RentMapper.BaseResultMap"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     files_id, files_staffId, files_enterDate, files_removeDate, files_contractId, files_position

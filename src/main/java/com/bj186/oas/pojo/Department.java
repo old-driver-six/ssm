@@ -41,6 +41,30 @@ public class Department {
      * 公告列表
      */
     private List<Announcements> announcements = new ArrayList<>();
+    /**
+     * 薪资
+     */
+     private List<Pay> payList = new ArrayList<>();
+
+    public List<Pay> getPayList() {
+        return payList;
+    }
+    public void setPayList(List<Pay> payList) {
+        this.payList = payList;
+    }
+
+    /**
+     * 报销
+     */
+    private List<Reimburse> reimburses = new ArrayList<>();
+
+    public List<Reimburse> getReimburses() {
+        return reimburses;
+    }
+
+    public void setReimburses(List<Reimburse> reimburses) {
+        this.reimburses = reimburses;
+    }
 
     /**
      * 制度列表

@@ -8,17 +8,17 @@
     <result column="dep_number" property="depNumber" jdbcType="INTEGER" />
     <result column="dep_describe" property="depDescribe" jdbcType="VARCHAR" />
     <collection property="announcements" resultMap="com.bj186.oas.mapper.AnnouncementsMapper.BaseResultMap"></collection>
-    <collection property="rules" resultMap="com.bj186.oas.mapper.RuleMapper.ResultMapWithBLOBs"></collection>
+    <collection property="payList" resultMap="com.bj186.oas.mapper.PayMapper.BaseResultMap"></collection>
+    <collection property="reimburses" resultMap="com.bj186.oas.mapper.ReimburseMapper.BaseResultMap"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     dep_id, dep_name, dep_managerid, dep_number, dep_describe
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-   SELECT * FROM (SELECT * FROM (SELECT * FROM
+     SELECT * FROM (SELECT * FROM
   oas_announcementsextent a left join oas_announcements b
   on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
-  on a.announcementsExtent_departmentId = b.dep_id) a RIGHT join oas_rule b
-  on a.dep_id = b.rule_departmentId where a.dep_id = #{depId,jdbcType=INTEGER}
+  on a.announcementsExtent_departmentId = b.dep_id where b.dep_id = #{depId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_department

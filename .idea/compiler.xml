@@ -9,6 +9,7 @@
         <module name="oas" />
         <module name="ssm" />
         <module name="ssm186" />
+        <module name="ssm6" />
       </profile>
     </annotationProcessing>
   </component>

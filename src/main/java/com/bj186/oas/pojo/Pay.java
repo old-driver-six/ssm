@@ -1,24 +1,32 @@
 package com.bj186.oas.pojo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Pay {
+public class Pay implements Serializable {
     /**
      * 薪资id（主键）
      */
     private Integer payId;
 
+//    /**
+//     * 员工编号（外键）
+//     */
+//    private Integer payStaffid;
     /**
-     * 员工编号（外键）
+     * 员工
      */
-    private Integer payStaffid;
+    private Staff staff;
 
+//    /**
+//     * 部门编号（外键）
+//     */
+//    private Integer payDepid;
     /**
-     * 部门编号（外键）
+     * 部门
      */
-    private Integer payDepid;
-
+    private Department department;
     /**
      * 日期
      */
@@ -49,6 +57,11 @@ public class Pay {
      */
     private BigDecimal paySalary;
 
+
+    public Pay(){
+
+    }
+
     /**
      * 薪资id（主键）
      * @return pay_id 薪资id（主键）
@@ -65,36 +78,28 @@ public class Pay {
         this.payId = payId;
     }
 
-    /**
-     * 员工编号（外键）
-     * @return pay_staffid 员工编号（外键）
-     */
-    public Integer getPayStaffid() {
-        return payStaffid;
-    }
 
     /**
-     * 员工编号（外键）
-     * @param payStaffid 员工编号（外键）
+     * 员工（实体类）
+     * @return staff：员工表
      */
-    public void setPayStaffid(Integer payStaffid) {
-        this.payStaffid = payStaffid;
+    public Staff getStaff() {
+        return staff;
     }
 
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
     /**
-     * 部门编号（外键）
-     * @return pay_depid 部门编号（外键）
+     * 部门（实体类）
+     * @return department：部门表
      */
-    public Integer getPayDepid() {
-        return payDepid;
+    public Department getDepartment() {
+        return department;
     }
 
-    /**
-     * 部门编号（外键）
-     * @param payDepid 部门编号（外键）
-     */
-    public void setPayDepid(Integer payDepid) {
-        this.payDepid = payDepid;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     /**
@@ -192,4 +197,6 @@ public class Pay {
     public void setPaySalary(BigDecimal paySalary) {
         this.paySalary = paySalary;
     }
+
+
 }

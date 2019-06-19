@@ -8,6 +8,7 @@
     <result column="rent_starttime" property="rentStarttime" jdbcType="TIMESTAMP" />
     <result column="rent_endtime" property="rentEndtime" jdbcType="TIMESTAMP" />
     <result column="rent_cond" property="rentCond" jdbcType="INTEGER" />
+    <association property="fixed" resultMap="com.bj186.oas.mapper.FixedMapper.BaseResultMap"
   </resultMap>
   <sql id="Base_Column_List" >
     rent_id, rent_fixid, rent_number, rent_starttime, rent_endtime, rent_cond
