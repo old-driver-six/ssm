@@ -1,5 +1,8 @@
 package com.bj186.oas.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Department {
     /**
      * 部门编号（自增主键）
@@ -25,6 +28,19 @@ public class Department {
      * 部门职能
      */
     private String depDescribe;
+
+    public List<Announcements> getAnnouncements() {
+        return announcements;
+    }
+
+    public void setAnnouncements(List<Announcements> announcements) {
+        this.announcements = announcements;
+    }
+
+    /**
+     * 公告列表
+     */
+    private List<Announcements> announcements = new ArrayList<>();
 
     /**
      * 部门编号（自增主键）

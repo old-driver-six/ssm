@@ -32,6 +32,14 @@ left join oas_staffpower b on a.staff_id = b.sp_staffID)a
 left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
   </select>
 
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
+oas_staff a left join oas_department b
+on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
+left join oas_staffpower b on a.staff_id = b.sp_staffID)a
+left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_staff
     where staff_id = #{staffId,jdbcType=INTEGER}
@@ -49,6 +57,7 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       #{staffWage,jdbcType=VARCHAR}, #{staffEmail,jdbcType=VARCHAR}, #{department.depId,jdbcType=INTEGER}
       )
   </insert>
+
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Staff" >
     insert into oas_staff
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -89,6 +98,7 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
         staff_depID,
       </if>
     </trim>
+
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="staffId != null" >
         #{staffId,jdbcType=INTEGER},
@@ -128,6 +138,7 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Staff" >
     update oas_staff
     <set >
@@ -167,6 +178,7 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
     </set>
     where staff_id = #{staffId,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Staff" >
     update oas_staff
     set staff_name = #{staffName,jdbcType=VARCHAR},
