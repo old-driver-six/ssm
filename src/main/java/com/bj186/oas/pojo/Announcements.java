@@ -149,4 +149,17 @@ public class Announcements {
     public void setAnnouncementsState(Integer announcementsState) {
         this.announcementsState = announcementsState;
     }
+
+    @Override
+    public String toString() {
+        return "Announcements{" +
+                "announcementsId=" + announcementsId +
+                ", announcementsDate=" + announcementsDate +
+                ", announcementsNotifier='" + announcementsNotifier + '\'' +
+                ", announcementsContent='" + announcementsContent + '\'' +
+                ", announcementsNotifierid=" + announcementsNotifierid +
+                ", announcementsTopic='" + announcementsTopic + '\'' +
+                ", announcementsState=" + announcementsState +
+                '}';
+    }
 }
