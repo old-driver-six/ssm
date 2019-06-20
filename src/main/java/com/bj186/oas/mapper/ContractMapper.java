@@ -25,7 +25,7 @@ public interface ContractMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    Contract selectByPrimaryKey(String contractId);
+    Contract selectContractByStaffId(Integer staffId);
 
     /**
      *
@@ -43,5 +43,11 @@ public interface ContractMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    int updateByPrimaryKey(Contract record);
+    int updateByStaffId(Contract record);
+
+    /**
+     *
+     * @return
+     */
+    String countAllContracts();
 }
