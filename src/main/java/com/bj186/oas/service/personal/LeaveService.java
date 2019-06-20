@@ -6,7 +6,7 @@ public interface LeaveService {
     /**
      * 添加请假表
      */
-    Boolean insert(Leave leave) throws Exception;
+    Boolean insert(Leave leave);
 
     /**
      * 增加请假意见表,需要传递请假的条的id.

@@ -1,6 +1,10 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.LeaveAdvice;
+import com.bj186.oas.pojo.personalpojo.LeaveOpinionUtil;
+
+import java.util.List;
+import java.util.Map;
 
 public interface LeaveAdviceMapper {
     /**
@@ -38,4 +42,11 @@ public interface LeaveAdviceMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(LeaveAdvice record);
+
+    /**
+     * 通过请假条id查询请假意见id
+     * @param lid
+     * @return
+     */
+    List<LeaveOpinionUtil> selByadvicelid(String lid);
 }

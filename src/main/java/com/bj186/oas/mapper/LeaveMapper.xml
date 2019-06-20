@@ -11,13 +11,14 @@
     <result column="leave_startTime" property="leaveStarttime" jdbcType="TIMESTAMP" />
     <result column="leave_sendTime" property="leaveSendtime" jdbcType="TIMESTAMP" />
     <result column="leave_state" property="leaveState" jdbcType="CHAR" />
+    <result column="leave_ceateTime" property="leaveCeatetime" jdbcType="BIGINT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Leave" extends="BaseResultMap" >
     <result column="leave_reason" property="leaveReason" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     leave_Id, leave_staff_id, leave_processing, leave_title, leave_type, leave_time, 
-    leave_startTime, leave_sendTime, leave_state
+    leave_startTime, leave_sendTime, leave_state, leave_ceateTime
   </sql>
   <sql id="Blob_Column_List" >
     leave_reason
@@ -38,11 +39,11 @@
     insert into oas_leave (leave_Id, leave_staff_id, leave_processing, 
       leave_title, leave_type, leave_time, 
       leave_startTime, leave_sendTime, leave_state, 
-      leave_reason)
+      leave_ceateTime, leave_reason)
     values (#{leaveId,jdbcType=VARCHAR}, #{leaveStaffId,jdbcType=INTEGER}, #{leaveProcessing,jdbcType=CHAR}, 
       #{leaveTitle,jdbcType=VARCHAR}, #{leaveType,jdbcType=CHAR}, #{leaveTime,jdbcType=INTEGER}, 
       #{leaveStarttime,jdbcType=TIMESTAMP}, #{leaveSendtime,jdbcType=TIMESTAMP}, #{leaveState,jdbcType=CHAR}, 
-      #{leaveReason,jdbcType=LONGVARCHAR})
+      #{leaveCeatetime,jdbcType=BIGINT}, #{leaveReason,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Leave" >
     insert into oas_leave
@@ -73,6 +74,9 @@
       </if>
       <if test="leaveState != null" >
         leave_state,
+      </if>
+      <if test="leaveCeatetime != null" >
+        leave_ceateTime,
       </if>
       <if test="leaveReason != null" >
         leave_reason,
@@ -106,6 +110,9 @@
       <if test="leaveState != null" >
         #{leaveState,jdbcType=CHAR},
       </if>
+      <if test="leaveCeatetime != null" >
+        #{leaveCeatetime,jdbcType=BIGINT},
+      </if>
       <if test="leaveReason != null" >
         #{leaveReason,jdbcType=LONGVARCHAR},
       </if>
@@ -138,6 +145,9 @@
       <if test="leaveState != null" >
         leave_state = #{leaveState,jdbcType=CHAR},
       </if>
+      <if test="leaveCeatetime != null" >
+        leave_ceateTime = #{leaveCeatetime,jdbcType=BIGINT},
+      </if>
       <if test="leaveReason != null" >
         leave_reason = #{leaveReason,jdbcType=LONGVARCHAR},
       </if>
@@ -154,6 +164,7 @@
       leave_startTime = #{leaveStarttime,jdbcType=TIMESTAMP},
       leave_sendTime = #{leaveSendtime,jdbcType=TIMESTAMP},
       leave_state = #{leaveState,jdbcType=CHAR},
+      leave_ceateTime = #{leaveCeatetime,jdbcType=BIGINT},
       leave_reason = #{leaveReason,jdbcType=LONGVARCHAR}
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </update>
@@ -166,7 +177,8 @@
       leave_time = #{leaveTime,jdbcType=INTEGER},
       leave_startTime = #{leaveStarttime,jdbcType=TIMESTAMP},
       leave_sendTime = #{leaveSendtime,jdbcType=TIMESTAMP},
-      leave_state = #{leaveState,jdbcType=CHAR}
+      leave_state = #{leaveState,jdbcType=CHAR},
+      leave_ceateTime = #{leaveCeatetime,jdbcType=BIGINT}
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </update>
 </mapper>
