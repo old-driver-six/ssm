@@ -3,13 +3,13 @@
 <mapper namespace="com.bj186.oas.mapper.CheckingInMapper" >
   <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.CheckingIn" >
     <id column="checkingin_id" property="checkinginId" jdbcType="VARCHAR" />
-    <result column="check_stff_id" property="checkStffId" jdbcType="INTEGER" />
+    <result column="check_staff_id" property="checkstaffId" jdbcType="INTEGER" />
     <result column="checkingin_startTime" property="checkinginStarttime" jdbcType="TIMESTAMP" />
     <result column="checkingin_sendTime" property="checkinginSendtime" jdbcType="TIMESTAMP" />
     <result column="checkingin_state" property="checkinginState" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    checkingin_id, check_stff_id, checkingin_startTime, checkingin_sendTime, checkingin_state
+    checkingin_id, check_staff_id, checkingin_startTime, checkingin_sendTime, checkingin_state
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -22,9 +22,9 @@
     where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.CheckingIn" >
-    insert into oas_checkingin (checkingin_id, check_stff_id, checkingin_startTime, 
+    insert into oas_checkingin (checkingin_id, check_staff_id, checkingin_startTime,
       checkingin_sendTime, checkingin_state)
-    values (#{checkinginId,jdbcType=VARCHAR}, #{checkStffId,jdbcType=INTEGER}, #{checkinginStarttime,jdbcType=TIMESTAMP}, 
+    values (#{checkinginId,jdbcType=VARCHAR}, #{checkstaffId,jdbcType=INTEGER}, #{checkinginStarttime,jdbcType=TIMESTAMP}, 
       #{checkinginSendtime,jdbcType=TIMESTAMP}, #{checkinginState,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.CheckingIn" >
@@ -33,8 +33,8 @@
       <if test="checkinginId != null" >
         checkingin_id,
       </if>
-      <if test="checkStffId != null" >
-        check_stff_id,
+      <if test="checkStaffId != null" >
+        check_staff_id,
       </if>
       <if test="checkinginStarttime != null" >
         checkingin_startTime,
@@ -50,8 +50,8 @@
       <if test="checkinginId != null" >
         #{checkinginId,jdbcType=VARCHAR},
       </if>
-      <if test="checkStffId != null" >
-        #{checkStffId,jdbcType=INTEGER},
+      <if test="checkstaffId != null" >
+        #{checkstaffId,jdbcType=INTEGER},
       </if>
       <if test="checkinginStarttime != null" >
         #{checkinginStarttime,jdbcType=TIMESTAMP},
@@ -67,8 +67,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
     <set >
-      <if test="checkStffId != null" >
-        check_stff_id = #{checkStffId,jdbcType=INTEGER},
+      <if test="checkstaffId != null" >
+        check_staff_id = #{checkstaffId,jdbcType=INTEGER},
       </if>
       <if test="checkinginStarttime != null" >
         checkingin_startTime = #{checkinginStarttime,jdbcType=TIMESTAMP},
@@ -84,7 +84,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
-    set check_stff_id = #{checkStffId,jdbcType=INTEGER},
+    set check_staff_id = #{checkstaffId,jdbcType=INTEGER},
       checkingin_startTime = #{checkinginStarttime,jdbcType=TIMESTAMP},
       checkingin_sendTime = #{checkinginSendtime,jdbcType=TIMESTAMP},
       checkingin_state = #{checkinginState,jdbcType=CHAR}

@@ -53,5 +53,12 @@ public interface ContractService {
      *为一个员工生成一份新合同
      * @return
      */
-    Integer updateByStaffId(Integer uId);
+    Integer inserteContractByStaffId(Integer uId,Contract record);
+
+    /**
+     * 生成合同
+     * @param record
+     * @return
+     */
+    Integer insertContract(Contract record);
 }

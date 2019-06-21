@@ -134,13 +134,38 @@ public class ContractServiceImpl implements ContractService {
         return counts;
     }
 
+    /**
+     *
+     * 根据员工ID生成一份新合同
+     * @param uId
+     * @param record
+     * @return
+     */
     @Override
-    public Integer updateByStaffId(Integer uId) {
+    public Integer inserteContractByStaffId(Integer uId,Contract record) {
+        //获取当前用户的部门和职能,只有人事经理可以生成新合同
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Department staffDepartment = staff.getDepartment();
         Integer depId = staffDepartment.getDepId();
-
-        return null;
+        Position position = staff.getPosition();
+        Integer positionId = position.getPositionId();
+        if (depId==1&&positionId==2){
+            int insert = contractMapper.insert(record);
+            return  insert;
+        }else {
+            return  null;
+        }
     }
+
+    /**
+     * 无条件生成合同(级联生成时时使用)
+     * @param record
+     * @return
+     */
+    @Override
+    public Integer insertContract(Contract record) {
+        return contractMapper.insert(record);
+    }
+
 
 }
