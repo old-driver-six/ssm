@@ -2,6 +2,9 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Contract;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ContractMapper {
     /**
      *
@@ -50,4 +53,11 @@ public interface ContractMapper {
      * @return
      */
     String countAllContracts();
+
+    /**
+     *
+     * @param map
+     * @return
+     */
+    List<Contract> selectContractsByRequirement(Map map);
 }
