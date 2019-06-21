@@ -38,6 +38,4 @@ public interface DepartmentMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(Department record);
-    Department selectByName(String depName);
-
 }

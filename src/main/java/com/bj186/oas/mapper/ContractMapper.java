@@ -2,9 +2,6 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Contract;
 
-import java.util.List;
-import java.util.Map;
-
 public interface ContractMapper {
     /**
      *
@@ -28,7 +25,7 @@ public interface ContractMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    Contract selectContractByStaffId(Integer staffId);
+    Contract selectByPrimaryKey(String contractId);
 
     /**
      *
@@ -46,18 +43,5 @@ public interface ContractMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    int updateByStaffId(Contract record);
-
-    /**
-     *
-     * @return
-     */
-    String countAllContracts();
-
-    /**
-     *
-     * @param map
-     * @return
-     */
-    List<Contract> selectContractsByRequirement(Map map);
+    int updateByPrimaryKey(Contract record);
 }

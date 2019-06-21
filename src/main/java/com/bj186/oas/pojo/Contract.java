@@ -18,6 +18,10 @@ public class Contract {
      */
     private String contractSecondparty;
 
+    /**
+     * 合同乙方ID(员工ID,一个员工对应一个合同,外键到staff)
+     */
+    private Integer contractSecondpartyid;
 
     /**
      * 合同入职时间
@@ -29,21 +33,16 @@ public class Contract {
      */
     private Date contractSigndate;
 
+    /**
+     * 合同薪资(外键到pay)
+     */
+    private Integer contractSalaryid;
 
     /**
      * 合同包含内容
      */
     private String contractContent;
 
-    /**
-     * 合同员工
-     */
-    private Staff staff;
-
-    /**
-     * 薪资表
-     */
-    private Pay pay;
     /**
      * 合同ID(UUID去重)
      * @return contract_id 合同ID(UUID去重)
@@ -93,6 +92,22 @@ public class Contract {
     }
 
     /**
+     * 合同乙方ID(员工ID,一个员工对应一个合同,外键到staff)
+     * @return contract_secondPartyId 合同乙方ID(员工ID,一个员工对应一个合同,外键到staff)
+     */
+    public Integer getContractSecondpartyid() {
+        return contractSecondpartyid;
+    }
+
+    /**
+     * 合同乙方ID(员工ID,一个员工对应一个合同,外键到staff)
+     * @param contractSecondpartyid 合同乙方ID(员工ID,一个员工对应一个合同,外键到staff)
+     */
+    public void setContractSecondpartyid(Integer contractSecondpartyid) {
+        this.contractSecondpartyid = contractSecondpartyid;
+    }
+
+    /**
      * 合同入职时间
      * @return contract_entryDate 合同入职时间
      */
@@ -124,6 +139,21 @@ public class Contract {
         this.contractSigndate = contractSigndate;
     }
 
+    /**
+     * 合同薪资(外键到pay)
+     * @return contract_salaryId 合同薪资(外键到pay)
+     */
+    public Integer getContractSalaryid() {
+        return contractSalaryid;
+    }
+
+    /**
+     * 合同薪资(外键到pay)
+     * @param contractSalaryid 合同薪资(外键到pay)
+     */
+    public void setContractSalaryid(Integer contractSalaryid) {
+        this.contractSalaryid = contractSalaryid;
+    }
 
     /**
      * 合同包含内容
@@ -140,38 +170,4 @@ public class Contract {
     public void setContractContent(String contractContent) {
         this.contractContent = contractContent == null ? null : contractContent.trim();
     }
-
-    /**
-     * 合同乙方
-     * @return staff 合同乙方
-     */
-    public Staff getStaff() {
-        return staff;
-    }
-
-    /**
-     * 合同乙方
-     * @param staff 合同乙方
-     */
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
-
-    /**
-     * 薪资表
-     * @return pay 合同薪资
-     */
-    public Pay getPay() {
-        return pay;
-    }
-
-    /**
-     * 薪资表
-     * @param pay 薪资表
-     */
-    public void setPay(Pay pay) {
-        this.pay = pay;
-    }
-
 }
