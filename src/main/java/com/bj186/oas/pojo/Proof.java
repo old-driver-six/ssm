@@ -7,9 +7,18 @@ public class Proof {
     private Integer proofId;
 
     /**
-     * 报销人员id（外键）
+     * 报销人凭证
      */
-    private Integer proofStaffid;
+
+    private Proof proof;
+
+    public Proof getProof() {
+        return proof;
+    }
+
+    public void setProof(Proof proof) {
+        this.proof = proof;
+    }
 
     /**
      * 审批部门（外键）
@@ -40,22 +49,6 @@ public class Proof {
      */
     public void setProofId(Integer proofId) {
         this.proofId = proofId;
-    }
-
-    /**
-     * 报销人员id（外键）
-     * @return proof_staffid 报销人员id（外键）
-     */
-    public Integer getProofStaffid() {
-        return proofStaffid;
-    }
-
-    /**
-     * 报销人员id（外键）
-     * @param proofStaffid 报销人员id（外键）
-     */
-    public void setProofStaffid(Integer proofStaffid) {
-        this.proofStaffid = proofStaffid;
     }
 
     /**

@@ -1,6 +1,8 @@
 package com.bj186.oas.pojo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fixed {
     /**
@@ -32,6 +34,19 @@ public class Fixed {
      * 备注
      */
     private String fixRemarks;
+
+    /**
+     * 租赁
+     */
+    private List<Rent> rents = new ArrayList<>();
+
+    public List<Rent> getRents() {
+        return rents;
+    }
+
+    public void setRents(List<Rent> rents) {
+        this.rents = rents;
+    }
 
     /**
      * 固定资产id（主键）
