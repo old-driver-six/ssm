@@ -12,7 +12,6 @@
     <result column="reim_traffic" property="reimTraffic" jdbcType="DECIMAL" />
     <result column="reim_stay" property="reimStay" jdbcType="DECIMAL" />
     <result column="reim_referr" property="reimReferr" jdbcType="DECIMAL" />
-    <association property="department" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></association>
   </resultMap>
   <sql id="Base_Column_List" >
     reim_id, reim_staffid, reim_depid, reim_matter, reim_starttime, reim_endtime, reim_place, 

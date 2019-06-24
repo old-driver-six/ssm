@@ -22,7 +22,6 @@
   <sql id="Blob_Column_List" >
     contract_content
   </sql>
-
   <select id="selectContractByStaffId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     SELECT * FROM (SELECT * FROM oas_contract c
     LEFT JOIN oas_staff s ON c.contract_secondPartyId = s.staff_id) a
@@ -34,31 +33,10 @@
         SELECT COUNT(*) FROM oas_contract
   </select>
 
-<select id="selectContractsByRequirement" parameterType="map" resultMap="BaseResultMap">
-    SELECT * FROM (SELECT * FROM oas_contract c
-    LEFT JOIN oas_staff s ON c.contract_secondPartyId = s.staff_id) a
-    LEFT JOIN oas_pay p ON p.pay_id =a.contract_salaryId
-  <where>
-    <if test="field!=null">
-      and ${field}
-    </if>
-    <if test="value!= '\'%null%\''">
-      like ${value}
-    </if>
-  </where>
-  <if test="pageNow!=null">
-    <if test="pageLimit!=null">
-      LIMIT #{pageNow},#{pageLimit}
-    </if>
-  </if>
-</select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_contract
     where contract_id = #{contractId,jdbcType=VARCHAR}
   </delete>
-
-
   <insert id="insert" parameterType="com.bj186.oas.pojo.Contract" >
     insert into oas_contract (contract_id, contract_firstParty, contract_secondParty, 
       contract_secondPartyId, contract_entryDate, 
@@ -69,8 +47,6 @@
       #{contractSigndate,jdbcType=TIMESTAMP}, #{pay.payId,jdbcType=INTEGER}, #{contractContent,jdbcType=LONGVARCHAR}
       )
   </insert>
-
-
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Contract" >
     insert into oas_contract
     <trim prefix="(" suffix=")" suffixOverrides="," >

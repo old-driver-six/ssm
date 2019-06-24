@@ -1,4 +1,4 @@
-package com.bj186.oas.bean;
+package com.bj186.oas.entity;
 
 public class SelectAllBean {
 

@@ -7,58 +7,24 @@ import java.util.List;
 public interface ContractService {
 
     /**
-     * 通过员工ID查询自己合同
-     * @param uId
+     * 通过员工ID查询合同
      * @param staffId
-     * @return
+     * @return Contract
      */
-      Contract selectContractByStaffId(Integer uId,Integer staffId);
+    public Contract selectContractByStaffId(Integer staffId);
 
     /**
-     * 查询所有合同
-     * @param uId
+     * 查询所有合同(分页查询)
      * @param pageNow
      * @param pageLimit
-     * @return
+     * @return List<Contract>
      */
-    List<Contract> selectAllConatracts(Integer uId,String pageNow, String pageLimit);
-
-    /**
-     * 按条件查询合同
-     * @param uId
-     * @param filed
-     * @param value
-     * @param pageNow
-     * @param pageLimit
-     * @return
-     */
-     List<Contract> selectContractsByRequirement(Integer uId,String filed,String value,String pageNow, String pageLimit);
+    public List<Contract> selectAllContracts(String pageNow, String pageLimit);
 
     /**
      * 通过员工ID修改合同
-     * @param uId
      * @param contract
-     * @return
+     * @return Integer
      */
-     Integer updateContractByStaffId(Integer uId,Contract contract);
-
-     /**
-     * 统计所有合同数
-     * @return String
-     */
-    String countAllContracts();
-
-
-    /**
-     *为一个员工生成一份新合同
-     * @return
-     */
-    Integer inserteContractByStaffId(Integer uId,Contract record);
-
-    /**
-     * 生成合同
-     * @param record
-     * @return
-     */
-    Integer insertContract(Contract record);
+    public Integer updateContractByStaffId(Contract contract);
 }

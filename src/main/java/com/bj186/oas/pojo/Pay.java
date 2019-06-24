@@ -1,10 +1,9 @@
 package com.bj186.oas.pojo;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Pay implements Serializable {
+public class Pay {
     /**
      * 薪资id（主键）
      */
@@ -14,19 +13,12 @@ public class Pay implements Serializable {
      * 员工编号（外键）
      */
     private Integer payStaffid;
-    /**
-     * 员工
-     */
-    private Staff staff;
 
     /**
      * 部门编号（外键）
      */
     private Integer payDepid;
-    /**
-     * 部门
-     */
-    private Department department;
+
     /**
      * 日期
      */
@@ -57,11 +49,6 @@ public class Pay implements Serializable {
      */
     private BigDecimal paySalary;
 
-
-    public Pay(){
-
-    }
-
     /**
      * 薪资id（主键）
      * @return pay_id 薪资id（主键）
@@ -78,28 +65,36 @@ public class Pay implements Serializable {
         this.payId = payId;
     }
 
+    /**
+     * 员工编号（外键）
+     * @return pay_staffid 员工编号（外键）
+     */
+    public Integer getPayStaffid() {
+        return payStaffid;
+    }
 
     /**
-     * 员工（实体类）
-     * @return staff：员工表
+     * 员工编号（外键）
+     * @param payStaffid 员工编号（外键）
      */
-    public Staff getStaff() {
-        return staff;
+    public void setPayStaffid(Integer payStaffid) {
+        this.payStaffid = payStaffid;
     }
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
     /**
-     * 部门（实体类）
-     * @return department：部门表
+     * 部门编号（外键）
+     * @return pay_depid 部门编号（外键）
      */
-    public Department getDepartment() {
-        return department;
+    public Integer getPayDepid() {
+        return payDepid;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    /**
+     * 部门编号（外键）
+     * @param payDepid 部门编号（外键）
+     */
+    public void setPayDepid(Integer payDepid) {
+        this.payDepid = payDepid;
     }
 
     /**
@@ -196,21 +191,5 @@ public class Pay implements Serializable {
      */
     public void setPaySalary(BigDecimal paySalary) {
         this.paySalary = paySalary;
-    }
-
-    public Integer getPayStaffid() {
-        return payStaffid;
-    }
-
-    public void setPayStaffid(Integer payStaffid) {
-        this.payStaffid = payStaffid;
-    }
-
-    public Integer getPayDepid() {
-        return payDepid;
-    }
-
-    public void setPayDepid(Integer payDepid) {
-        this.payDepid = payDepid;
     }
 }

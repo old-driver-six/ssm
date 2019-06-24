@@ -1,6 +1,6 @@
 package com.bj186.oas.controller.commonController;
 
-import com.bj186.oas.bean.SelectAllBean;
+import com.bj186.oas.entity.SelectAllBean;
 import com.bj186.oas.pojo.Announcements;
 import com.bj186.oas.service.common.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;

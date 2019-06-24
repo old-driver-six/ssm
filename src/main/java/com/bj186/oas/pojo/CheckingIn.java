@@ -11,7 +11,7 @@ public class CheckingIn {
     /**
      * 员工ID(关联员表信息,方便查询这个员工的考勤情况)
      */
-    private Integer checkStaffId;
+    private Integer checkStffId;
 
     /**
      * 上班时间
@@ -46,18 +46,18 @@ public class CheckingIn {
 
     /**
      * 员工ID(关联员表信息,方便查询这个员工的考勤情况)
-     * @return check_staff_id 员工ID(关联员表信息,方便查询这个员工的考勤情况)
+     * @return check_stff_id 员工ID(关联员表信息,方便查询这个员工的考勤情况)
      */
-    public Integer getCheckStaffId() {
-        return checkStaffId;
+    public Integer getCheckStffId() {
+        return checkStffId;
     }
 
     /**
      * 员工ID(关联员表信息,方便查询这个员工的考勤情况)
-     * @param checkStaffId 员工ID(关联员表信息,方便查询这个员工的考勤情况)
+     * @param checkStffId 员工ID(关联员表信息,方便查询这个员工的考勤情况)
      */
-    public void setCheckStaffId(Integer checkStaffId) {
-        this.checkStaffId = checkStaffId;
+    public void setCheckStffId(Integer checkStffId) {
+        this.checkStffId = checkStffId;
     }
 
     /**
