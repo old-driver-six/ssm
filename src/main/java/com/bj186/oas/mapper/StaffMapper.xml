@@ -20,7 +20,7 @@
     <collection property="powerList" resultMap="com.bj186.oas.mapper.PowerMapper.BaseResultMap"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
-    staff_id, staff_name, staff_sex, staff_age, staff_phone, staff_idntityCardID, staff_birthday, 
+    staff_id, staff_name, staff_sex, staff_age, staff_phone, staff_idntityCardID, staff_birthday,
     staff_positionID, staff_adress, staff_wage, staff_email, staff_depID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -32,11 +32,11 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
   </select>
 
   <!--<select id="select" resultMap="BaseResultMap" parameterType="map" >-->
-   <!--SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM-->
-<!--oas_staff a left join oas_department b-->
-<!--on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a-->
-<!--left join oas_staffpower b on a.staff_id = b.sp_staffID)a-->
-<!--left join oas_power b on a.sp_powerID = b.power_id where ${filed} like ${value} limit #{start},#{end}-->
+  <!--SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM-->
+  <!--oas_staff a left join oas_department b-->
+  <!--on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a-->
+  <!--left join oas_staffpower b on a.staff_id = b.sp_staffID)a-->
+  <!--left join oas_power b on a.sp_powerID = b.power_id where ${filed} like ${value} limit #{start},#{end}-->
   <!--</select>-->
 
   <select id="select" parameterType="map" resultMap="BaseResultMap">
@@ -222,4 +222,35 @@ left join oas_power b on a.sp_powerID = b.power_id
       staff_depID = #{department.depId,jdbcType=INTEGER}
     where staff_id = #{staffId,jdbcType=INTEGER}
   </update>
+
+
+
+  <select id="SelLeader" parameterType="int" resultType="int">
+    SELECT  dep_managerid from oas_staff LEFT JOIN oas_department ON staff_depID=dep_id  where staff_id=#{sid};
+  </select>
+
+  <select id="SelGouop" parameterType="map" resultType="int">
+    SELECT Staff_id FROM oas_staff
+    LEFT JOIN oas_department ON staff_depID=oas_department.dep_id
+    LEFT JOIN oas_position ON staff_positionID= position_id
+   <where>
+     <if test="groupLer!=null">
+       AND position_name=#{groupLer}
+     </if>
+     <if test="sid!=null">
+       AND staff_depID=(SELECT staff_depID FROM oas_staff where staff_id=#{sid})
+     </if>
+     <if test="depname!=null">
+       AND dep_name=#{depname}
+     </if>
+   </where>
+    <!--where position_name=#{groupLer} AND staff_depID=(SELECT staff_depID FROM oas_staff where staff_id=#{sid})-->
+  </select>
+
+  <select id="SelPsot" parameterType="int" resultType="string">
+    SELECT position_name,dep_name FROM oas_staff
+    LEFT JOIN oas_position ON staff_positionID= position_id
+    LEFT JOIN oas_department ON staff_depID=oas_department.dep_id
+    where staff_id=#{sid}
+  </select>
 </mapper>

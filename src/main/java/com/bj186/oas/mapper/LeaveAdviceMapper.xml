@@ -127,7 +127,7 @@
     where leaveAdvice_id = #{leaveadviceId,jdbcType=VARCHAR}
   </update>
   <select id="selByadvicelid" parameterType="string" resultMap="OpinionMap">
-    SELECT leaveAdvice_id,le.leave_state FROM oas_leaveadvice as advice
+    SELECT leaveAdvice_id,le.leave_state,leave_time,leave_staff_id FROM oas_leaveadvice as advice
     LEFT JOIN oas_leave AS le on advice.advicelid=le.leave_Id  WHERE advicelid=#{lid}
     order by le.leave_ceateTime DESC
   </select>
@@ -135,5 +135,7 @@
   <resultMap id="OpinionMap" type="com.bj186.oas.pojo.personalpojo.LeaveOpinionUtil">
     <id column="leaveAdvice_id" property="leaveadviceId" jdbcType="VARCHAR" />
     <result column="leave_state" property="leaveState" jdbcType="CHAR" />
+    <result column="leave_time" property="leaveTime" jdbcType="INTEGER" />
+    <result column="leave_staff_id" property="sid" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

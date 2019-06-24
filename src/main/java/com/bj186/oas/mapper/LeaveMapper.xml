@@ -29,7 +29,11 @@
     ,
     <include refid="Blob_Column_List" />
     from oas_leave
-    where leave_Id = #{leaveId,jdbcType=VARCHAR}
+    <where>
+      <if test="leaveId!=null">
+        leave_Id = #{leaveId,jdbcType=VARCHAR}
+      </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_leave
@@ -181,4 +185,37 @@
       leave_ceateTime = #{leaveCeatetime,jdbcType=BIGINT}
     where leave_Id = #{leaveId,jdbcType=VARCHAR}
   </update>
+  <select id="selLeaveLeftAdvice" resultMap="LeftAdviceMap" parameterType="com.bj186.oas.pojo.personalpojo.GetLeaveUtil">
+    SELECT * FROM oas_leave LEFT JOIN oas_leaveadvice
+    ON leave_Id=advicelid
+    <where>
+      <if test="sid!=null">
+       and leave_staff_id=#{sid}
+      </if>
+      <!--请假结天数范围查询-->
+      <if test="leaveTime!=null">
+        and leave_time &gt;=#{leaveTime}
+      </if>
+      <if test="sendTime!=null">
+        and leave_time &lt;=#{sendTime}
+      </if>
+      <!--请假起始时间范围查询-->
+      <if test="createDate!=null">
+        and leave_startTime &lt;=#{createDate}
+      </if>
+      <if test="sendDate!=null">
+        and leave_startTime &gt;=#{sendDate}
+      </if>
+      <!--通过请假详情id查询请假条-->
+      <if test="livd!=null">
+        leaveAdvice_id=#{livd}
+      </if>
+      <if test="lid!=null">
+        leave_Id=#{lid}
+      </if>
+    </where>
+  </select>
+  <resultMap id="LeftAdviceMap" type="com.bj186.oas.pojo.Leave" extends="com.bj186.oas.mapper.LeaveMapper.BaseResultMap">
+    <collection property="leaveAdvices" resultMap="com.bj186.oas.mapper.LeaveAdviceMapper.BaseResultMap"></collection>
+  </resultMap>
 </mapper>
