@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="oas" />
-        <module name="ssm186" />
         <module name="ssm" />
+        <module name="ssm186" />
       </profile>
     </annotationProcessing>
   </component>

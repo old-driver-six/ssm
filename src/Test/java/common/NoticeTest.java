@@ -1,8 +1,8 @@
 package common;
 
+import com.bj186.oas.mapper.AnnouncementsMapper;
 import com.bj186.oas.pojo.Announcements;
 import com.bj186.oas.service.common.NoticeService;
-import com.bj186.oas.service.common.impl.NoticeServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -33,5 +33,21 @@ public class NoticeTest {
     public void selectAnnsByKey(){
         List<Announcements> announcements = noticeService.selectAnnsByKey(10001);
         System.out.println(announcements);
+    }
+    @Test
+    public void selectAnnsByNotifier(){
+        List<Announcements> announcements = noticeService.selectAnnsByNotifier(10001);
+        System.out.println(announcements);
+    }
+    @Test
+    public void updateByPrimaryKey(){
+        AnnouncementsMapper annMapper = context.getBean(AnnouncementsMapper.class);
+        Announcements announcements = annMapper.selectByPrimaryKey(10001);
+        List<String> depNames = new ArrayList<>();
+
+        depNames.add("人事部");
+        depNames.add("行政部");
+        int i = noticeService.updateByPrimaryKey(10004, announcements, depNames);
+        System.out.println(i);
     }
 }

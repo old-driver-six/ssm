@@ -28,6 +28,20 @@
     from oas_rule
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from oas_rule where rule_state = 0
+  </select>
+  <select id="selectRuleByCreatorId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from oas_rule where rule_state = 0 and rule_creatorId = #{creatorId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_rule
     where rule_id = #{ruleId,jdbcType=INTEGER}
@@ -124,8 +138,7 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Rule" >
     update oas_rule
-    set rule_departmentId = #{ruleDepartmentid,jdbcType=INTEGER},
-      rule_creatorId = #{ruleCreatorid,jdbcType=INTEGER},
+    set  rule_creatorId = #{ruleCreatorid,jdbcType=INTEGER},
       rule_creator = #{ruleCreator,jdbcType=VARCHAR},
       rule_releaseDate = #{ruleReleasedate,jdbcType=TIMESTAMP},
       rule_title = #{ruleTitle,jdbcType=VARCHAR},

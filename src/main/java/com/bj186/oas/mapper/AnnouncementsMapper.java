@@ -43,5 +43,9 @@ public interface AnnouncementsMapper {
      */
     int updateByPrimaryKey(Announcements record);
 
-    List<Announcements> selectByVague(Map map);
+    List<Announcements> selectByDepIdVague(Map map);
+    List<Announcements> selectAll();
+    List<Announcements> selectAllVague(Map map);
+    List<Announcements> selectAnnsByNotifier(Integer notifierId);
+
 }

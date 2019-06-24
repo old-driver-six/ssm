@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/jquery.min.js"></script>
+</head>
+<body>
+
+<h2>静态页面!</h2>
+<input type="text" name="username">
+<button>提交ajax</button>
+<script>
+    $("button").click(function () {
+        var json = {'uId':10001}
+        console.log(json)
+        $.ajax({
+            url:'/notice/selectAll',
+            dateType:'json',
+            type:'post',
+            data:JSON.stringify(json),
+            contentType:'application/json',
+            success:function (json) {
+                console.log(json)
+            },
+            error:function (e) {
+                console.log(e)
+            }
+        })
+    })
+</script>
+</body>
+</html>

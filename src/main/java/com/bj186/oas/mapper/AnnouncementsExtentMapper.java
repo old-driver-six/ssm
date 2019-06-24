@@ -2,6 +2,8 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.AnnouncementsExtent;
 
+import java.util.List;
+
 
 public interface AnnouncementsExtentMapper {
     /**
@@ -39,5 +41,7 @@ public interface AnnouncementsExtentMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(AnnouncementsExtent record);
+
+    List<AnnouncementsExtent> selectByAnnId(Integer annId);
 
 }

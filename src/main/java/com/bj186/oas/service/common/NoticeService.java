@@ -27,12 +27,18 @@ public interface NoticeService {
      *  @param depNames
      * @return
      */
-    Integer insertAnn(Integer uId,Announcements ann, List<String> depNames);
+    Integer insertAnn(Integer uId, Announcements ann, List<String> depNames);
 
     /**
-     * 修改公告
+     * 修改公告（包含可见部门列表）
      * @param ann
      * @return
      */
-    int updateByPrimaryKey(Announcements ann);
+    int updateByPrimaryKey(Integer uId, Announcements ann, List<String> depNames);
+    /**
+     * 通过员工ID查询 此员工发布的公告（我的公告）
+     * @param uId
+     * @return
+     */
+    List<Announcements> selectAnnsByNotifier(Integer uId);
 }

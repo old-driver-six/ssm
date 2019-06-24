@@ -1,6 +1,8 @@
 package com.bj186.oas.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Announcements {
     /**
@@ -37,6 +39,19 @@ public class Announcements {
      * 
      */
     private Integer announcementsState;
+    /**
+     * 公告可见部门
+     */
+
+    private List<Department> departments = new ArrayList<>();
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
 
     /**
      * 公告ID
@@ -160,6 +175,7 @@ public class Announcements {
                 ", announcementsNotifierid=" + announcementsNotifierid +
                 ", announcementsTopic='" + announcementsTopic + '\'' +
                 ", announcementsState=" + announcementsState +
-                '}';
+                ", departments=" + departments +
+                '}'+"\n";
     }
 }

@@ -2,6 +2,8 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Rule;
 
+import java.util.List;
+
 public interface RuleMapper {
     /**
      *
@@ -44,4 +46,8 @@ public interface RuleMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(Rule record);
+
+    List<Rule> selectAll();
+
+    List<Rule> selectRuleByCreatorId(Integer integer);
 }
