@@ -12,10 +12,11 @@
 <button>提交ajax</button>
 <script>
     $("button").click(function () {
-        var json = {'uId':10001}
+      //  var json = {'uId':10001}
+        var json = {'uId':10004,'announcementsTopic':'测试标题','departments':['行政部','人事部']}
         console.log(json)
         $.ajax({
-            url:'/notice/selectAll',
+            url:'/notice/insert',
             dateType:'json',
             type:'post',
             data:JSON.stringify(json),
