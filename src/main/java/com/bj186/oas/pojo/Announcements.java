@@ -1,8 +1,10 @@
 package com.bj186.oas.pojo;
 
+import com.bj186.oas.entity.common.NoticeInsertBean;
+
 import java.util.Date;
 
-public class Announcements {
+public class Announcements extends NoticeInsertBean {
     /**
      * 公告ID
      */
@@ -12,11 +14,6 @@ public class Announcements {
      * 通告时间
      */
     private Date announcementsDate;
-
-    /**
-     * 通告人
-     */
-    private String announcementsNotifier;
 
     /**
      * 公告内容
@@ -68,22 +65,6 @@ public class Announcements {
      */
     public void setAnnouncementsDate(Date announcementsDate) {
         this.announcementsDate = announcementsDate;
-    }
-
-    /**
-     * 通告人
-     * @return announcements_notifier 通告人
-     */
-    public String getAnnouncementsNotifier() {
-        return announcementsNotifier;
-    }
-
-    /**
-     * 通告人
-     * @param announcementsNotifier 通告人
-     */
-    public void setAnnouncementsNotifier(String announcementsNotifier) {
-        this.announcementsNotifier = announcementsNotifier == null ? null : announcementsNotifier.trim();
     }
 
     /**
@@ -155,7 +136,6 @@ public class Announcements {
         return "Announcements{" +
                 "announcementsId=" + announcementsId +
                 ", announcementsDate=" + announcementsDate +
-                ", announcementsNotifier='" + announcementsNotifier + '\'' +
                 ", announcementsContent='" + announcementsContent + '\'' +
                 ", announcementsNotifierid=" + announcementsNotifierid +
                 ", announcementsTopic='" + announcementsTopic + '\'' +

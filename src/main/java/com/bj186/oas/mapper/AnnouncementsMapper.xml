@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Announcements" >
     <id column="announcements_id" property="announcementsId" jdbcType="INTEGER" />
     <result column="announcements_date" property="announcementsDate" jdbcType="TIMESTAMP" />
-    <result column="announcements_notifier" property="announcementsNotifier" jdbcType="VARCHAR" />
     <result column="announcements_content" property="announcementsContent" jdbcType="VARCHAR" />
     <result column="announcements_notifierId" property="announcementsNotifierid" jdbcType="INTEGER" />
     <result column="announcements_topic" property="announcementsTopic" jdbcType="VARCHAR" />
@@ -51,11 +50,11 @@
   <insert id="insert" parameterType="com.bj186.oas.pojo.Announcements"
           useGeneratedKeys="true" keyProperty="announcementsId">
     insert into oas_announcements (announcements_id, announcements_date, 
-      announcements_notifier, announcements_content, 
+       announcements_content,
       announcements_notifierId, announcements_topic, 
       announcements_state)
     values (#{announcementsId,jdbcType=INTEGER}, #{announcementsDate,jdbcType=TIMESTAMP}, 
-      #{announcementsNotifier,jdbcType=VARCHAR}, #{announcementsContent,jdbcType=VARCHAR}, 
+      #{announcementsContent,jdbcType=VARCHAR},
       #{announcementsNotifierid,jdbcType=INTEGER}, #{announcementsTopic,jdbcType=VARCHAR}, 
       #{announcementsState,jdbcType=INTEGER})
   </insert>
