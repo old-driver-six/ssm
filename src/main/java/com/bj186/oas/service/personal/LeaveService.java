@@ -43,6 +43,6 @@ public interface LeaveService {
      * @param lid
      * @return
      */
-    OAResoult CkeckLeaveProcess(String lid);
+    OAResoult CkeckLeaveProcess(String lid,Integer sid);
 
 }
