@@ -10,11 +10,11 @@ import javax.annotation.Resource;
 
 @Service("leaveService")
 public class LeaveServiceImpl implements LeaveService {
-    @Autowired
-    private LeaveMapper mapper;
+    @Resource
+    private LeaveMapper leavemapper;
     @Override
     public Boolean insert(Leave leave) {
-        int insert = mapper.insert(leave);
+        int insert = leavemapper.insert(leave);
         return insert>0;
     }
 
