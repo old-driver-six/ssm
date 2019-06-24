@@ -1,11 +1,14 @@
 package com.bj186.oas.service.system.systemImpl;
 
+import com.bj186.oas.mapper.Mapper;
 import com.bj186.oas.mapper.StaffMapper;
-import com.bj186.oas.pojo.*;
+import com.bj186.oas.mapper.UsersMapper;
+import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.service.system.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +17,11 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     @Resource
     private StaffMapper staffMapper;
+    @Resource
+    private Mapper mapper;
+    @Resource
+    private UsersMapper usersMapper;
+
 
     /**
      * 根据ID查询
@@ -36,12 +44,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<Staff> select(String filed,String value,Integer pageSize,Integer pageNum) {
+    public List<Staff> select(String filed, String value, Integer pageSize, Integer pageNum) {
         Map<String,Object> params = new LinkedHashMap<String,Object>();
         //当sql的条件有模糊匹配时，参数需前后带上%
         params.put("filed",filed);//字段
         params.put("value", "\'%"+value+"%\'");//模糊查询
-        params.put("start", (pageNum-1)*pageSize);//sql语句从哪里开始 页码-1 乘以 分页数据数量
+        params.put("start",(pageNum-1)*pageSize);//sql语句从哪里开始 页码-1 乘以 分页数据数量
         params.put("end", pageSize); //分页数量
         List<Staff> staffList = staffMapper.select(params);
         System.out.println("查询成功");
@@ -57,6 +65,32 @@ public class UserServiceImpl implements UserService {
     public List<Staff> selectAll() {
         List<Staff> staffList = staffMapper.selectAll();
         return staffList;
+    }
+
+    /**
+     * 查询表数据总数
+     * @return count 总数
+     */
+    @Override
+    public Integer selectCount(String tableName) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("tableName",tableName);
+        Integer count = mapper.selectCount(map);
+        System.out.println(count);
+        return count;
+    }
+
+    /**
+     * 停职方法
+     * @param staffID 被停职人
+     * @return
+     */
+    @Override
+    public Integer Suspension(Integer staffID) {
+        if( usersMapper.Suspension(staffID)==1){
+            return 200;
+        }
+        return -1;
     }
 
     /**

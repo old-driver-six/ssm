@@ -15,6 +15,9 @@ public interface UsersMapper {
      */
     int insert(Users record);
 
+//停职
+    int Suspension(Integer usersID);
+
     /**
      *
      * @mbggenerated 2019-06-18

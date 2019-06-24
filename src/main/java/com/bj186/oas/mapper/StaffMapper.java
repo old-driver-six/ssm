@@ -30,7 +30,7 @@ public interface StaffMapper {
      */
     Staff selectByPrimaryKey(Integer staffId);
 
-    List<Staff> select(Map<String,Object> map);
+    List<Staff> select(Map<String, Object> map);
 
     List<Staff> selectAll();
 

@@ -46,11 +46,11 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
     left join oas_staffpower b on a.staff_id = b.sp_staffID)a
     left join oas_power b on a.sp_powerID = b.power_id
     <where>
-      <if test="filed!=null">
+      <if test="filed!=''">
         and ${filed}
       </if>
-      <if test="value!= '\'%null%\'' ">
-        and like ${value}
+      <if test="value!= '\'%%\'' ">
+        like ${value}
       </if>
     </where>
     limit #{start},#{end}
@@ -62,6 +62,10 @@ oas_staff a left join oas_department b
 on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
 left join oas_staffpower b on a.staff_id = b.sp_staffID)a
 left join oas_power b on a.sp_powerID = b.power_id
+  </select>
+
+  <select id="selectCount" resultType="int">
+     SELECT COUNT(*) FROM staff
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

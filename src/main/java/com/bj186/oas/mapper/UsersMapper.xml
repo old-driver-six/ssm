@@ -79,4 +79,9 @@
       users_state = #{usersState,jdbcType=CHAR}
     where users_id = #{usersId,jdbcType=INTEGER}
   </update>
+  <update id="Suspension" parameterType="com.bj186.oas.pojo.Users" >
+    update oas_users
+    set users_state = '0'
+    where users_id = #{usersId,jdbcType=INTEGER}
+  </update>
 </mapper>

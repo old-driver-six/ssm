@@ -7,16 +7,17 @@ import java.io.Serializable;
  * @param <T>
  */
 public class OAResoult<T> implements Serializable {
-    private int status;     //状态
-    private String msg;     //消息
-    private T date;         //数据
+    private Integer Code;//状态
+    private String msg;//信息
+    private Integer count;//总数
+    private T data;//数据
 
-    public int getStatus() {
-        return status;
+    public Integer getCode() {
+        return Code;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCode(Integer code) {
+        Code = code;
     }
 
     public String getMsg() {
@@ -27,20 +28,29 @@ public class OAResoult<T> implements Serializable {
         this.msg = msg;
     }
 
-    public T getDate() {
-        return date;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setDate(T date) {
-        this.date = date;
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 
     @Override
     public String toString() {
-        return "NoteResoult{" +
-                "status=" + status +
+        return "OAResoult{" +
+                "Code=" + Code +
                 ", msg='" + msg + '\'' +
-                ", date=" + date +
+                ", count=" + count +
+                ", data=" + data +
                 '}';
     }
 }
