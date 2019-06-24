@@ -11,7 +11,10 @@
     <result column="pay_medical" property="payMedical" jdbcType="DECIMAL" />
     <result column="pay_award" property="payAward" jdbcType="DECIMAL" />
     <result column="pay_salary" property="paySalary" jdbcType="DECIMAL" />
+    <association property="staff" resultMap="com.bj186.oas.mapper.StaffMapper.BaseResultMap"></association>
+    <association property="department" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></association>
   </resultMap>
+  
   <sql id="Base_Column_List" >
     pay_id, pay_staffid, pay_depid, pay_date, pay_accum, pay_wage, pay_medical, pay_award, 
     pay_salary
@@ -139,4 +142,5 @@
       pay_salary = #{paySalary,jdbcType=DECIMAL}
     where pay_id = #{payId,jdbcType=INTEGER}
   </update>
+
 </mapper>
