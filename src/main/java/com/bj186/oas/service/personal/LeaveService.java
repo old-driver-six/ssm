@@ -15,5 +15,5 @@ public interface LeaveService {
      * @Param lid       请假条id
      * @return
      */
-    Boolean updateLeave(String opinion,String state,String lid);
+    Boolean updateLeave(String opinion, String state, String lid);
 }
