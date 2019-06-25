@@ -63,6 +63,11 @@
         <property name="securityManager" ref="securityManager" />
     </bean>
 
+    <bean id="myLogoutFilter" class="com.bj186.oas.shiro.MyLogoutFilter" >
+        <property name="redirectUrl" value="/statics/html/login.html"/>
+    </bean>
+
+
     <!--
         配置shiro过滤器,这里的id必须与web.xml中的shiroFilter filterName一致
     -->
@@ -71,6 +76,13 @@
         <property name="loginUrl" value="/statics/html/login.html" />
         <property name="successUrl" value="/statics/html/index.html" />
         <property name="unauthorizedUrl" value="/statics/html/demo.html" />
+
+        <property name="filters">
+            <map>
+                <entry key="logout" value-ref="myLogoutFilter"/>
+            </map>
+        </property>
+
         <!--
             配置需要受保护的页面
             以及访问这些页面需要的权限
