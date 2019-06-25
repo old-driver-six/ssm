@@ -3,7 +3,7 @@
 <mapper namespace="com.bj186.oas.mapper.CheckingInMapper" >
   <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.CheckingIn" >
     <id column="checkingin_id" property="checkinginId" jdbcType="VARCHAR" />
-    <result column="check_staff_id" property="checkstaffId" jdbcType="INTEGER" />
+    <result column="check_staff_id" property="checkStaffId" jdbcType="INTEGER" />
     <result column="checkingin_startTime" property="checkinginStarttime" jdbcType="TIMESTAMP" />
     <result column="checkingin_sendTime" property="checkinginSendtime" jdbcType="TIMESTAMP" />
     <result column="checkingin_state" property="checkinginState" jdbcType="CHAR" />
@@ -11,11 +11,26 @@
   <sql id="Base_Column_List" >
     checkingin_id, check_staff_id, checkingin_startTime, checkingin_sendTime, checkingin_state
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByRequirement" resultMap="BaseResultMap" parameterType="map" >
     select 
     <include refid="Base_Column_List" />
     from oas_checkingin
-    where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
+    <where>
+      <if test="checkstaffId!=null">
+        check_staff_id = #{checkstaffId}
+      </if>
+      <if test="startTime!='\'null\''">
+        AND checkingin_startTime &gt;= ${startTime}
+      </if>
+      <if test="endTime!='\'null\''">
+        AND checkingin_sendTime &lt;= ${endTime}
+      </if>
+    <if test="LimitParameter_1!=null">
+      <if test="LimitParameter_2!=null">
+        LIMIT #{LimitParameter_1},#{LimitParameter_2}
+      </if>
+    </if>
+    </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_checkingin

@@ -79,8 +79,8 @@ public class ContractServiceImpl implements ContractService {
             map.put("uState",userState);
             map.put("field",null);
             map.put("value", "\'%"+null+"%\'");
-            map.put("pageNow",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
-            map.put("pageLimit",Integer.parseInt(pageLimit));
+            map.put("LimitParameter_1",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
+            map.put("LimitParameter_2",Integer.parseInt(pageLimit));
             List<Contract>  contractList =contractMapper.selectContractsByRequirement(map);
             return contractList;}
         else {
@@ -107,8 +107,8 @@ public class ContractServiceImpl implements ContractService {
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("field",filed);
             map.put("value", "\'%"+value+"%\'");
-            map.put("pageNow",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
-            map.put("pageLimit",Integer.parseInt(pageLimit));
+            map.put("LimitParameter_1",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
+            map.put("LimitParameter_2",Integer.parseInt(pageLimit));
             List<Contract>  contractList =contractMapper.selectContractsByRequirement(map);
             return contractList;
         }else {
