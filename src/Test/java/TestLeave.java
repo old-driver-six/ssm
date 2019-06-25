@@ -25,8 +25,8 @@ public class TestLeave {
         leave.setLeaveState("1");
         leave.setLeaveReason("生病了,难受!");
         leave.setLeaveCeatetime(System.currentTimeMillis());
-        Boolean insert = bean.insert(leave);
-        System.out.println(insert);
+//        Boolean insert = bean.insert(leave);
+//        System.out.println(insert);
     }
 
 }

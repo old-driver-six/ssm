@@ -1,12 +1,14 @@
 package com.bj186.oas.controller.systemController;
 
 import com.bj186.oas.Util.OAResoult;
+import com.bj186.oas.entity.system.Like;
 import com.bj186.oas.pojo.Department;
 import com.bj186.oas.pojo.Position;
 import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.service.system.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,13 +71,20 @@ public class UserController {
      */
     @RequestMapping("/select")
     @ResponseBody
-    public Object select(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
-     ,@RequestParam(name="filed",required = true, defaultValue = "") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value) {
-        System.out.println(filed);
-        List<Staff> staffList = userService.select(filed, value, pageSize, pageNum);
+    public Object select(
+//            @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
+//     ,@RequestParam(name="filed",required = true, defaultValue = "") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
+            @RequestBody Like like) {
+        System.out.println(like.getFiled());
+        System.out.println(like.getValue());
+        System.out.println(like.getPageSize());
+        System.out.println(like.getPageNum());
+
+        List<Staff> staffList = userService.select(like.getFiled(), like.getValue(), like.getPageSize(),like.getPageNum());
+//        List<Staff> staffList = userService.select("staff_name","叶", 10,1);
         Integer count=staffList.size();
 
-        if(filed.equals("")||value.equals("")){
+        if(like.getFiled()==null||like.getValue()==null){
             count = selectCount();
         }
 
@@ -95,17 +104,18 @@ public class UserController {
     @RequestMapping("/selectLike")
     @ResponseBody
     public Object selectLike(
-                             @RequestParam("page") Integer pageNum,
-                             @RequestParam("limit") Integer pageSize,
-                             @RequestParam("filed") String filed,
-                             @RequestParam("value") String value) {
-        System.out.println("filed:"+filed+" "+"value:"+value);
+//                             @RequestParam("page") Integer pageNum,
+//                             @RequestParam("limit") Integer pageSize,
+//                             @RequestParam("filed") String filed,
+//                             @RequestParam("value") String value
+            @RequestBody Like like) {
+        System.out.println("filed:"+like.getFiled()+" "+"value:"+like.getValue());
         Integer count = selectCount();
         OAResoult<List<Staff>> oaResoult = new OAResoult();
         oaResoult.setCode(0);
         oaResoult.setMsg("");
         oaResoult.setCount(count);
-        oaResoult.setData(userService.select(filed, value, pageSize, pageNum));
+        oaResoult.setData(userService.select(like.getFiled(), like.getValue(), like.getPageSize(),like.getPageNum()));
         System.out.println(oaResoult);
         return oaResoult;
     }
@@ -155,8 +165,8 @@ public class UserController {
      */
     @RequestMapping("/Suspension")
     @ResponseBody
-    public Integer Suspension(@RequestParam("staffId") Integer staffId) {
-        Integer suspension = userService.Suspension(staffId);
+    public Integer Suspension(@RequestBody Staff  staff) {
+        Integer suspension = userService.Suspension(staff.getStaffId());
         return suspension;
     }
 
@@ -191,8 +201,8 @@ public class UserController {
     @RequestMapping("/updateByPrimaryKeySelective")
     @ResponseBody
 
-    public String updateByPrimaryKeySelective() {
-        Staff staff = userService.selectByPrimaryKey(10002);
+    public String updateByPrimaryKeySelective(@RequestBody Staff staff1) {
+        Staff staff = userService.selectByPrimaryKey(staff1.getStaffId());
         staff.setStaffName("叶2");
         staff.setStaffPhone("13281989189");
         staff.setStaffIdntitycardid("511521199712166158");

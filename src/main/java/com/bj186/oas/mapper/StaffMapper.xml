@@ -46,10 +46,10 @@ left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
     left join oas_staffpower b on a.staff_id = b.sp_staffID)a
     left join oas_power b on a.sp_powerID = b.power_id
     <where>
-      <if test="filed!=''">
+      <if test="filed!=null">
         and ${filed}
       </if>
-      <if test="value!= '\'%%\'' ">
+      <if test="value!= '\'%null%\'' ">
         like ${value}
       </if>
     </where>
