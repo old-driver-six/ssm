@@ -1,5 +1,6 @@
 package com.bj186.oas.shiro;
 
+import com.bj186.oas.pojo.Power;
 import com.bj186.oas.pojo.Users;
 import com.bj186.oas.service.system.UserService;
 import org.apache.shiro.authc.*;
@@ -10,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 public class UserRealm extends AuthorizingRealm {
 
@@ -22,7 +24,7 @@ public class UserRealm extends AuthorizingRealm {
         Users user = null;
         // 把AuthenticationToken实质为UsernamePasswordToken，直接转换即可
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        user = userService.getUser(usernamePasswordToken.getUsername());          // 通过service查询用户名是否存在
+        user = userService.selectUsersByKey(Integer.valueOf(usernamePasswordToken.getUsername()));          // 通过service查询用户名是否存在
         if (user == null)
             throw new UnknownAccountException("用户不存在！");
         System.out.println("doGetAuthenticationInfo username=" + user.getUsersPhone());
@@ -51,19 +53,32 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Object principal = principalCollection.getPrimaryPrincipal();            //获取登录的用户pojo对象
         Users user = (Users)principal;
-        String auth = user.getAuth();
+        List<Power> powerList = user.getPowerList();
         System.out.println("AuthorizationInfo principal=" + principal);
+        for (Power power : powerList) {
+            if("公告发布".equals(power.getPowerName())){
+                info.addRole("admin");
+                info.addRole("call");
+            }
+            if("制度发布".equals(power.getPowerName())){
+                info.addRole("admin");
+                info.addRole("call");
+            }
+            if("请假审批".equals(power.getPowerName())){
+                info.addRole("user");
+            }
+        }
     /*
        根据不同的权限判断可访问的资源
        info.addRole("1")中的形参值，在spring_database.xml中shiroFilter进行配置
     */
-        if("1".equals(auth)){
-            info.addRole("admin");
-            info.addRole("call");
-        }
-        if("2".equals(auth)){
-            info.addRole("user");
-        }
+//        if("1".equals(auth)){
+//            info.addRole("admin");
+//            info.addRole("call");
+//        }
+//        if("2".equals(auth)){
+//            info.addRole("user");
+//        }
         info.addRole("all");
 
         return info;

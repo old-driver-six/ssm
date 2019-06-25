@@ -9,4 +9,5 @@
     <import resource="classpath:config/spring/spring_tx.xml"></import>
     <import resource="classpath:config/spring/spring-jdbc.xml"></import>
     <import resource="classpath:config/springmvc/springmvc-servlet.xml"></import>
+    <import resource="classpath:config/spring/spring-shiro.xml"></import>
 </beans>

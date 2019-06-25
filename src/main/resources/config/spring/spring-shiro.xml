@@ -68,9 +68,9 @@
     -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
-        <property name="loginUrl" value="/login.jsp" />
-        <property name="successUrl" value="/index.jsp" />
-        <property name="unauthorizedUrl" value="/error.jsp" />
+        <property name="loginUrl" value="/statics/html/login.html" />
+        <property name="successUrl" value="/statics/html/index.html" />
+        <property name="unauthorizedUrl" value="/statics/html/demo.html" />
         <!--
             配置需要受保护的页面
             以及访问这些页面需要的权限
@@ -80,26 +80,26 @@
         <property name="filterChainDefinitions">
             <value>
                 <!--加载静态资源-->
-                /js/** = anon
-                /css/** = anon
-                /img/** = anon
+                /statics/** = anon
+                <!--/css/** = anon-->
+                <!--/img/** = anon-->
                 <!--加载不需要认证的页面-->
-                /login.jsp = anon
-                /login = anon
-                /reg.jsp = anon
-                /reg = anon
-                /logout = logout
-                <!--权限控制-->
+                <!--/login.jsp = anon-->
+                <!--/login = anon-->
+                <!--/reg.jsp = anon-->
+                <!--/reg = anon-->
+                <!--/logout = logout-->
+                <!--&lt;!&ndash;权限控制&ndash;&gt;-->
 
-                /admin.jsp = roles[admin]
-                /items/** = roles[admin]
-                /user.jsp = roles[user]
-                /list.jsp = roles[all]
-                /call/**=roles[call]
+                <!--/admin.jsp = roles[admin]-->
+                <!--/items/** = roles[admin]-->
+                <!--/user.jsp = roles[user]-->
+                <!--/list.jsp = roles[all]-->
+                <!--/call/**=roles[call]-->
 
 
-                <!--除以上配置外，其他请求全部必须认证-->
-                /** = authc
+                <!--&lt;!&ndash;除以上配置外，其他请求全部必须认证&ndash;&gt;-->
+                <!--/** = authc-->
             </value>
         </property>
     </bean>
