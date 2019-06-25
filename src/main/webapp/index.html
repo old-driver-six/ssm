@@ -32,10 +32,13 @@
             function exit() {
                 $.ajax({
                     type: "POST",
-                    url: "/user/select",
+                    url: "/logout",
                     success: function(msg){
-                        console.log(msg)
-                        // $(location).attr("href","html/login.html")
+                        if(msg == false){
+                            alert("注销出错！");
+                        }else{
+                            $(location).attr("href","/statics/html/login.html")
+                        }
                     }
                 })
             }
