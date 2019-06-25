@@ -74,7 +74,7 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager" />
         <property name="loginUrl" value="/statics/html/login.html" />
-        <property name="successUrl" value="/statics/html/index.html" />
+        <property name="successUrl" value="/index.html" />
         <property name="unauthorizedUrl" value="/statics/html/demo.html" />
 
         <property name="filters">
@@ -93,6 +93,8 @@
             <value>
                 <!--加载静态资源-->
                 /statics/** = anon
+                /login = anon
+                /reg = anon
                 <!--/css/** = anon-->
                 <!--/img/** = anon-->
                 <!--加载不需要认证的页面-->
@@ -111,7 +113,7 @@
 
 
                 <!--&lt;!&ndash;除以上配置外，其他请求全部必须认证&ndash;&gt;-->
-                <!--/** = authc-->
+                /** = authc
             </value>
         </property>
     </bean>

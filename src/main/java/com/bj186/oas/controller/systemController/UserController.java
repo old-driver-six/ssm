@@ -49,7 +49,7 @@ public class UserController {
     @RequestMapping("/index")
     public String index() {
         System.out.println("view here");
-        return "/index";
+        return "/statics/html/index2.html";
     }
 
 

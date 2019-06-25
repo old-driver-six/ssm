@@ -16,5 +16,5 @@ public interface UserService {
    String updateByPrimaryKeySelective(Staff staff);
    Integer selectCount(String tableName);
    Integer Suspension(Integer staffID);
-   Users selectUsersByKey(Integer phone);
+   Users selectUsersByKey(String phone);
 }

@@ -80,26 +80,28 @@
         }
     );
     function login() {
-        console.log(666)
+
         var user = $("#user_name").val();
         var pass = $("#password").val();
+        var json = {'usersPhone':user,'usersPassword':pass}
+        console.log(JSON.stringify(json))
         $.ajax({
-            url:'/loginservlet'
-            , data: "user="+user+"&pass="+pass
-            , dataType: 'text'
+            url:'/login'
+            ,data: JSON.stringify(json)
+            ,type:'post'
+            ,dateType:'json'
+            ,contentType:'application/json'
             , success: function (data) {
                 console.log(data)
                 if (data == 'success') {
                     alert("登录成功！");
                     $("#password").val("")
-                    $(location).attr("href", '/logintoservlet')
+                    $(location).attr("href", '/index.html')
                 }
                 else {
-                    if(data=='notPass') {
-                        alert("密码错误！")
-                    }else{
-                        alert("账号错误！")
-                    }
+
+                        alert(data)
+
                     mySlideImage.resetSlide();
                     $("div.demo1").fadeOut();
 
