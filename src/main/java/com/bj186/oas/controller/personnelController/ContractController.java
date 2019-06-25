@@ -34,7 +34,7 @@ public class ContractController {
     public List<Contract> selectAllConatracts(){
         String count = contractService.countAllContracts();
         System.out.println(count);
-    return  contractService.selectAllConatracts(10001,null,"1","10");
+    return  contractService.selectAllConatracts(null,"1","10");
     }
 
     public Integer updateContractByStaffId(){

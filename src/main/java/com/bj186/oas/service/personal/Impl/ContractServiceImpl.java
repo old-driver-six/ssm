@@ -48,27 +48,14 @@ public class ContractServiceImpl implements ContractService {
     }
 
     /**
-     *  查询当前合同里的员工信息
-     * @param staffId
-     * @return
-     */
-    @Override
-    public Staff selectStaffInTheContract(Integer staffId) {
-        Contract contract = contractMapper.selectContractByStaffId(staffId);
-        Staff staff = contract.getStaff();
-       return  staff;
-    }
-
-    /**
-     * 查询所有(在职或者离职)员工合同
+     * 查询所有的合同
      * @param uId
-     * @param userState
      * @param pageNow
      * @param pageLimit
      * @return
      */
     @Override
-    public List<Contract> selectAllConatracts(Integer uId,String userState, String pageNow, String pageLimit) {
+    public List<Contract> selectAllConatracts(Integer uId, String pageNow, String pageLimit) {
         //获取当前用户的部门
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Department staffDepartment = staff.getDepartment();
@@ -76,7 +63,6 @@ public class ContractServiceImpl implements ContractService {
         if (depId == 1){
             //只有人事部可以查询所有合同
             Map<String,Object> map = new LinkedHashMap<>();
-            map.put("uState",userState);
             map.put("field",null);
             map.put("value", "\'%"+null+"%\'");
             map.put("pageNow",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));

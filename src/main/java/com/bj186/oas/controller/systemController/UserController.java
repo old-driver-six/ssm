@@ -28,9 +28,9 @@ public class UserController {
      * 根据ID查询员工 详细信息
      * @return staff 员工对象
      */
-    @RequestMapping("/detailed")
+    @RequestMapping("/selectByPrimaryKey")
     @ResponseBody
-    public Staff detailed(@RequestParam Integer staffID){
+    public Staff selectByPrimaryKey(@RequestParam Integer staffID) {
         return userService.selectByPrimaryKey(staffID);
     }
 
@@ -150,7 +150,7 @@ public class UserController {
     }
 
     /**
-     * 停职功能
+     * 停职
      * @return
      */
     @RequestMapping("/Suspension")

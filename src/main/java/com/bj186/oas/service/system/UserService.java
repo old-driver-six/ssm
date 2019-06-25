@@ -1,7 +1,6 @@
 package com.bj186.oas.service.system;
 
 import com.bj186.oas.pojo.Staff;
-import com.bj186.oas.pojo.Users;
 
 import java.util.List;
 
@@ -16,5 +15,5 @@ public interface UserService {
    String updateByPrimaryKeySelective(Staff staff);
    Integer selectCount(String tableName);
    Integer Suspension(Integer staffID);
-   Users selectUsersByKey(Integer phone);
+
 }

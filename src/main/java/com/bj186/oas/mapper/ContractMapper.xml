@@ -9,7 +9,7 @@
     <result column="contract_signDate" property="contractSigndate" jdbcType="TIMESTAMP" />
 
      <association property="staff" resultMap="com.bj186.oas.mapper.StaffMapper.BaseResultMap"/>
-     <association property="pay" resultMap="com.bj186.oas.mapper.PayMapper.BaseResultMap"/>
+      <association property="pay" resultMap="com.bj186.oas.mapper.PayMapper.BaseResultMap"/>
 
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Contract" extends="BaseResultMap" >
@@ -22,7 +22,6 @@
   <sql id="Blob_Column_List" >
     contract_content
   </sql>
-
   <select id="selectContractByStaffId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     SELECT * FROM (SELECT * FROM oas_contract c
     LEFT JOIN oas_staff s ON c.contract_secondPartyId = s.staff_id) a
@@ -34,38 +33,10 @@
         SELECT COUNT(*) FROM oas_contract
   </select>
 
-<select id="selectContractsByRequirement" parameterType="map" resultMap="BaseResultMap">
-  SELECT * FROM (SELECT * FROM oas_contract c
-  LEFT JOIN (SELECT * FROM oas_staff s
-  <if test="uState!=null">
-  LEFT JOIN oas_users u ON s.staff_phone = u.users_phone
-  WHERE u.users_state = ${uState}
-  </if>
-   ) s
-  ON c.contract_secondPartyId = s.staff_id) a
-  LEFT JOIN oas_pay p
-  ON p.pay_id =a.contract_salaryId
-  <where>
-    <if test="field!=null">
-      and ${field}
-    </if>
-    <if test="value!= '\'%null%\''">
-      like ${value}
-    </if>
-  </where>
-  <if test="pageNow!=null">
-    <if test="pageLimit!=null">
-      LIMIT #{pageNow},#{pageLimit}
-    </if>
-  </if>
-</select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_contract
     where contract_id = #{contractId,jdbcType=VARCHAR}
   </delete>
-
-
   <insert id="insert" parameterType="com.bj186.oas.pojo.Contract" >
     insert into oas_contract (contract_id, contract_firstParty, contract_secondParty, 
       contract_secondPartyId, contract_entryDate, 
@@ -76,8 +47,6 @@
       #{contractSigndate,jdbcType=TIMESTAMP}, #{pay.payId,jdbcType=INTEGER}, #{contractContent,jdbcType=LONGVARCHAR}
       )
   </insert>
-
-
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Contract" >
     insert into oas_contract
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -173,29 +142,11 @@
   </update>
   <update id="updateByStaffId" parameterType="com.bj186.oas.pojo.Contract" >
     update oas_contract
-    <set >
-      <if test="contractFirstparty != null" >
-        contract_firstParty = #{contractFirstparty,jdbcType=VARCHAR},
-      </if>
-      <if test="contractSecondparty != null" >
-        contract_secondParty = #{contractSecondparty,jdbcType=VARCHAR},
-      </if>
-      <if test="staff.staffId != null" >
-        contract_secondPartyId = #{staff.staffId,jdbcType=INTEGER},
-      </if>
-      <if test="contractEntrydate != null" >
-        contract_entryDate = #{contractEntrydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="contractSigndate != null" >
-        contract_signDate = #{contractSigndate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="pay.payId != null" >
-        contract_salaryId = #{pay.payId,jdbcType=INTEGER},
-      </if>
-      <if test="contractContent != null" >
-        contract_content = #{contractContent,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
+    set contract_firstParty = #{contractFirstparty,jdbcType=VARCHAR},
+      contract_secondParty = #{contractSecondparty,jdbcType=VARCHAR},
+      contract_entryDate = #{contractEntrydate,jdbcType=TIMESTAMP},
+      contract_signDate = #{contractSigndate,jdbcType=TIMESTAMP},
+      contract_salaryId = #{pay.payId,jdbcType=INTEGER}
     where contract_secondPartyId = #{staff.staffId,jdbcType=INTEGER}
   </update>
 </mapper>

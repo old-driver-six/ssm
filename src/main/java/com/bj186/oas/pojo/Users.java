@@ -1,8 +1,5 @@
 package com.bj186.oas.pojo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Users {
     /**
      * 用户ID（主键 10001自动递增)
@@ -23,19 +20,6 @@ public class Users {
      * 账号有效状态（1为有效 0为无效）
      */
     private String usersState;
-
-    /**
-     * 权限
-     */
-    private List<Power> powerList = new ArrayList<>();
-
-    public List<Power> getPowerList() {
-        return powerList;
-    }
-
-    public void setPowerList(List<Power> powerList) {
-        this.powerList = powerList;
-    }
 
     /**
      * 用户ID（主键 10001自动递增)

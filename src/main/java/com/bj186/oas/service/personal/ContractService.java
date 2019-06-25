@@ -1,7 +1,6 @@
 package com.bj186.oas.service.personal;
 
 import com.bj186.oas.pojo.Contract;
-import com.bj186.oas.pojo.Staff;
 
 import java.util.List;
 
@@ -16,21 +15,13 @@ public interface ContractService {
       Contract selectContractByStaffId(Integer uId, Integer staffId);
 
     /**
-     *  查询当前合同里的员工信息
-     * @param staffId
-     * @return
-     */
-    Staff selectStaffInTheContract(Integer staffId);
-
-    /**
-     * 查询所有(在职或者离职)员工合同
+     * 查询所有合同
      * @param uId
-     * @param userState
      * @param pageNow
      * @param pageLimit
      * @return
      */
-    List<Contract> selectAllConatracts(Integer uId, String userState,String pageNow, String pageLimit);
+    List<Contract> selectAllConatracts(Integer uId, String pageNow, String pageLimit);
 
     /**
      * 按条件查询合同
@@ -70,7 +61,4 @@ public interface ContractService {
      * @return
      */
     Integer insertContract(Contract record);
-
-
-
 }
