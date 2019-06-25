@@ -9,6 +9,9 @@
     <result column="dep_describe" property="depDescribe" jdbcType="VARCHAR" />
     <collection property="announcements" resultMap="com.bj186.oas.mapper.AnnouncementsMapper.BaseResultMap"></collection>
   </resultMap>
+  <resultMap id="BaseResultMap2" type="com.bj186.oas.pojo.Department" extends="BaseResultMap">
+    <collection property="staffList" resultMap="com.bj186.oas.mapper.StaffMapper.BaseResultMap"></collection>
+  </resultMap>
   <sql id="Base_Column_List" >
 
     dep_id, dep_name, dep_managerid, dep_number, dep_describe

@@ -2,6 +2,8 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Fixed;
 
+import java.util.List;
+
 public interface FixedMapper {
     /**
      *
@@ -13,7 +15,7 @@ public interface FixedMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    int insert(Fixed record);
+    int insert(Fixed fixed);
 
     /**
      *
@@ -26,7 +28,10 @@ public interface FixedMapper {
      * @mbggenerated 2019-06-18
      */
     Fixed selectByPrimaryKey(Integer fixId);
-
+    /**
+     * 查询所有固定资产
+     */
+    List<Fixed> selectAllFixed();
     /**
      *
      * @mbggenerated 2019-06-18
