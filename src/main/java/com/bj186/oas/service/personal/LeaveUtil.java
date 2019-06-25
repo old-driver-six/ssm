@@ -1,4 +1,4 @@
-package com.bj186.oas.service.personal.Impl;
+package com.bj186.oas.service.personal;
 
 import com.bj186.oas.Util.UUIDUtil;
 import com.bj186.oas.mapper.LeaveAdviceMapper;
