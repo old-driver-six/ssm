@@ -11,28 +11,40 @@
     <result column="pay_medical" property="payMedical" jdbcType="DECIMAL" />
     <result column="pay_award" property="payAward" jdbcType="DECIMAL" />
     <result column="pay_salary" property="paySalary" jdbcType="DECIMAL" />
+
+
   </resultMap>
+  <resultMap id="BaseResultMap2" type="com.bj186.oas.pojo.Pay" extends="BaseResultMap">
+    <association property="staff" resultMap="com.bj186.oas.mapper.StaffMapper.BaseResultMap"></association>
+  </resultMap>
+
+
+
+
   <sql id="Base_Column_List" >
-    pay_id, pay_staffid, pay_depid, pay_date, pay_accum, pay_wage, pay_medical, pay_award, 
+    pay_id, pay_staffid, pay_depid, pay_date, pay_accum, pay_wage, pay_medical, pay_award,
     pay_salary
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
-    from oas_pay
-    where pay_id = #{payId,jdbcType=INTEGER}
+    from oas_pay,oas_staff
+    where pay_staffid=staff_id and pay_staffid = #{payStaffid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllPay" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
+    select * from (select * from  oas_pay left join oas_staff on pay_staffid=staff_id) a left join oas_department on a.staff_depID=dep_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_pay
-    where pay_id = #{payId,jdbcType=INTEGER}
+    where pay_depid = #{paydepid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.Pay" >
-    insert into oas_pay (pay_id, pay_staffid, pay_depid, 
-      pay_date, pay_accum, pay_wage, 
+    insert into oas_pay (pay_id, pay_staffid, pay_depid,
+      pay_date, pay_accum, pay_wage,
       pay_medical, pay_award, pay_salary
       )
-    values (#{payId,jdbcType=INTEGER}, #{payStaffid,jdbcType=INTEGER}, #{payDepid,jdbcType=INTEGER}, 
-      #{payDate,jdbcType=TIMESTAMP}, #{payAccum,jdbcType=DECIMAL}, #{payWage,jdbcType=DECIMAL}, 
+    values (#{payId,jdbcType=INTEGER}, #{payStaffid,jdbcType=INTEGER}, #{payDepid,jdbcType=INTEGER},
+      #{payDate,jdbcType=TIMESTAMP}, #{payAccum,jdbcType=DECIMAL}, #{payWage,jdbcType=DECIMAL},
       #{payMedical,jdbcType=DECIMAL}, #{payAward,jdbcType=DECIMAL}, #{paySalary,jdbcType=DECIMAL}
       )
   </insert>
@@ -139,4 +151,5 @@
       pay_salary = #{paySalary,jdbcType=DECIMAL}
     where pay_id = #{payId,jdbcType=INTEGER}
   </update>
+
 </mapper>

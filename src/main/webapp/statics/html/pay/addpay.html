@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<input type="text" name="payId">
+<br>
+<input type="text" name="payStaffid">
+<br>
+<input type="text" name="payDepid">
+<br>
+<input type="text" name="payDate">
+<br>
+<input type="text" name="payAccum">
+<br>
+<input type="text" name="payWage">
+<br>
+<input type="text" name="payMedical">
+<br>
+<input type="text" name="payAward">
+<br>
+<input type="text" name="paySalary">
+<br>
+<button>提交</button>
+<script>
+    $(function () {
+        $("button").click(function () {
+            var object = {'payId':$('input[name="payId"]').val(),'payStaffid':$('input[name="payStaffid"]').val()
+            ,'payDepid':$('input[name="payDepid"]').val(),'payDate':$('input[name="payDate"]').val(),
+                'payAccum':$('input[name="payAccum"]').val(),'payWage':$('input[name="payWage"]').val(),
+                'payMedical':$('input[name="payMedical"]').val(),'payAward':$('input[name="payAward"]').val(),
+                'paySalary':$('input[name="paySalary"]').val()}
+            console.log(object)
+            $.ajax({
+                url:'/pay/addPay',
+                cache:false,
+                dataType:'json',
+                type:'post',
+                data:JSON.stringify(object),
+                contentType:'application/json;charset=utf-8',
+                success:function (object) {
+                    console.log(1)
+                    console.log(object)
+
+                    if (object=='true') {
+                        alert("薪资添加成功")
+                    }else {
+                        alert("添加失败")
+                    }
+                },
+                error:function (e) {
+                    console.log(2)
+                    console.log(e)
+                }
+            });
+        })
+
+    })
+</script>
+</body>
+</html>
