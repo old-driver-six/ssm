@@ -1,6 +1,7 @@
 package com.bj186.oas.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Leave {
     /**
@@ -57,6 +58,15 @@ public class Leave {
      * 请假的原因,不能为空
      */
     private String leaveReason;
+    private List<LeaveAdvice> leaveAdvices;
+
+    public List<LeaveAdvice> getLeaveAdvices() {
+        return leaveAdvices;
+    }
+
+    public void setLeaveAdvices(List<LeaveAdvice> leaveAdvices) {
+        this.leaveAdvices = leaveAdvices;
+    }
 
     /**
      * UUID的请假id
