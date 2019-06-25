@@ -4,6 +4,7 @@ import com.bj186.oas.mapper.Mapper;
 import com.bj186.oas.mapper.StaffMapper;
 import com.bj186.oas.mapper.UsersMapper;
 import com.bj186.oas.pojo.Staff;
+import com.bj186.oas.pojo.Users;
 import com.bj186.oas.service.system.UserService;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,19 @@ public class UserServiceImpl implements UserService {
         return staff;
 
     }
+
+    /**
+     * 根据手机号查询
+     * @param phone
+     * @return Users对象
+     */
+    @Override
+    public Users selectUsersByKey(Integer phone) {
+        Users users =usersMapper.selectByPrimaryKey(phone);
+        return users;
+
+    }
+
 
     /**
      *
