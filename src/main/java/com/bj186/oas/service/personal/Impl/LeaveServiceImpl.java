@@ -8,6 +8,7 @@ import com.bj186.oas.mapper.LeaveMapper;
 import com.bj186.oas.mapper.StaffMapper;
 import com.bj186.oas.pojo.Leave;
 import com.bj186.oas.pojo.LeaveAdvice;
+import com.bj186.oas.pojo.personalpojo.GetLeaveUtil;
 import com.bj186.oas.pojo.personalpojo.LeaveOpinionUtil;
 import com.bj186.oas.service.personal.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +127,20 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
-    public OAResoult CkeckLeaveProcess(String lid) {
+    public OAResoult CkeckLeaveProcess(String lid,Integer sid) {
+        OAResoult resoult=new OAResoult();
+        GetLeaveUtil getLeaveUtil=new GetLeaveUtil();
+        getLeaveUtil.setSid(sid);
+        getLeaveUtil.setLid(lid);
+        List<Leave> leaves = mapper.selLeaveLeftAdvice(getLeaveUtil);
+        Integer leaveTime = leaves.get(0).getLeaveTime();
+        if(leaveTime<=3){
+            LeaveAdvice advice = leaves.get(0).getLeaveAdvices().get(0);
+            if("".equals(advice.getAdvicegroupstate())){
+                resoult.setCode(200);
+                resoult.setMsg("组长审核中!");
+            }
+        }
         return null;
     }
 

@@ -214,6 +214,7 @@
         leave_Id=#{lid}
       </if>
     </where>
+    order by leave_ceateTime DESC
   </select>
   <resultMap id="LeftAdviceMap" type="com.bj186.oas.pojo.Leave" extends="com.bj186.oas.mapper.LeaveMapper.BaseResultMap">
     <collection property="leaveAdvices" resultMap="com.bj186.oas.mapper.LeaveAdviceMapper.BaseResultMap"></collection>

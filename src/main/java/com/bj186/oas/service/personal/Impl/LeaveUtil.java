@@ -3,13 +3,14 @@ package com.bj186.oas.service.personal.Impl;
 import com.bj186.oas.Util.UUIDUtil;
 import com.bj186.oas.mapper.LeaveAdviceMapper;
 import com.bj186.oas.pojo.LeaveAdvice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
 @Component("leaveUtil")
 public class LeaveUtil {
-    @Resource
+    @Autowired
     private LeaveAdviceMapper mapper;
 
     /**

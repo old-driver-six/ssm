@@ -118,4 +118,42 @@
       worklog_createID = #{worklogCreateid,jdbcType=INTEGER}
     where worklog_id = #{worklogId,jdbcType=INTEGER}
   </update>
+  <!--
+    动态sql查询方法
+  -->
+  <select id="selectWorkBymapper" resultMap="BaseResultMap" parameterType="com.bj186.oas.pojo.personalpojo.WorkLogUtil">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from oas_worklog
+    <where>
+      <if test="worklogCreateid!=null">
+      and worklog_createID=#{worklogCreateid}
+      </if>
+      <!--
+        通过创建时间区间查询
+      -->
+      <!--大于传递进来的时间-->
+      <if test="workLogCreatedate1!=null">
+       and worklog_createdate &gt;=#{workLogCreatedate1}
+      </if>
+      <!--小于传递进来的时间-->
+      <if test="workLogCreatedate2!=null">
+        and worklog_createdate &lt;=#{workLogCreatedate2}
+      </if>
+      <!--通过修改时间查询!-->
+      <!--大于传递进来的时间-->
+      <if test="worklogUpdatetime1!=null">
+        and worklog_updatetime &gt;=#{worklogUpdatetime1}
+      </if>
+      <!--小于传递进来的时间-->
+      <if test="worklogUpdatetime2!=null">
+        and worklog_updatetime &lt;=#{worklogUpdatetime2}
+      </if>
+      <if test="pageSize!=null and pasgeThis!=null">
+        LIMIT #{pasgeThis},#{pageSize}
+      </if>
+    </where>
+  </select>
 </mapper>

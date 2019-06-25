@@ -1,6 +1,9 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.WorkLog;
+import com.bj186.oas.pojo.personalpojo.WorkLogUtil;
+
+import java.util.List;
 
 public interface WorkLogMapper {
     /**
@@ -44,4 +47,6 @@ public interface WorkLogMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(WorkLog record);
+
+    List<WorkLog> selectWorkBymapper(WorkLogUtil workLogUtil);
 }
