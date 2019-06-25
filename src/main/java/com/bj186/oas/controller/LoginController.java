@@ -2,6 +2,7 @@ package com.bj186.oas.controller;
 
 import com.bj186.oas.mapper.UsersMapper;
 import com.bj186.oas.pojo.Users;
+import com.bj186.oas.shiro.MyLogoutFilter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -14,10 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class LoginController {
     @Autowired
     UsersMapper usersMapper;
+    @Autowired
+    MyLogoutFilter myLogoutFilter;
 
     @RequestMapping(value = "/login")
     @ResponseBody
@@ -46,6 +54,17 @@ public class LoginController {
         return null;
     }
 
+    @RequestMapping(value = "/logout")
+    @ResponseBody
+    public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(666);
+        try {
+            return myLogoutFilter.preHandle(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @RequestMapping(value = "/reg")
     public String regUser(@RequestParam String username, @RequestParam String password) {
