@@ -5,6 +5,7 @@ import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.Util.UUIDUtil;
 import com.bj186.oas.pojo.Leave;
 import com.bj186.oas.service.personal.LeaveService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/leave")
 public class LeaveController {
-    @Resource
+    @Autowired
     private LeaveService service;
 
     /**
