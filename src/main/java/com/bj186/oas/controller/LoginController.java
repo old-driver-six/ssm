@@ -1,7 +1,9 @@
 package com.bj186.oas.controller;
 
+import com.bj186.oas.Util.MD5;
 import com.bj186.oas.mapper.UsersMapper;
 import com.bj186.oas.pojo.Users;
+import com.bj186.oas.shiro.MyLogoutFilter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -14,10 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class LoginController {
     @Autowired
     UsersMapper usersMapper;
+    @Autowired
+    MyLogoutFilter myLogoutFilter;
 
     @RequestMapping(value = "/login")
     @ResponseBody
@@ -43,9 +50,20 @@ public class LoginController {
                 System.out.println(ae.getMessage());
             }
         }
-        return null;
+        return "登录失败！";
     }
 
+    @RequestMapping(value = "/logout")
+    @ResponseBody
+    public Boolean logout(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(666);
+        try {
+            return myLogoutFilter.preHandle(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @RequestMapping(value = "/reg")
     public String regUser(@RequestParam String username, @RequestParam String password) {
@@ -53,7 +71,7 @@ public class LoginController {
         System.out.println("reg ------password=" + password);
         Users users = new Users();
         users.setUsersPhone(username);
-        users.setUsersPassword(md5(username, password));
+        users.setUsersPassword(MD5.getMd5(username, password));
         users.setUsersState("0");
         usersMapper.insert(users);
         return "redirect:/statics/html/login.html";
@@ -61,10 +79,5 @@ public class LoginController {
 
     // 注册时，进行shiro加密，返回加密后的结果，如果在加入shiro之前，存在用户密码不是此方式加密的，那么将无法登录
     // 使用用户名作为盐值
-    private String md5(String username, String password){
-        String hashAlgorithmName = "MD5";                   // 加密方式
-        ByteSource salt = ByteSource.Util.bytes(username);  // 以账号作为盐值
-        int hashIterations = 11;                            // 加密11次
-        return new SimpleHash(hashAlgorithmName, password, salt, hashIterations).toString();
-    }
+
 }
