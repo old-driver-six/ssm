@@ -8,6 +8,7 @@ public interface CheckingInService {
 
  List<CheckingIn> selectCheckingInByRequirement(Integer uId, Integer staffId,String startTime,String endTime,String pageNow, String pageLimit);
 
- 
+ Integer updateChecking(Integer uId,CheckingIn checkingIn);
 
+ Integer insertChecking(Integer uid,CheckingIn checkingIn);
 }

@@ -82,9 +82,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
     <set >
-      <if test="checkstaffId != null" >
-        check_staff_id = #{checkstaffId,jdbcType=INTEGER},
-      </if>
       <if test="checkinginStarttime != null" >
         checkingin_startTime = #{checkinginStarttime,jdbcType=TIMESTAMP},
       </if>
@@ -95,7 +92,7 @@
         checkingin_state = #{checkinginState,jdbcType=CHAR},
       </if>
     </set>
-    where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
+    where  check_staff_id = #{checkstaffId,jdbcType=INTEGER},
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
