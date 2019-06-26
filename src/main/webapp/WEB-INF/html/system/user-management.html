@@ -84,6 +84,7 @@
 <script>
 
     var tableIns;
+    var json = {'uid':10001,'filed':'staff_name','vlaue':'叶'}
     layui.use(['table'], function(){
         var table = layui.table;
         var $=layui.$;
@@ -92,6 +93,7 @@
             ,id:'idTest'
             ,url:'/user/select'
             ,page:true
+            // ,method:'post'
             ,limits:[5,10,15]
             ,limit:10
             ,size:'lg'
@@ -103,6 +105,17 @@
                 ,{field: 'position', title: '职位',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
                 ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
             ]]
+            // ,contentType:'application/json'
+            // ,request:json
+            ,where:
+                // JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
+                // {aa:JSON.stringify({'uid':'10001'})}
+
+                {
+                    uid:10001
+                }
+
+
         });
 
         //监听删除事件
@@ -145,9 +158,9 @@
         console.log($('select[name="filed"]').val())
         console.log($('input[name="value"]').val())
         tableIns.reload({//重载表格
-            where: { //设定异步数据接口的额外参数，任意设
-                filed:$('select[name="filed"]').val()
-                ,value:$('input[name="value"]').val()
+            contentType:'application/json'
+            ,where: {
+                like:JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始

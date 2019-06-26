@@ -23,6 +23,10 @@
   on a.announcementsExtent_departmentId = b.dep_id) a left join oas_staff b
    on a.announcements_notifierId = b.staff_id where a.dep_id = #{depId,jdbcType=INTEGER} and announcements_state = 0
   </select>
+
+  <select id="selectDep" resultMap="BaseResultMap">
+      SELECT * FROM oas_department
+  </select>
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     SELECT * FROM oas_department a WHERE a.dep_name = #{depName}
   </select>

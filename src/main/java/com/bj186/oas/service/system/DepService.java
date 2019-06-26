@@ -1,5 +1,9 @@
 package com.bj186.oas.service.system;
 
-public interface DepService {
+import com.bj186.oas.pojo.Department;
 
+import java.util.List;
+
+public interface DepService {
+    List<Department> selectDep();
 }

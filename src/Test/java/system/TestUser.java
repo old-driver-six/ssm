@@ -20,10 +20,17 @@ public class TestUser {
     @Test
     public void select(){
         Like like = new Like();
-        like.setFiled("staff_name");
-        like.setValue("张");
+        like.setuId(10004);
+        like.setFiled("dep_name");
+        like.setValue("行政部");
         like.setPageSize(10);
         like.setPageNum(1);
-        userController.select(like);
+//        userController.select(like);
     }
+    @Test
+    public void insert(){
+        userController.insert();
+    }
+
+
 }

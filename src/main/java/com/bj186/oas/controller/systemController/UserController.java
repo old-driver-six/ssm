@@ -1,11 +1,14 @@
 package com.bj186.oas.controller.systemController;
 
+import com.bj186.oas.Util.MD5;
 import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.entity.system.Like;
-import com.bj186.oas.pojo.Department;
-import com.bj186.oas.pojo.Position;
-import com.bj186.oas.pojo.Staff;
+import com.bj186.oas.entity.system.User;
+import com.bj186.oas.pojo.*;
 import com.bj186.oas.service.system.UserService;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,16 +16,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController  extends HttpServlet {
 
     @Autowired
     private UserService userService;
-
     private Integer pageSize;
     private Integer pageNum;
 
@@ -34,6 +43,13 @@ public class UserController {
     @ResponseBody
     public Staff detailed(@RequestParam Integer staffID){
         return userService.selectByPrimaryKey(staffID);
+    }
+
+    @RequestMapping("/bbb")
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        System.out.println(req.getParameter("staffId"));
     }
 
     @RequestMapping(value = {"login","login2"})
@@ -66,28 +82,51 @@ public class UserController {
     }
 
     /**
-     * 模糊查询
+     * 模糊查询 初次显示
      * @return
      */
     @RequestMapping("/select")
     @ResponseBody
     public Object select(
-//            @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
-//     ,@RequestParam(name="filed",required = true, defaultValue = "") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
-            @RequestBody Like like) {
-        System.out.println(like.getFiled());
-        System.out.println(like.getValue());
-        System.out.println(like.getPageSize());
-        System.out.println(like.getPageNum());
+          @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
+     ,@RequestParam(name="filed",required = true, defaultValue ="") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
+//            @RequestBody Like like
+          ,@RequestParam("uid") Integer uid
+    ) {
+        System.out.println(filed);
+        System.out.println(value);
+        System.out.println(uid);
+        System.out.println(pageNum);
+        System.out.println(pageSize);
+//        Like like = new Like();
+//        like.setuId(10002);
+//        like.setFiled("dep_name");
+//        like.setValue("行政部");
+//        like.setPageSize(10);
+//        like.setPageNum(1);
 
-        List<Staff> staffList = userService.select(like.getFiled(), like.getValue(), like.getPageSize(),like.getPageNum());
-//        List<Staff> staffList = userService.select("staff_name","叶", 10,1);
-        Integer count=staffList.size();
+        List<Staff> staffList;
+//        Staff staff = userService.selectByPrimaryKey(like.getuId());
+        Staff staff = userService.selectByPrimaryKey(uid);
+        System.out.println(staff.getDepartment().getDepName());
 
-        if(like.getFiled()==null||like.getValue()==null){
-            count = selectCount();
+//        staffList = userService.selectByDep(staff.getDepartment().getDepName(), like.getFiled(), like.getValue(), like.getPageSize(), like.getPageNum());
+        staffList = userService.selectByDep(staff.getDepartment().getDepName(),filed, value, pageSize, pageNum);
+
+        if(staffList==null){
+            return "你不权查询其他部门";
         }
 
+        Integer count=staffList.size();
+
+//        if(like.getFiled()==null||like.getValue()==null){
+//            count = selectCount();
+//        }
+
+        if(filed.equals("")||value.equals("")){
+            count = selectCount();
+        }
+        System.out.println(staffList);
         OAResoult<List<Staff>> oaResoult = new OAResoult();
         oaResoult.setCode(0);
         oaResoult.setMsg("");
@@ -137,26 +176,7 @@ public class UserController {
     @RequestMapping("/insert")
     @ResponseBody
     public String insert() {
-        Staff staff = new Staff();
-        staff.setStaffName("叶");
-        staff.setStaffPhone("13281989189");
-        staff.setStaffAge((byte)21);
-        staff.setStaffAdress("成都");
-        staff.setStaffBirthday(new Date());
-        staff.setStaffEmail("193572912@qq.com");
-        staff.setStaffIdntitycardid("511521199712166158");
-        staff.setStaffSex("1");
-        staff.setStaffWage("15k");
-
-        Department department = new Department();
-        department.setDepId(2);
-        staff.setDepartment(department);
-
-        Position position = new Position();
-        position.setPositionId(1);
-        staff.setPosition(position);
-
-        return userService.insert(staff);
+        return userService.insert(new User());
     }
 
     /**
