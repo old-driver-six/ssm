@@ -1,6 +1,6 @@
 package com.bj186.oas.entity.common;
 
-public class NoticeSelectAllBean {
+public class SelectAllBean {
 
     private Integer uId;
     private String field;

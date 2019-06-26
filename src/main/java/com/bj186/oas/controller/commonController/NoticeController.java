@@ -1,7 +1,7 @@
 package com.bj186.oas.controller.commonController;
 
 import com.bj186.oas.entity.common.NoticeInsertBean;
-import com.bj186.oas.entity.common.NoticeSelectAllBean;
+import com.bj186.oas.entity.common.SelectAllBean;
 import com.bj186.oas.pojo.Announcements;
 import com.bj186.oas.service.common.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ public class NoticeController {
     private NoticeService noticeService;
     @RequestMapping("/selectAll")
     @ResponseBody
-    public List<Announcements> insert(@RequestBody NoticeSelectAllBean selectAllBean){
+    public List<Announcements> insert(@RequestBody SelectAllBean selectAllBean){
         System.out.println(666);
         List<Announcements> announcements;
-        if (selectAllBean.getValue() == null){
+        if (selectAllBean.getValue() == null || selectAllBean.getField().equals("")){
             announcements = noticeService.selectAnnsByKey(selectAllBean.getuId());
         }else {
             announcements = noticeService.selectAnnsByLikeKey(selectAllBean.getuId(),selectAllBean.getField(),selectAllBean.getValue());

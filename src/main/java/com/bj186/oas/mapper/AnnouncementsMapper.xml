@@ -6,6 +6,7 @@
     <result column="announcements_date" property="announcementsDate" jdbcType="TIMESTAMP" />
     <result column="announcements_content" property="announcementsContent" jdbcType="VARCHAR" />
     <result column="announcements_notifierId" property="announcementsNotifierid" jdbcType="INTEGER" />
+    <result column="staff_name" property="notifieridName" jdbcType="INTEGER" />
     <result column="announcements_topic" property="announcementsTopic" jdbcType="VARCHAR" />
     <result column="announcements_state" property="announcementsState" jdbcType="INTEGER" />
   </resultMap>
