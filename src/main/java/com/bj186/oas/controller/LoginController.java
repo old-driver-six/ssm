@@ -60,6 +60,8 @@ public class LoginController {
             } catch (AuthenticationException ae) {
                 System.out.println(ae.getMessage());
             }
+        }else {
+            loginBean.setMsg("重复登录或登录出错！");
         }
         System.out.println(loginBean);
         return loginBean;

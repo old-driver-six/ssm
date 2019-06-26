@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("instService")
 public class InstServiceImpl implements InstService {
@@ -16,8 +17,13 @@ public class InstServiceImpl implements InstService {
     private RuleMapper ruleMapper;
 
     @Override
-    public List<Rule> selectRuleAll() {
-        return ruleMapper.selectAll();
+    public List<Rule> selectRuleAll(Map map) {
+        if (map.get("field") == null || map.get("value") == null || map.get("field").equals("") || map.get("value").equals("")){
+            return ruleMapper.selectAll();
+        }else {
+            return ruleMapper.selectAllVague(map);
+        }
+
     }
 
     @Override

@@ -21,7 +21,7 @@ public class Rule {
     /**
      * 制定人
      */
-    private String ruleCreator;
+    private String ruleName;
 
     /**
      * 发布时间
@@ -95,16 +95,16 @@ public class Rule {
      * 制定人
      * @return rule_creator 制定人
      */
-    public String getRuleCreator() {
-        return ruleCreator;
+    public String getRuleName() {
+        return ruleName;
     }
 
     /**
      * 制定人
      * @param ruleCreator 制定人
      */
-    public void setRuleCreator(String ruleCreator) {
-        this.ruleCreator = ruleCreator == null ? null : ruleCreator.trim();
+    public void setRuleName(String ruleCreator) {
+        this.ruleName = ruleCreator == null ? null : ruleCreator.trim();
     }
 
     /**

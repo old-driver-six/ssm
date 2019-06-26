@@ -5,7 +5,7 @@
     <id column="rule_id" property="ruleId" jdbcType="INTEGER" />
     <result column="rule_departmentId" property="ruleDepartmentid" jdbcType="INTEGER" />
     <result column="rule_creatorId" property="ruleCreatorid" jdbcType="INTEGER" />
-    <result column="rule_creator" property="ruleCreator" jdbcType="VARCHAR" />
+    <result column="staff_name" property="ruleName" jdbcType="VARCHAR" />
     <result column="rule_releaseDate" property="ruleReleasedate" jdbcType="TIMESTAMP" />
     <result column="rule_title" property="ruleTitle" jdbcType="VARCHAR" />
     <result column="rule_state" property="ruleState" jdbcType="INTEGER" />
@@ -29,11 +29,14 @@
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from oas_rule where rule_state = 0
+    SELECT * FROM
+  oas_rule a left join oas_staff b
+  on a.rule_creatorId = b.staff_id where rule_state = 0
+  </select>
+  <select id="selectAllVague" resultMap="ResultMapWithBLOBs" parameterType="Map">
+    SELECT * FROM
+  oas_rule a left join oas_staff b
+  on a.rule_creatorId = b.staff_id where rule_state = 0 and ${field} like ${value}
   </select>
   <select id="selectRuleByCreatorId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
     select
