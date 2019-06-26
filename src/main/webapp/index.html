@@ -15,10 +15,14 @@
     <link rel="stylesheet" href="statics/layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <script src="statics/js/jquery.min.js"></script>
+    <script src="statics/js/jquery.cookie.js"></script>
+    <script src="statics/js/jquery.cookies.2.2.0.js"></script>
     <script src="statics/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="statics/js/xadmin.js"></script>
     <script>
         $(function () {
+            console.log($.cookie("name"))
+            $("a#user_name").html($.cookie('name'))
             $.ajax({
                 type: "POST",
                 url: "/user/select",
@@ -123,7 +127,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="public/test.html" class="title-send">
+                        <a _href="statics/html/public/test.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>通知公告</cite>
                         </a>

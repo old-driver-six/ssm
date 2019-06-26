@@ -107,6 +107,16 @@ public class NoticeServiceImpl implements NoticeService {
         return announcements;
     }
 
+    @Override
+    public Announcements selectAnn(Integer annId) {
+        return annMapper.selectByPrimaryKey(annId);
+    }
+
+    @Override
+    public Staff selectByPhoneKey(String phone) {
+        return staffMapper.selectByPhoneKey(phone);
+    }
+
 
     public Integer judgePower(Integer uId,List<String> depNames){
         boolean isOk = false;

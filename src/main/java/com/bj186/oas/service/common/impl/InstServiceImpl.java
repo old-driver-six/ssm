@@ -26,6 +26,11 @@ public class InstServiceImpl implements InstService {
     }
 
     @Override
+    public Rule selectRule(Integer ruleId) {
+        return ruleMapper.selectByPrimaryKey(ruleId);
+    }
+
+    @Override
     public Integer insertRule(Integer uId, Rule rule) {
         //获取用户特征
         Staff staff = staffMapper.selectByPrimaryKey(uId);

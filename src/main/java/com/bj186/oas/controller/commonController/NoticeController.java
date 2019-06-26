@@ -31,9 +31,9 @@ public class NoticeController {
     }
     @RequestMapping("/insert")
     @ResponseBody
-    public String selectAll(@RequestBody Announcements announcements){
-        announcements.setAnnouncementsNotifierid(announcements.getuId());
-        Integer integer = noticeService.insertAnn(announcements.getuId(), announcements, announcements.getDepartments());
+    public String selectAll(@RequestBody NoticeInsertBean noticeInsertBean){
+        noticeInsertBean.setAnnouncementsNotifierid(noticeInsertBean.getuId());
+        Integer integer = noticeService.insertAnn(noticeInsertBean.getuId(), noticeInsertBean, noticeInsertBean.getDepNames());
         System.out.println(integer);
         if (integer == 0){
             return "添加失败！";
@@ -41,5 +41,16 @@ public class NoticeController {
             return "没有权限！";
         }
         return "添加成功";
+    }
+    @RequestMapping("/selectDetails")
+    @ResponseBody
+    public Announcements selectAnn(@RequestBody Announcements announcements){
+        return noticeService.selectAnn(announcements.getAnnouncementsId());
+    }
+    @RequestMapping("/update")
+    @ResponseBody
+    public Integer updateAnn(@RequestBody NoticeInsertBean noticeInsertBean){
+        int i = noticeService.updateByPrimaryKey(noticeInsertBean.getuId(), noticeInsertBean, noticeInsertBean.getDepNames());
+        return i;
     }
 }

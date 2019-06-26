@@ -47,5 +47,6 @@ public interface AnnouncementsMapper {
     List<Announcements> selectAll();
     List<Announcements> selectAllVague(Map map);
     List<Announcements> selectAnnsByNotifier(Integer notifierId);
+    List<Announcements> selectByDepId(Integer depId);
 
 }

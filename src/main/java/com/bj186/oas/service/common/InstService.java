@@ -16,6 +16,11 @@ public interface InstService {
      */
     List<Rule> selectRuleByCreatorId(Integer uId);
     /**
+     * 查询制度详细信息
+     * @return
+     */
+    Rule selectRule(Integer ruleId);
+    /**
      * 发布制度（包含权限判定）
      * @param rule
      * @return

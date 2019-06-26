@@ -2,6 +2,8 @@ package com.bj186.oas.service.common;
 
 import com.bj186.oas.pojo.Announcements;
 import com.bj186.oas.pojo.Department;
+import com.bj186.oas.pojo.Rule;
+import com.bj186.oas.pojo.Staff;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,4 +43,11 @@ public interface NoticeService {
      * @return
      */
     List<Announcements> selectAnnsByNotifier(Integer uId);
+    /**
+     * 查询公告详细信息
+     * @return
+     */
+    Announcements selectAnn(Integer annId);
+
+    Staff selectByPhoneKey(String phone);
 }
