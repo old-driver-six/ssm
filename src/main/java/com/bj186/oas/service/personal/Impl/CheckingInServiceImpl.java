@@ -42,4 +42,28 @@ public class CheckingInServiceImpl implements CheckingInService {
             return null;
         }
     }
+
+    /**
+     * 修改考勤表
+     * @param uId
+     * @param checkingIn
+     * @return
+     */
+    @Override
+    public Integer updateChecking(Integer uId,CheckingIn checkingIn) {
+        Staff staff = staffMapper.selectByPrimaryKey(uId);
+        Integer depId = staff.getDepartment().getDepId();
+        if (depId == 1){
+            int i = checkingInMapper.updateByPrimaryKeySelective(checkingIn);
+            return  i;
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertChecking(Integer uid, CheckingIn checkingIn) {
+        return null;
+    }
+
+
 }
