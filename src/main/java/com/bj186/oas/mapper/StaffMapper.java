@@ -64,4 +64,8 @@ public interface StaffMapper {
      * 通过员工id查询他的职务
      */
     String SelPsot(Integer sid);
+
+
+    Staff selectByPhoneKey(String phone);
+
 }

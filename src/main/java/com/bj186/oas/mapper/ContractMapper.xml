@@ -53,9 +53,9 @@
       like ${value}
     </if>
   </where>
-  <if test="pageNow!=null">
-    <if test="pageLimit!=null">
-      LIMIT #{pageNow},#{pageLimit}
+  <if test="LimitParameter_1!=null">
+    <if test="LimitParameter_2!=null">
+      LIMIT #{LimitParameter_1},#{LimitParameter_2}
     </if>
   </if>
 </select>

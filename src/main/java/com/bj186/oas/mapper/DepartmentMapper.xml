@@ -17,10 +17,11 @@
     dep_id, dep_name, dep_managerid, dep_number, dep_describe
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-  SELECT * FROM (SELECT * FROM
+   SELECT * FROM (SELECT * FROM (SELECT * FROM
   oas_announcementsextent a left join oas_announcements b
   on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
-  on a.announcementsExtent_departmentId = b.dep_id where a.dep_id = #{depId,jdbcType=INTEGER}
+  on a.announcementsExtent_departmentId = b.dep_id) a left join oas_staff b
+   on a.announcements_notifierId = b.staff_id where a.dep_id = #{depId,jdbcType=INTEGER} and announcements_state = 0
   </select>
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     SELECT * FROM oas_department a WHERE a.dep_name = #{depName}

@@ -3,6 +3,7 @@ package com.bj186.oas.mapper;
 import com.bj186.oas.pojo.Rule;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RuleMapper {
     /**
@@ -48,6 +49,10 @@ public interface RuleMapper {
     int updateByPrimaryKey(Rule record);
 
     List<Rule> selectAll();
+
+
+    List<Rule> selectAllVague(Map map);
+
 
     List<Rule> selectRuleByCreatorId(Integer integer);
 }

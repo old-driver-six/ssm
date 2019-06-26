@@ -2,9 +2,11 @@ package com.bj186.oas.pojo;
 
 import com.bj186.oas.entity.common.NoticeInsertBean;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Announcements extends NoticeInsertBean {
+public class Announcements{
     /**
      * 公告ID
      */
@@ -25,6 +27,27 @@ public class Announcements extends NoticeInsertBean {
      */
     private Integer announcementsNotifierid;
 
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public String getNotifieridName() {
+        return notifieridName;
+    }
+
+    public void setNotifieridName(String notifieridName) {
+        this.notifieridName = notifieridName;
+    }
+
+    /**
+     * 通告人名称
+     */
+    private String notifieridName;
+
     /**
      * 公告标题
      */
@@ -34,6 +57,11 @@ public class Announcements extends NoticeInsertBean {
      * 
      */
     private Integer announcementsState;
+
+    /**
+     *可见部门
+     */
+    private List<Department> departments = new ArrayList<>();
 
     /**
      * 公告ID

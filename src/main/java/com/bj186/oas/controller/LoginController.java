@@ -1,8 +1,12 @@
 package com.bj186.oas.controller;
 
 import com.bj186.oas.Util.MD5;
+import com.bj186.oas.entity.LoginBean;
+import com.bj186.oas.entity.common.SelectAllBean;
 import com.bj186.oas.mapper.UsersMapper;
+import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.pojo.Users;
+import com.bj186.oas.service.common.NoticeService;
 import com.bj186.oas.shiro.MyLogoutFilter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -25,32 +29,43 @@ public class LoginController {
     UsersMapper usersMapper;
     @Autowired
     MyLogoutFilter myLogoutFilter;
+    @Autowired
+    NoticeService noticeService;
 
     @RequestMapping(value = "/login")
     @ResponseBody
-    public String selectUser(@RequestBody Users users) {
+    public LoginBean selectUser(@RequestBody Users users) {
+        LoginBean loginBean = new LoginBean();
         System.out.println(666);
         System.out.println("username=" + users.getUsersPhone());
         System.out.println("password=" + users.getUsersPassword());
-
         Subject currentUser = SecurityUtils.getSubject();     //被shiro管理的对象                                // shiro权限认证主体对象
         if (!currentUser.isAuthenticated()) {  // 是否可以被认证
             UsernamePasswordToken upToken = new UsernamePasswordToken(users.getUsersPhone(), users.getUsersPassword());    // shiro权限认证类型
             upToken.setRememberMe(true);                                                     // 用户登录时效性
             try {
                 currentUser.login(upToken);    // 调用realm认证用户权限
-                return "success";
+                loginBean.setMsg("success");
+                System.out.println(loginBean);
+                Staff staff = noticeService.selectByPhoneKey(users.getUsersPhone());
+                System.out.println(staff);
+                loginBean.setDepName(staff.getDepartment().getDepName());
+                loginBean.setStaffName(staff.getStaffName());
+                loginBean.setuId(staff.getStaffId());
             } catch (IncorrectCredentialsException ice) {
-                return "密码错误！";
+                loginBean.setMsg("密码错误！");
             } catch (LockedAccountException lae) {
-                return "账户已被冻结！";
+                loginBean.setMsg("账户已被冻结！");
             } catch (UnknownAccountException uae) {
-                return "用户名不存在！";
+                loginBean.setMsg("用户名不存在！");
             } catch (AuthenticationException ae) {
                 System.out.println(ae.getMessage());
             }
+        }else {
+            loginBean.setMsg("重复登录或登录出错！");
         }
-        return "登录失败！";
+        System.out.println(loginBean);
+        return loginBean;
     }
 
     @RequestMapping(value = "/logout")
@@ -63,6 +78,13 @@ public class LoginController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @RequestMapping(value = "/lo")
+    @ResponseBody
+    public void lo(@RequestBody SelectAllBean selectAllBean) {
+        System.out.println(selectAllBean.getuId());
+
     }
 
     @RequestMapping(value = "/reg")

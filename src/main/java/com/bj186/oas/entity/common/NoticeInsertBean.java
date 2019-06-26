@@ -4,9 +4,9 @@ import com.bj186.oas.pojo.Announcements;
 
 import java.util.List;
 
-public class NoticeInsertBean{
+public class NoticeInsertBean extends Announcements{
     private Integer uId;
-    private List<String> departments;
+    private List<String> depNames;
 
     public Integer getuId() {
         return uId;
@@ -16,11 +16,11 @@ public class NoticeInsertBean{
         this.uId = uID;
     }
 
-    public List<String> getDepartments() {
-        return departments;
+    public List<String> getDepNames() {
+        return depNames;
     }
 
-    public void setDepartments(List<String> departments) {
-        this.departments = departments;
+    public void setDepNames(List<String> departments) {
+        this.depNames = departments;
     }
 }
