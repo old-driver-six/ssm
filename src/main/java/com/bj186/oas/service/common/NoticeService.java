@@ -1,9 +1,11 @@
 package com.bj186.oas.service.common;
 
+import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.pojo.Announcements;
 import com.bj186.oas.pojo.Department;
 import com.bj186.oas.pojo.Rule;
 import com.bj186.oas.pojo.Staff;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ public interface NoticeService {
      * @param uId
      * @return
      */
-    List<Announcements> selectAnnsByNotifier(Integer uId);
+    OAResoult selectAnnsByNotifier(Integer uId, Integer page, Integer limit,String field,String value);
     /**
      * 查询公告详细信息
      * @return

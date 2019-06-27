@@ -14,7 +14,7 @@
     <result column="rule_content" property="ruleContent" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    rule_id, rule_departmentId, rule_creatorId, rule_creator, rule_releaseDate, rule_title, 
+    rule_id,rule_creatorId, rule_creator, rule_releaseDate, rule_title,
     rule_state
   </sql>
   <sql id="Blob_Column_List" >
@@ -22,9 +22,7 @@
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    *
     from oas_rule
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </select>
@@ -38,12 +36,15 @@
   oas_rule a left join oas_staff b
   on a.rule_creatorId = b.staff_id where rule_state = 0 and ${field} like ${value}
   </select>
-  <select id="selectRuleByCreatorId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from oas_rule where rule_state = 0 and rule_creatorId = #{creatorId}
+  <select id="selectRuleByCreatorId" resultMap="ResultMapWithBLOBs" parameterType="Map">
+    SELECT * FROM oas_rule a left join oas_staff b
+    on a.rule_creatorId = b.staff_id where rule_creatorId = #{uId}
+    <if test="field!=''">
+      and ${field} like ${value}
+    </if>
+    <if test="page!=null">
+      limit #{page},#{limit}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_rule
@@ -142,7 +143,6 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Rule" >
     update oas_rule
     set  rule_creatorId = #{ruleCreatorid,jdbcType=INTEGER},
-      rule_creator = #{ruleCreator,jdbcType=VARCHAR},
       rule_releaseDate = #{ruleReleasedate,jdbcType=TIMESTAMP},
       rule_title = #{ruleTitle,jdbcType=VARCHAR},
       rule_state = #{ruleState,jdbcType=INTEGER},

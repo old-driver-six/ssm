@@ -48,6 +48,10 @@
                     });
                 }
             })
+            $('button#button2').click(function () {
+                console.log(666)
+                $(location).attr("href", 'my-inst.html')
+            })
             $('button#search').click(function () {
 
                 var json = {'uId':$.cookie("uId"),'field':$('select#select1').val(),'value':$('input#value').val()}
@@ -112,7 +116,7 @@
                 <div class="layui-input-inline">
                     <button id="search" class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
                 </div>
-                <button class="layui-btn layui-btn-primary" style="float: right">我的制度</button>
+                <button id="button2" class="layui-btn layui-btn-primary" style="float: right">我的制度</button>
             </div>
         </div>
 </div>

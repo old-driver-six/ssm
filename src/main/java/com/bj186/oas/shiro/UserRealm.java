@@ -60,8 +60,7 @@ public class UserRealm extends AuthorizingRealm {
         System.out.println("AuthorizationInfo principal=" + principal);
         for (Power power : powerList) {
             if("公告发布".equals(power.getPowerName())){
-                info.addRole("admin");
-                info.addRole("call");
+                info.addRole("notice");
             }
             if("制度发布".equals(power.getPowerName())){
                 info.addRole("admin");

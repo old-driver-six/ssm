@@ -34,11 +34,11 @@ public class NoticeTest {
         List<Announcements> announcements = noticeService.selectAnnsByKey(10001);
         System.out.println(announcements);
     }
-    @Test
-    public void selectAnnsByNotifier(){
-        List<Announcements> announcements = noticeService.selectAnnsByNotifier(10001);
-        System.out.println(announcements);
-    }
+//    @Test
+//    public void selectAnnsByNotifier(){
+//        List<Announcements> announcements = noticeService.selectAnnsByNotifier(10001);
+//        System.out.println(announcements);
+//    }
     @Test
     public void updateByPrimaryKey(){
         AnnouncementsMapper annMapper = context.getBean(AnnouncementsMapper.class);

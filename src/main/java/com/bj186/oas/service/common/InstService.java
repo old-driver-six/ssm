@@ -1,5 +1,6 @@
 package com.bj186.oas.service.common;
 
+import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.pojo.Rule;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public interface InstService {
      * @param uId
      * @return
      */
-    List<Rule> selectRuleByCreatorId(Integer uId);
+    OAResoult selectRuleByCreatorId(Integer uId, Integer page, Integer limit, String field, String value);
     /**
      * 查询制度详细信息
      * @return

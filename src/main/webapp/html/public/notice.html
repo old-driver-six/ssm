@@ -49,6 +49,9 @@
                     });
                 }
             })
+            $('button#button2').click(function () {
+                $(location).attr("href", 'my-notice.html')
+            })
             $('button#search').click(function () {
 
                 var json = {'uId':$.cookie("uId"),'field':$('select#select1').val(),'value':$('input#value').val()}
@@ -97,7 +100,7 @@
 <div class="x-body">
     <div class="layui-row">
         <div class="layui-row">
-            <div class="layui-form layui-col-md12 x-so>
+            <div class="layui-form layui-col-md12 x-so">
                 <div class="layui-col-md6" style="width: 150px">
                     <select id="select1" name="city" lay-verify="">
                         <option value="">请选择搜索条件</option>
@@ -114,7 +117,7 @@
                 <div class="layui-input-inline">
                     <button id="search" class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
                 </div>
-                <button class="layui-btn layui-btn-primary" style="float: right">我的公告</button>
+                <button id="button2" class="layui-btn layui-btn-primary" style="float: right">我的公告</button>
             </div>
         </div>
 </div>

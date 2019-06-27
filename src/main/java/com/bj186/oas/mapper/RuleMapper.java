@@ -54,5 +54,5 @@ public interface RuleMapper {
     List<Rule> selectAllVague(Map map);
 
 
-    List<Rule> selectRuleByCreatorId(Integer integer);
+    List<Rule> selectRuleByCreatorId(Map map);
 }
