@@ -134,6 +134,22 @@ public class UserServiceImpl implements UserService {
         return -1;
     }
 
+    @Override
+    public Integer Departure(Integer staffID) {
+        if( usersMapper.Departure(staffID)==1){
+            return 200;
+        }
+        return -1;
+    }
+
+    @Override
+    public Integer Reinstatement(Integer staffID) {
+        if( usersMapper.Reinstatement(staffID)==1){
+            return 200;
+        }
+        return -1;
+    }
+
     /**
      *  插入员工方法
      * @param user
@@ -187,15 +203,51 @@ public class UserServiceImpl implements UserService {
 
     /**
      *  修改信息 必须包含所有信息 建议查询信息进行修改
-     * @param staff
+     * @param user
      * @return success 成功 error 失败
      */
     @Override
-    public String update(Staff staff) {
-        if( staffMapper.updateByPrimaryKey(staff)==1){
-            return "success";
+    public String update(User user) {
+
+        Staff staff = new Staff();
+
+        staff.setStaffName(user.getStaffName());
+        staff.setStaffPhone(user.getStaffPhone());
+        staff.setStaffAge(user.getStaffAge());
+        staff.setStaffAdress(user.getStaffAdress());
+        staff.setStaffBirthday(user.getStaffBirthday());
+        staff.setStaffEmail(user.getStaffEmail());
+        staff.setStaffIdntitycardid(user.getStaffIdntitycardid());
+        staff.setStaffSex(user.getStaffSex());
+        staff.setStaffWage(user.getStaffWage());
+
+        Department department = new Department();
+        department.setDepId(user.getDepId());
+        staff.setDepartment(department);
+
+        Position position = new Position();
+        position.setPositionId(user.getPositionId());
+        staff.setPosition(position);
+
+
+        staffMapper.updateByPrimaryKeySelective(staff);
+
+        for (int i : user.getPowerIdList()) {
+            StaffPower staffPower = new StaffPower();
+            staffPower.setSpPowerid(i);
+            staffPower.setSpStaffid(staff.getStaffId());
+            staffPowerMapper.updateByPrimaryKeySelective(staffPower);
         }
-        return "error";
+
+        Users users = new Users();
+        String md5 = MD5.getMd5(staff.getStaffPhone(), staff.getStaffPhone().substring(5));
+        users.setUsersPassword(md5);
+        users.setUsersPhone(staff.getStaffPhone());
+        users.setUsersState("0");
+
+        usersMapper.updateByPrimaryKeySelective(users);
+
+        return "success";
     }
 
     /**

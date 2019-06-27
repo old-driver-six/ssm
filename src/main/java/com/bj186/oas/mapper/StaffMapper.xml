@@ -35,11 +35,11 @@
     staff_positionID, staff_adress, staff_wage, staff_email, staff_depID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-   SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
-oas_staff a left join oas_department b
-on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
-left join oas_staffpower b on a.staff_id = b.sp_staffID)a
-left join oas_power b on a.sp_powerID = b.power_id where a.staff_id = #{id}
+     SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
+        oas_staff a left join oas_department b
+        on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
+        left join oas_staffpower b on a.staff_id = b.sp_staffID)a
+        left join oas_power b on a.sp_powerID = b.power_id)a LEFT JOIN oas_users b on a.staff_phone = b.users_phone where staff_id=#{id}
   </select>
   <select id="selectByPhoneKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
    SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM

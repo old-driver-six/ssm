@@ -16,7 +16,8 @@
     <script src="../../../statics/js/jquery.min.js"></script>
     <script src="../../../statics/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../../statics/js/xadmin.js"></script>
-
+    <script src="../../../statics/js/jquery.cookie.js"></script>
+    <script src="../../../statics/js/jquery.cookies.2.2.0.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -77,74 +78,40 @@
             </div>
             </div>
         </div>
-
     </script>
 </div>
 </div>
 <script>
-    $.ajax({
-        url: "/user/select"
-        ,type: "post",    //访问方式
-        data:JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1}),
-        dataType: "json",
-        contentType:'application/json',
-        success: function (data) {
-            var tableIns;
-            var json = {'uid':10001,'filed':'staff_name','vlaue':'叶'}
-            layui.use(['table'], function(){
-                var table = layui.table;
-                var $=layui.$;
-                tableIns =table.render({
-                    elem: '#demo'
-                    ,id:'idTest'
-                    ,data:data
-                    ,page:true
-                    // ,method:'post'
-                    ,limits:[5,10,15]
-                    ,limit:10
-                    ,size:'lg'
-                    ,cols: [[
-                        {type:'checkbox',fixed: 'left'}
-                        ,{field: 'staffId', title: 'ID', sort: true, fixed: 'left'}
-                        ,{field: 'staffName', title: '姓名',fixed: 'left'}
-                        ,{field: 'department', title: '部门',fixed: 'left',templet: '<div>{{d.department.depName}}</div>'}
-                        ,{field: 'position', title: '职位',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
-                        ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
-                    ]]
-                });
-
-    // var tableIns;
-    // var json = {'uid':10001,'filed':'staff_name','vlaue':'叶'}
-    // layui.use(['table'], function(){
-    //     var table = layui.table;
-    //     var $=layui.$;
-    //     tableIns =table.render({
-    //         elem: '#demo'
-    //         ,id:'idTest'
-    //         ,url:'/user/select'
-    //         ,page:true
-    //         // ,method:'post'
-    //         ,limits:[5,10,15]
-    //         ,limit:10
-    //         ,size:'lg'
-    //         ,cols: [[
-    //             {type:'checkbox',fixed: 'left'}
-    //             ,{field: 'staffId', title: 'ID', sort: true, fixed: 'left'}
-    //             ,{field: 'staffName', title: '姓名',fixed: 'left'}
-    //             ,{field: 'department', title: '部门',fixed: 'left',templet: '<div>{{d.department.depName}}</div>'}
-    //             ,{field: 'position', title: '职位',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
-    //             ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
-    //         ]]
-    //         // ,contentType:'application/json'
-    //         // ,request:json
-    //         ,where:
-    //             // JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
-    //             // {aa:JSON.stringify({'uid':'10001'})}
-    //
-    //             {
-    //                 uid:10001
-    //             }
-    //     });
+    var tableIns;
+    layui.use(['table'], function(){
+        var table = layui.table;
+        var $=layui.$;
+        tableIns =table.render({
+            elem: '#demo'
+            ,id:'idTest'
+            ,url:'/user/select'
+            ,page:true
+            // ,method:'post'
+            ,limits:[5,10,15]
+            ,limit:10
+            ,size:'lg'
+            ,cols: [[
+                {type:'checkbox',fixed: 'left'}
+                ,{field: 'staffId', title: 'ID', sort: true, fixed: 'left'}
+                ,{field: 'staffName', title: '姓名',fixed: 'left'}
+                ,{field: 'department', title: '部门',fixed: 'left',templet: '<div>{{d.department.depName}}</div>'}
+                ,{field: 'position', title: '职位',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
+                ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
+            ]]
+            // ,contentType:'application/json'
+            // ,request:json
+            ,where:
+                // JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
+                // {aa:JSON.stringify({'uid':'10001'})}
+                {
+                    uId:$.cookie('uId'),
+                }
+        });
 
         //监听删除事件
         table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -178,19 +145,22 @@
                     })
                 });
             }
+            else if(layEvent ==='detailed')
+                var staffId = data.staffId
+            console.log(staffId)
+                x_admin_show('员工详情','/user/detailed?staffId='+staffId,800);
         });
     });
-
-        }
-    })
     //模糊查询方法
     function likeFind () {
         console.log($('select[name="filed"]').val())
         console.log($('input[name="value"]').val())
         tableIns.reload({//重载表格
-            contentType:'application/json'
-            ,where: {
-                like:JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
+            // // contentType:'application/json'
+                where: {
+                uid:$.cookie('uId'),
+                filed:$('select[name="filed"]').val(),
+                value:$('input[name="value"]').val(),
             }
             ,page: {
                 curr: 1 //重新从第 1 页开始

@@ -33,10 +33,11 @@ public class UserController  extends HttpServlet {
      * 根据ID查询员工 详细信息
      * @return staff 员工对象
      */
-    @RequestMapping("/detailed")
+    @RequestMapping("/selectByPrimaryKey")
     @ResponseBody
-    public Staff detailed(@RequestParam Integer staffID){
-        return userService.selectByPrimaryKey(staffID);
+    public Staff selectByPrimaryKey(@RequestBody Staff staff){
+        System.out.println(staff.getStaffId());
+        return userService.selectByPrimaryKey(staff.getStaffId());
     }
 
     @RequestMapping("/bbb")
@@ -46,20 +47,18 @@ public class UserController  extends HttpServlet {
         System.out.println(req.getParameter("staffId"));
     }
 
-    @RequestMapping(value = {"login","login2"})
-    public String login() {
-        System.out.println("view here");
+    @RequestMapping("index")
+    public String index() {
         return "/system/user-management";
     }
 
-    @RequestMapping("login3")
-    public String login3() {
-        System.out.println("view here");
-        return "/system/test";
+    @RequestMapping("detailed")
+    public String detailed() {
+        return "/system/detailed";
     }
 
-    @RequestMapping("/index")
-    public String index() {
+    @RequestMapping("/index2")
+    public String index2() {
         System.out.println("view here");
         return "/statics/html/index2.html";
     }
@@ -85,11 +84,11 @@ public class UserController  extends HttpServlet {
           @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
      ,@RequestParam(name="filed",required = true, defaultValue ="") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
 //            @RequestBody Like like
-          ,@RequestParam("uid") Integer uid
+          ,@RequestParam("uId") Integer uId
     ) {
         System.out.println(filed);
         System.out.println(value);
-        System.out.println(uid);
+        System.out.println(uId);
         System.out.println(pageNum);
         System.out.println(pageSize);
 //        Like like = new Like();
@@ -101,7 +100,7 @@ public class UserController  extends HttpServlet {
 
         List<Staff> staffList;
 //        Staff staff = userService.selectByPrimaryKey(like.getuId());
-        Staff staff = userService.selectByPrimaryKey(uid);
+        Staff staff = userService.selectByPrimaryKey(uId);
         System.out.println(staff.getDepartment().getDepName());
 
 //        staffList = userService.selectByDep(staff.getDepartment().getDepName(), like.getFiled(), like.getValue(), like.getPageSize(), like.getPageNum());
@@ -185,22 +184,12 @@ public class UserController  extends HttpServlet {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public String update() {
-        Staff staff = new Staff();
-        staff.setStaffId(10005);
-        staff.setStaffName("叶");
-        staff.setStaffPhone("13281989189");
-        staff.setStaffAge((byte)21);
-        staff.setStaffAdress("成都");
-        staff.setStaffBirthday(new Date());
-        staff.setStaffEmail("193572912@qq.com");
-        staff.setStaffIdntitycardid("511521199712166158");
+    public String update(@RequestBody User user) {
+        if(userService.update(user).equals("success"))
+            return "修改成功";
+        else
+            return "修改失败";
 
-        Department department = new Department();
-        department.setDepId(2);
-        staff.setDepartment(department);
-
-        return userService.update(staff);
     }
 
     /**

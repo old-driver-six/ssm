@@ -13,10 +13,28 @@ public interface UserService {
    List<Staff> selectByDep(String depName,String filed, String value,Integer pageSize, Integer pageNum);
    List<Staff> selectAll();
    String insert(User user);
-   String update(Staff staff);
+   String update(User user);
    String delete(Integer staffID);
    String updateByPrimaryKeySelective(Staff staff);
    Integer selectCount(String tableName);
+
+   /**
+    * 停职
+    * @param staffID
+    * @return
+    */
    Integer Suspension(Integer staffID);
+   /**
+    * 离职
+    * @param staffID
+    * @return
+    */
+   Integer Departure(Integer staffID);
+   /**
+    * 复职
+    * @param staffID
+    * @return
+    */
+   Integer Reinstatement(Integer staffID);
    Users selectUsersByKey(String phone);
 }

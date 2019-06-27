@@ -15,8 +15,13 @@ public interface UsersMapper {
      */
     int insert(Users record);
 
-//停职
+    //停职
     int Suspension(Integer usersID);
+    //离职
+    int Departure(Integer usersID);
+    //复职
+    int Reinstatement(Integer usersID);
+
 
     /**
      *
