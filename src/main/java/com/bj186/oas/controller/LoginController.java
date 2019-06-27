@@ -2,6 +2,7 @@ package com.bj186.oas.controller;
 
 import com.bj186.oas.Util.MD5;
 import com.bj186.oas.entity.LoginBean;
+import com.bj186.oas.entity.common.SelectAllBean;
 import com.bj186.oas.mapper.UsersMapper;
 import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.pojo.Users;
@@ -77,6 +78,13 @@ public class LoginController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @RequestMapping(value = "/lo")
+    @ResponseBody
+    public void lo(@RequestBody SelectAllBean selectAllBean) {
+        System.out.println(selectAllBean.getuId());
+
     }
 
     @RequestMapping(value = "/reg")

@@ -10,15 +10,15 @@
     <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
     <!-- layui等css -->
     <link rel="stylesheet" href=../../../statics/css/font.css">
-    <link rel="stylesheet" href="../../css/xadmin.css">
-    <link rel="stylesheet" href="../../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../statics/css/xadmin.css">
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-    <script src="../../js/jquery.min.js"></script>
-    <script src="../../layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../js/xadmin.js"></script>
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../statics/js/xadmin.js"></script>
 
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -70,13 +70,16 @@
 </script>
 <script>
     var tableIns;
+    console.log(666)
     layui.use(['table'], function(){
         var table = layui.table;
         var $=layui.$;
         tableIns =table.render({
             elem: '#demo'
             ,id:'idTest'
-            ,url:'/servletSeat'
+            ,type:'post'
+            ,contentType:'application/json'
+            ,url:'/lo'
             ,page:true
             ,limits:[5,10,15]
             ,limit:10
@@ -89,6 +92,7 @@
                         }
                 }
             }
+            ,where: {'uid': 123}
             ,cols: [[
                 {type:'checkbox',fixed: 'left'}
                 ,{field: 'title', title: '标题', sort: true, fixed: 'left'}

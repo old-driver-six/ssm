@@ -14,6 +14,8 @@
     <result column="staff_wage" property="staffWage" jdbcType="VARCHAR" />
     <result column="staff_email" property="staffEmail" jdbcType="VARCHAR" />
 
+    <result column="users_state" property="state" javaType="INTEGER"/>
+
     <association property="department" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></association>
     <association property="position" resultMap="com.bj186.oas.mapper.PositionMapper.BaseResultMap"></association>
 
@@ -62,15 +64,35 @@ left join oas_power b on a.sp_powerID = b.power_id where staff_phone = #{id}
     left join oas_staffpower b on a.staff_id = b.sp_staffID)a
     left join oas_power b on a.sp_powerID = b.power_id
     <where>
-      <if test="filed!=''">
+      <if test="filed!=null">
         and ${filed}
       </if>
-      <if test="value!= '\'%%\'' ">
+      <if test="value!= '\'%null%\'' ">
         like ${value}
       </if>
     </where>
     limit #{start},#{end}
   </select>
+
+    <select id="selectByDep" parameterType="map" resultMap="BaseResultMap">
+        SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
+        oas_staff a left join oas_department b
+        on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
+        left join oas_staffpower b on a.staff_id = b.sp_staffID)a
+        left join oas_power b on a.sp_powerID = b.power_id)a LEFT JOIN oas_users b on a.staff_phone = b.users_phone
+        <where>
+            <if test="depName!='董事局'">
+               and dep_name = #{depName}
+            </if>
+            <if test="filed!=''">
+                and ${filed}
+            </if>
+            <if test="value!= '\'%%\''">
+                like ${value}
+            </if>
+        </where>
+      limit #{start},#{end}
+    </select>
 
   <select id="selectAll" resultMap="BaseResultMap">
    SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM

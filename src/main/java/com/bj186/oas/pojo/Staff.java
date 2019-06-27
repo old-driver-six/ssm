@@ -75,6 +75,16 @@ public class Staff {
      */
     private List<Power> powerList = new ArrayList<>();
 
+    private Integer state;
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     public Department getDepartment() {
         return department;
     }
