@@ -22,9 +22,8 @@ public class TestCheckingIn {
 
     @Test
     public void selectTest() {
-        List<CheckingIn> checkingIns = checkingInService.selectCheckingInByRequirement(10001, 10001, "2019-06-01 00:00:00"
-                , "2019-06-30 23:59:59", "1", "10");
-        System.out.println(checkingIns);
+
+
     }
 
     @Test

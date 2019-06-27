@@ -25,13 +25,48 @@
       <if test="endTime!='\'null\''">
         AND checkingin_sendTime &lt;= ${endTime}
       </if>
+      <if test="oneTime!='\'null\''">
+         checkingin_startTime = ${oneTime}
+      </if>
+    </where>
     <if test="LimitParameter_1!=null">
       <if test="LimitParameter_2!=null">
         LIMIT #{LimitParameter_1},#{LimitParameter_2}
       </if>
     </if>
-    </where>
   </select>
+
+  <select id="countCheckingIn" parameterType="map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM( select
+    <include refid="Base_Column_List" />
+    from oas_checkingin
+    <where>
+      <if test="checkstaffId!=null">
+        check_staff_id = #{checkstaffId}
+      </if>
+      <if test="startTime!='\'null\''">
+        AND checkingin_startTime &gt;= ${startTime}
+      </if>
+      <if test="endTime!='\'null\''">
+        AND checkingin_sendTime &lt;= ${endTime}
+      </if>
+      <if test="oneTime!='\'null\''">
+        checkingin_startTime = ${oneTime}
+      </if>
+    </where>
+    <if test="LimitParameter_1!=null">
+      <if test="LimitParameter_2!=null">
+        LIMIT #{LimitParameter_1},#{LimitParameter_2}
+      </if>
+    </if>)
+  </select>
+
+
+  <select id="countAllCheckingIn" resultType="java.lang.Integer">
+          SELECT COUNT(*) FROM oas_checkingin
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_checkingin
     where checkingin_id = #{checkinginId,jdbcType=VARCHAR}

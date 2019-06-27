@@ -41,4 +41,8 @@ public interface CheckingInMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(CheckingIn record);
+
+    int countCheckingIn(Map map);
+
+    int countAllCheckingIn();
 }

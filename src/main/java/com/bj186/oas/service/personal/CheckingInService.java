@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface CheckingInService {
 
- List<CheckingIn> selectCheckingInByRequirement(Integer uId, Integer staffId,String startTime,String endTime,String pageNow, String pageLimit);
+ List<CheckingIn> selectCheckingInByRequirement(Integer uId, Integer staffId,String startTime,String endTime,String oneTime,String pageNow, String pageLimit);
 
  Integer updateChecking(Integer uId,CheckingIn checkingIn);
 
- Integer insertChecking(Integer uid,CheckingIn checkingIn);
+ Integer insertChecking(Integer uId,CheckingIn checkingIn);
+
+ Integer countAllCheckingIns();
+
+ Integer countCheckingIn(Integer uId,Integer staffId,String startTime, String endTime,String oneTime,String pageNow,String pageLimit);
 }
