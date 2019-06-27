@@ -1,14 +1,10 @@
 package com.bj186.oas.controller.systemController;
 
-import com.bj186.oas.Util.MD5;
 import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.entity.system.Like;
 import com.bj186.oas.entity.system.User;
 import com.bj186.oas.pojo.*;
 import com.bj186.oas.service.system.UserService;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -142,13 +136,8 @@ public class UserController  extends HttpServlet {
      */
     @RequestMapping("/selectLike")
     @ResponseBody
-    public Object selectLike(
-//                             @RequestParam("page") Integer pageNum,
-//                             @RequestParam("limit") Integer pageSize,
-//                             @RequestParam("filed") String filed,
-//                             @RequestParam("value") String value
-            @RequestBody Like like) {
-        System.out.println("filed:"+like.getFiled()+" "+"value:"+like.getValue());
+    public Object selectLike(@RequestBody Like like) {
+
         Integer count = selectCount();
         OAResoult<List<Staff>> oaResoult = new OAResoult();
         oaResoult.setCode(0);
