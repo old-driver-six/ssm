@@ -19,32 +19,6 @@ public class CheckingInController {
     @Autowired
     private CheckingInService checkingInService;
 
-    /**
-     * 默认加载今日的考情表
-     * @param uId
-     * @param pageNow
-     * @param pageLimit
-     * @param oneTime
-     * @return
-     */
-    @RequestMapping("/selectCheckingInToday")
-    @ResponseBody
-    public OAResoult selectCheckingInToday(
-            @RequestParam("uId") Integer uId,
-            @RequestParam("page") String pageNow,
-            @RequestParam("limit") String pageLimit,
-            @RequestParam("oneTime") String oneTime){
-        List<CheckingIn> checkingIns = checkingInService.selectCheckingInByRequirement(uId,null,null,
-                null,oneTime,pageNow,pageLimit);
-        Integer countCheckingIn = checkingInService.countCheckingIn(uId, null, null,
-                null, oneTime, null, null);
-        OAResoult oaResoult = new OAResoult();
-        oaResoult.setCount(countCheckingIn);
-        oaResoult.setCode(0);
-        oaResoult.setMsg("");
-        oaResoult.setData(checkingIns);
-        return oaResoult;
-    };
 
     /**
      * 查询所有考勤表
@@ -59,8 +33,9 @@ public class CheckingInController {
             @RequestParam("uId") Integer uId,
             @RequestParam("page") String pageNow,
             @RequestParam("limit") String pageLimit){
+
         List<CheckingIn> checkingIns = checkingInService.selectCheckingInByRequirement(uId,null,null,
-                null,null,pageNow,pageLimit);
+                null,pageNow,pageLimit);
         OAResoult oaResoult = new OAResoult();
         oaResoult.setCount(checkingInService.countAllCheckingIns());
         oaResoult.setCode(0);
@@ -89,9 +64,9 @@ public class CheckingInController {
             @RequestParam("page") String pageNow,
             @RequestParam("limit") String pageLimit){
         List<CheckingIn> checkingIns = checkingInService.selectCheckingInByRequirement(uId,staffId,startTime,
-                endTime,null,pageNow,pageLimit);
+                endTime,pageNow,pageLimit);
         Integer countCheckingIn = checkingInService.countCheckingIn(uId, staffId, startTime,
-                endTime, null, null, null);
+                endTime,  null, null);
         OAResoult oaResoult = new OAResoult();
         oaResoult.setCount(countCheckingIn);
         oaResoult.setCode(0);

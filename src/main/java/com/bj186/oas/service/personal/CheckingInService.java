@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CheckingInService {
 
- List<CheckingIn> selectCheckingInByRequirement(Integer uId, Integer staffId,String startTime,String endTime,String oneTime,String pageNow, String pageLimit);
+ List<CheckingIn> selectCheckingInByRequirement(Integer uId, Integer staffId,String startTime,String endTime,String pageNow, String pageLimit);
 
  Integer updateChecking(Integer uId,CheckingIn checkingIn);
 
@@ -14,7 +14,7 @@ public interface CheckingInService {
 
  Integer countAllCheckingIns();
 
- Integer countCheckingIn(Integer uId,Integer staffId,String startTime, String endTime,String oneTime,String pageNow,String pageLimit);
+ Integer countCheckingIn(Integer uId,Integer staffId,String startTime, String endTime,String pageNow,String pageLimit);
 
  CheckingIn selectByPrimaryKey(Integer uId,String checkinginId);
 }

@@ -2,11 +2,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>合同管理</title>
+    <title>考勤记录</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
     <!-- layui等css -->
     <link rel="stylesheet" href="../css/font.css">
     <link rel="stylesheet" href="../css/xadmin.css">
@@ -39,7 +39,7 @@
             <input class="layui-input" placeholder="截止日" name="end" id="end" >
             </div>
              <div class="layui-input-inline">
-             <input type="text" name="saleID"  placeholder="输入员工ID查询记录" autocomplete="off" class="layui-input">
+             <input type="text" name="checkingInID"  placeholder="输入员工ID查询记录" autocomplete="off" class="layui-input">
              </div>
             <div class="layui-input-inline">
                 <button class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
@@ -47,18 +47,17 @@
         </form>
     </div>
     <xblock >
-        <div class="saleTable ">
+        <div class="checkingInTable ">
             <button class="layui-btn layui-btn-danger "  data-type="delChecked"><i class="layui-icon"></i>批量删除</button>
-            <button class="layui-btn " onclick="x_admin_show('添加考勤记录','',1000)"><i class="layui-icon">&#xe608;</i>添加考勤记录</button>
+            <button class="layui-btn " onclick="x_admin_show('添加考勤记录','checkingin-add.html',1000)"><i class="layui-icon">&#xe608;</i>添加考勤记录</button>
         </div>
     </xblock>
 
-    <table  class="layui-hide"  id="sale" lay-filter="sale"></table>
+    <table  class="layui-hide"  id="checkingIn" lay-filter="checkingIn"></table>
 
 </div>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看描述</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -66,7 +65,7 @@
 </script>
 
 <script>
-    //生成销售账单
+    //生成考勤记录
     layui.use('laydate', function(){
         var laydate = layui.laydate;
 
@@ -91,64 +90,47 @@
         var tableIns = table.render({
              method: 'post'
             ,height: 490
-            ,width: 1100
+            ,width: 920
             ,toolbar: 'toolbarDemo'
-            ,elem: '#sale'
+            ,elem: '#checkingIn'
             ,page: true //开启分页
-            ,url: '/SaleServlet?method=table' //数据接口
+            ,url: '/CheckingIn/selectAllCheckingIn' //数据接口
             ,parseData: function(res){ //res 即为原始返回的数据
                 return {
-                    "code": res.status, //解析接口状态
-                    "msg": res.message, //解析提示文本
-                    "count": res.total, //解析数据长度
-                    "data": res.data.item//解析数据列表
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.count, //解析数据长度
+                    "data": res.data//解析数据列表
                 };
                 }
+            ,where: {'uId': $.cookie('uId')
+            }
+
             ,cols: [[ //表头
                 {type:'checkbox', fixed: 'left'}
-                ,{field: 'saleID', title: '账单id', width:140, sort: true, fixed: 'left'}
-                ,{field: 'staffID', title: '统计人员', width:180}
-                ,{field: 'spendMoney', title: '支出金额', width:180,sort:true}
-                ,{field: 'receiptMoney', title: '收款金额', width:180,sort:true}
-                ,{field: 'profitAndLost', title: '盈亏金额', width:180,sort:true}
-                ,{field: 'date', title: '统计时间',width:180,sort:true }
+                ,{field: 'checkinginId', title: '考勤表ID', width:140, sort: true, fixed: 'left'}
+                ,{field: 'checkStaffId', title: '考勤员工ID', width:180}
+                ,{field: 'checkinginStarttime', title: '上班时间', width:180,sort:true}
+                ,{field: 'checkinginSendtime', title: '下班时间', width:180,sort:true}
+                ,{field: 'checkinginState', title: '考勤表状态', width:180,sort:true}
                 ,{fixed: 'right', width: 180, align:'center', toolbar: '#barDemo'}
             ]]
 
         });
 
          //表格最右边工具栏的监听
-        table.on('tool(sale)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(checkingIn)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data;
             layEvent = obj.event; //获得 lay-event 对应的值
             var tr = obj.tr;
-            if(layEvent === 'detail'){
-                $.ajax({
-                    url:'/SaleServlet?method=saleDescription',
-                    type:"post",
-                    data:{"saleID":data.saleID},
-                    dataType:'json',
-                    success:function (json) {
-                        console.log(json);
-                        if (json !== null){
-                            layer.alert(json.saleDescription)
-                        } else {
-                         layer.msg('该账单描述为空')
-                        }
-                    },
-                    error:function (e) {
-                        layer.msg('系统错误', {icon: 2});
-                    }
-                })
-
-            } else if(layEvent === 'del'){
+           if(layEvent === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     //向服务端发送删除指令
-                    console.log(data.saleID);
+                    console.log(data.checkingInID);
                     $.ajax({
-                        url:'/SaleServlet?method=delSale',
+                        url:'/',
                         type:"post",
-                        data:{"saleID":data.saleID},
+                        data:{"checkingInID":data.checkingInID},
                         dataType:'json',
                         success:function (json) {
                             if (json.isSuccess) {
@@ -165,14 +147,14 @@
                     })
                 });
             } else if(layEvent === 'edit'){
-                console.log(data.saleID);
+                console.log(data.checkingInID);
                 $.ajax({
-                    url:'/SaleServlet?method=saleSelectByID',
+                    url:'/',
                     type:"post",
-                    data:{"saleID":data.saleID},
+                    data:{"checkingInID":data.checkingInID},
                     dataType:'json',
                     success:function (json) {
-                    x_admin_show('修改'+data.saleID+'号账单','/moneyServlet?method=sale_update&SaleID='+data.saleID,800);
+                    x_admin_show('','',800);
                     },
                     error:function (e) {
                         layer.msg('系统错误', {icon: 2});
@@ -182,7 +164,7 @@
             }
     });
 
-        // table.on('checkbox(sale)', function(obj){
+        // table.on('checkbox(checkingIn)', function(obj){
         //     console.log(obj)
         // });
 
@@ -191,27 +173,27 @@
         // 2.判断是否选中；
         // 3.发送ajax请求，并附带参数id；
 
-        $('.saleTable .layui-btn').on('click', function(){
+        $('.checkingInTable .layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
         var active = {
             delChecked: function () {
-                var checkStatus = table.checkStatus('sale'),
+                var checkStatus = table.checkStatus('checkingIn'),
                     data = checkStatus.data;
                 console.log(data.length !==0);
                 if (data.length !== 0) {
                     layer.confirm('确定删除所选项吗？', function (index) {
                         $.ajax({
-                            url: '/FinancialSystemDataInteractionServlet?method=delCheckedSale',
+                            url: '/',
                             type: 'post',
                             dataType: 'json',
-                            data: "checkedSaleData=" + JSON.stringify(data),
+                            data: "checkedcheckingInData=" + JSON.stringify(data),
                             success: function (backData) {
                                 console.log(backData);
                                 console.log(backData.isSuccess);
                                 if (backData.isSuccess) {
-                                    table.reload('sale', {});
+                                    table.reload('checkingIn', {});
                                     layer.msg('删除成功', {icon: 1});
                                 } else {
                                     layer.msg('删除失败', {icon: 2});
@@ -235,31 +217,31 @@
         form.on('submit(search)', function(data){
             console.log(data.field.start);
             console.log(data.field.end);
-            console.log(data.field.saleID);
-          if (data.field.start !== ""&&data.field.end !== ""&&data.field.saleID ===""){
+            console.log(data.field.checkingInID);
+          if (data.field.start !== ""&&data.field.end !== ""&&data.field.checkingInID ===""){
               tableIns.reload({
-                  url:'/SaleServlet?method=saleSelect',
+                  url:'/',
                   where:{
                       start:data.field.start,
                       end:data.field.end,
-                      saleID:data.field.saleID
+                      checkingInID:data.field.checkingInID
                   }
                   //设定异步数据接口的额外参数
                   ,page: {
                       curr: 1 //重新从第 1 页开始
                   }
               } );
-          }else if (data.field.start !== ""&&data.field.end !== ""&&data.field.saleID !==""){
+          }else if (data.field.start !== ""&&data.field.end !== ""&&data.field.checkingInID !==""){
                layer.msg('请日期和id分开查询',{icon: 2})
-          }else if (data.field.start === ""&&data.field.end === ""&&data.field.saleID ===""){
-              table.reload('sale', {});
-          }else if (data.field.start === ""&&data.field.end === ""&&data.field.saleID !==""){
+          }else if (data.field.start === ""&&data.field.end === ""&&data.field.checkingInID ===""){
+              table.reload('checkingIn', {});
+          }else if (data.field.start === ""&&data.field.end === ""&&data.field.checkingInID !==""){
               tableIns.reload({
-                  url:'/SaleServlet?method=saleSelect',
+                  url:'/',
                   where:{
                       start:data.field.start,
                       end:data.field.end,
-                      saleID:data.field.saleID
+                      checkingInID:data.field.checkingInID
                   }
                   //设定异步数据接口的额外参数
                   ,page: {

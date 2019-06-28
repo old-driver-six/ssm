@@ -22,24 +22,30 @@ public class CheckingInServiceImpl implements CheckingInService {
 
     /**
      * 根据员工ID或者日期查询员工考勤表
+     * @param uId
      * @param staffId
+     * @param startTime
+     * @param endTime
+     * @param pageNow
+     * @param pageLimit
      * @return
      */
     @Override
     public List<CheckingIn> selectCheckingInByRequirement(
             Integer uId,Integer staffId,String startTime,
-            String endTime,String oneTime,String pageNow,
+            String endTime,String pageNow,
             String pageLimit ) {
-        Staff staff = staffMapper.selectByPrimaryKey(staffId);
+        Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
+
         Map<String,Object> map = new LinkedHashMap<>();
-        map.put("oneTime","\'%"+oneTime+"%\'");
         map.put("startTime","\'"+startTime+"\'");
         map.put("endTime","\'"+endTime+"\'");
         map.put("checkstaffId",staffId);
         map.put("LimitParameter_1",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
         map.put("LimitParameter_2",Integer.parseInt(pageLimit));
+        System.out.println(map.toString());
         List<CheckingIn> checkingIns = checkingInMapper.selectByRequirement(map);
         return checkingIns;
         }else{
@@ -63,7 +69,6 @@ public class CheckingInServiceImpl implements CheckingInService {
      * @param staffId
      * @param startTime
      * @param endTime
-     * @param oneTime
      * @param pageNow
      * @param pageLimit
      * @return
@@ -71,13 +76,12 @@ public class CheckingInServiceImpl implements CheckingInService {
     @Override
     public Integer countCheckingIn(
             Integer uId,Integer staffId,String startTime,
-            String endTime,String oneTime,String pageNow,
+            String endTime,String pageNow,
             String pageLimit) {
-        Staff staff = staffMapper.selectByPrimaryKey(staffId);
+        Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
             Map<String,Object> map = new LinkedHashMap<>();
-            map.put("oneTime","\'%"+oneTime+"%\'");
             map.put("startTime","\'"+startTime+"\'");
             map.put("endTime","\'"+endTime+"\'");
             map.put("checkstaffId",staffId);
@@ -100,7 +104,7 @@ public class CheckingInServiceImpl implements CheckingInService {
     public Integer updateChecking(Integer uId,CheckingIn checkingIn) {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
             int i = checkingInMapper.updateByPrimaryKeySelective(checkingIn);
             return  i;
         }
@@ -117,7 +121,7 @@ public class CheckingInServiceImpl implements CheckingInService {
     public Integer insertChecking(Integer uId, CheckingIn checkingIn) {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
             int insert = checkingInMapper.insert(checkingIn);
             return insert;
         }
@@ -133,7 +137,7 @@ public class CheckingInServiceImpl implements CheckingInService {
     public CheckingIn selectByPrimaryKey(Integer uId,String checkinginId){
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
             CheckingIn checkingIn = checkingInMapper.selectByPrimaryKey(checkinginId);
             return checkingIn;
         }

@@ -25,9 +25,6 @@
       <if test="endTime!='\'null\''">
         AND checkingin_sendTime &lt;= ${endTime}
       </if>
-      <if test="oneTime!='\'null\''">
-         checkingin_startTime = ${oneTime}
-      </if>
     </where>
     <if test="LimitParameter_1!=null">
       <if test="LimitParameter_2!=null">
@@ -49,9 +46,6 @@
       </if>
       <if test="endTime!='\'null\''">
         AND checkingin_sendTime &lt;= ${endTime}
-      </if>
-      <if test="oneTime!='\'null\''">
-        checkingin_startTime Like ${oneTime}
       </if>
     </where>
     <if test="LimitParameter_1!=null">
