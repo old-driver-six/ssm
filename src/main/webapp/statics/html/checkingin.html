@@ -48,7 +48,6 @@
     </div>
     <xblock >
         <div class="checkingInTable ">
-            <button class="layui-btn layui-btn-danger "  data-type="delChecked"><i class="layui-icon"></i>批量删除</button>
             <button class="layui-btn " onclick="x_admin_show('添加考勤记录','checkingin-add.html',1000)"><i class="layui-icon">&#xe608;</i>添加考勤记录</button>
         </div>
     </xblock>
@@ -59,7 +58,6 @@
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="toolbarDemo">
 </script>
@@ -90,7 +88,7 @@
         var tableIns = table.render({
              method: 'post'
             ,height: 490
-            ,width: 920
+            ,width: 1020
             ,toolbar: 'toolbarDemo'
             ,elem: '#checkingIn'
             ,page: true //开启分页
@@ -123,33 +121,10 @@
             var data = obj.data;
             layEvent = obj.event; //获得 lay-event 对应的值
             var tr = obj.tr;
-           if(layEvent === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    //向服务端发送删除指令
-                    console.log(data.checkingInID);
-                    $.ajax({
-                        url:'/',
-                        type:"post",
-                        data:{"checkingInID":data.checkingInID},
-                        dataType:'json',
-                        success:function (json) {
-                            if (json.isSuccess) {
-                                layer.msg('删除成功', {icon: 1});
-                                obj.del(); //删除对应行（tr）的DOM结构
-                                layer.close(index);
-                            } else {
-                                layer.msg('删除失败', {icon: 2});
-                            }
-                        },
-                        error:function (e) {
-                            layer.msg('系统错误', {icon: 2});
-                        }
-                    })
-                });
-            } else if(layEvent === 'edit'){
+          if(layEvent === 'edit'){
                 console.log(data.checkingInID);
                 $.ajax({
-                    url:'/',
+                    url:'/CheckingIn/selectCheckingInByCheckinginId',
                     type:"post",
                     data:{"checkingInID":data.checkingInID},
                     dataType:'json',
@@ -168,47 +143,6 @@
         //     console.log(obj)
         // });
 
-// 批量删除功能
-        // 1.得到table选中行内容
-        // 2.判断是否选中；
-        // 3.发送ajax请求，并附带参数id；
-
-        $('.checkingInTable .layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-        var active = {
-            delChecked: function () {
-                var checkStatus = table.checkStatus('checkingIn'),
-                    data = checkStatus.data;
-                console.log(data.length !==0);
-                if (data.length !== 0) {
-                    layer.confirm('确定删除所选项吗？', function (index) {
-                        $.ajax({
-                            url: '/',
-                            type: 'post',
-                            dataType: 'json',
-                            data: "checkedcheckingInData=" + JSON.stringify(data),
-                            success: function (backData) {
-                                console.log(backData);
-                                console.log(backData.isSuccess);
-                                if (backData.isSuccess) {
-                                    table.reload('checkingIn', {});
-                                    layer.msg('删除成功', {icon: 1});
-                                } else {
-                                    layer.msg('删除失败', {icon: 2});
-                                }
-                            },
-                            'error': function () {
-                                layer.msg('系统错误', {icon: 2});
-                            }
-                        })
-                    })
-                } else if (data.length === 0) {
-                    layer.msg('请选择要删除的账单', {icon: 2});
-                }
-            }
-        };
 
 // 日期ID查询功能
         // 1.选择根据日期还是根据ID查询

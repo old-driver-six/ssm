@@ -96,7 +96,7 @@ public class CheckingInController {
      * @param checkinginId
      * @return
      */
-    @RequestMapping("selectCheckingInByCheckinginId")
+    @RequestMapping("/selectCheckingInByCheckinginId")
     @ResponseBody
     public CheckingIn selectCheckingInByCheckinginId(
             @RequestParam("uId") Integer uId,
