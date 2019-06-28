@@ -101,7 +101,7 @@ public class CheckingInController {
     };
 
     /**
-     * 修改
+     * 根据主键修改考勤(修改上下班时间和考勤状态)
      * @param uId
      * @param checkingIn
      * @return
@@ -113,5 +113,20 @@ public class CheckingInController {
             @RequestBody CheckingIn checkingIn){
         Integer integer = checkingInService.updateChecking(uId, checkingIn);
         return integer;
+    }
+
+    /**
+     * 主键查询方法
+     * @param uId
+     * @param checkinginId
+     * @return
+     */
+    @RequestMapping("selectCheckingInByCheckinginId")
+    @ResponseBody
+    public CheckingIn selectCheckingInByCheckinginId(
+            @RequestParam("uId") Integer uId,
+            @RequestParam("checkinginId") String checkinginId){
+        CheckingIn checkingIn = checkingInService.selectByPrimaryKey(uId, checkinginId);
+        return checkingIn;
     }
 }

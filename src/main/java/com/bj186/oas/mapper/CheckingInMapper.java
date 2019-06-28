@@ -45,4 +45,6 @@ public interface CheckingInMapper {
     int countCheckingIn(Map map);
 
     int countAllCheckingIn();
+
+    CheckingIn selectByPrimaryKey(String checkinginId);
 }

@@ -37,7 +37,7 @@
   </select>
 
   <select id="countCheckingIn" parameterType="map" resultType="java.lang.Integer">
-    SELECT COUNT(*) FROM( select
+    SELECT COUNT(*) FROM (select
     <include refid="Base_Column_List" />
     from oas_checkingin
     <where>
@@ -51,7 +51,7 @@
         AND checkingin_sendTime &lt;= ${endTime}
       </if>
       <if test="oneTime!='\'null\''">
-        checkingin_startTime = ${oneTime}
+        checkingin_startTime Like ${oneTime}
       </if>
     </where>
     <if test="LimitParameter_1!=null">
@@ -61,6 +61,10 @@
     </if>)
   </select>
 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from oas_checkingin
+    where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
+  </select>
 
   <select id="countAllCheckingIn" resultType="java.lang.Integer">
           SELECT COUNT(*) FROM oas_checkingin
@@ -71,6 +75,7 @@
     delete from oas_checkingin
     where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
   </delete>
+
   <insert id="insert" parameterType="com.bj186.oas.pojo.CheckingIn" >
     insert into oas_checkingin (checkingin_id, check_staff_id, checkingin_startTime,
       checkingin_sendTime, checkingin_state)
@@ -114,6 +119,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
     <set >
@@ -127,8 +133,11 @@
         checkingin_state = #{checkinginState,jdbcType=CHAR},
       </if>
     </set>
-    where  check_staff_id = #{checkstaffId,jdbcType=INTEGER},
+    where  checkingin_id = #{checkinginId,jdbcType=VARCHAR}
   </update>
+
+
+
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
     set check_staff_id = #{checkstaffId,jdbcType=INTEGER},

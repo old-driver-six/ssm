@@ -117,11 +117,26 @@ public class CheckingInServiceImpl implements CheckingInService {
     public Integer insertChecking(Integer uId, CheckingIn checkingIn) {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
-        if (depId == 1){ int insert = checkingInMapper.insert(checkingIn);
-        return insert;
+        if (depId == 1){
+            int insert = checkingInMapper.insert(checkingIn);
+            return insert;
         }
         return null;
     }
 
-
+    /**
+     * 主键查询,修改的时候后端调取数据可用
+     * @param uId
+     * @param checkinginId
+     * @return
+     */
+    public CheckingIn selectByPrimaryKey(Integer uId,String checkinginId){
+        Staff staff = staffMapper.selectByPrimaryKey(uId);
+        Integer depId = staff.getDepartment().getDepId();
+        if (depId == 1){
+            CheckingIn checkingIn = checkingInMapper.selectByPrimaryKey(checkinginId);
+            return checkingIn;
+        }
+            return null;
+    }
 }
