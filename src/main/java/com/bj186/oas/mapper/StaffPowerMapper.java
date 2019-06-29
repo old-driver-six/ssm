@@ -7,7 +7,7 @@ public interface StaffPowerMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    int deleteByPrimaryKey(Integer spId);
+    int delete(Integer spId);
 
     /**
      *

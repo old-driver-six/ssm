@@ -34,12 +34,13 @@ public interface UsersMapper {
      * @mbggenerated 2019-06-18
      */
     Users selectByPrimaryKey(String usersPhone);
+    Users select(Integer staffid);
 
     /**
      *
      * @mbggenerated 2019-06-18
      */
-    int updateByPrimaryKeySelective(Users record);
+    int updateByStaffId(Users record);
 
     /**
      *

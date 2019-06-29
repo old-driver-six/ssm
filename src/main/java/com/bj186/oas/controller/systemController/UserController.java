@@ -74,13 +74,30 @@ public class UserController  extends HttpServlet {
         return userService.selectCount("oas_staff");
     }
 
+
+    /**
+     * 重置密码
+     * @return
+     */
+    @RequestMapping("/updateRes")
+    @ResponseBody
+    public OAResoult updateRes(@RequestBody Users users) {
+        Integer integer = userService.updateRes(users);
+        System.out.println(integer);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(integer);
+        oaResoult.setMsg("已重置密码为手机号后六位");
+        return oaResoult;
+    }
+
+
     /**
      * 模糊查询 初次显示
      * @return
      */
     @RequestMapping("/select")
     @ResponseBody
-    public Object select(
+    public OAResoult select(
           @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
      ,@RequestParam(name="filed",required = true, defaultValue ="") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
 //            @RequestBody Like like
@@ -107,7 +124,10 @@ public class UserController  extends HttpServlet {
         staffList = userService.selectByDep(staff.getDepartment().getDepName(),filed, value, pageSize, pageNum);
 
         if(staffList==null){
-            return "你不权查询其他部门";
+            OAResoult oaResoult = new OAResoult();
+            oaResoult.setCode(0);
+            oaResoult.setMsg("无权查询部门");
+            return oaResoult;
         }
 
         Integer count=staffList.size();
@@ -173,9 +193,12 @@ public class UserController  extends HttpServlet {
      */
     @RequestMapping("/Suspension")
     @ResponseBody
-    public Integer Suspension(@RequestBody Staff  staff) {
+    public OAResoult Suspension(@RequestBody Staff  staff) {
         Integer suspension = userService.Suspension(staff.getStaffId());
-        return suspension;
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(suspension);
+        System.out.println();
+        return oaResoult;
     }
 
     /**
@@ -184,11 +207,11 @@ public class UserController  extends HttpServlet {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public String update(@RequestBody User user) {
-        if(userService.update(user).equals("success"))
-            return "修改成功";
-        else
-            return "修改失败";
+    public OAResoult update(@RequestBody User user) {
+        Integer update = userService.update(user);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(update);
+        return oaResoult;
 
     }
 

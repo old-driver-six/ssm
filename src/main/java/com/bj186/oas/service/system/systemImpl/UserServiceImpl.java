@@ -83,17 +83,17 @@ public class UserServiceImpl implements UserService {
         List<Staff> staffList = new ArrayList<>();
         params.put("filed",filed);//字段
         params.put("value", "\'%"+value+"%\'");//模糊查询
-        params.put("start",(pageNum-1)*pageSize+1);//sql语句从哪里开始 页码-1 乘以 分页数据数量
+        params.put("start",(pageNum-1)*pageSize);//sql语句从哪里开始 页码-1 乘以 分页数据数量
         params.put("end", pageSize); //分页数量
         params.put("depName",depName);
         if(!depName.equals("董事局")){
             if(!filed.equals("dep_Name") || filed.equals("dep_Name") && value.equals(depName)){
-                staffList = staffMapper.selectByDep(params);
+                staffList = staffMapper.selectLimit(params);
             }else{
                 return null;
             }
         }else{
-            staffList = staffMapper.selectByDep(params);
+            staffList = staffMapper.selectLimit(params);
         }
         return staffList;
     }
@@ -202,15 +202,32 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     *  重置密码
+     * @param users
+     * @return success 成功 error 失败
+     */
+    @Override
+    public Integer updateRes(Users users) {
+        System.out.println(users.getStaffId());
+        Users select = usersMapper.select(users.getStaffId());
+        String md5 = MD5.getMd5(select.getUsersPhone(), select.getUsersPhone().substring(5));
+        users.setUsersPassword(md5);
+      if(usersMapper.updateByStaffId(users)==1)
+          return 200;
+      else
+          return -1;
+    }
+
+    /**
      *  修改信息 必须包含所有信息 建议查询信息进行修改
      * @param user
      * @return success 成功 error 失败
      */
     @Override
-    public String update(User user) {
+    public Integer update(User user) {
 
         Staff staff = new Staff();
-
+        staff.setStaffId(user.getStaffId());
         staff.setStaffName(user.getStaffName());
         staff.setStaffPhone(user.getStaffPhone());
         staff.setStaffAge(user.getStaffAge());
@@ -230,24 +247,30 @@ public class UserServiceImpl implements UserService {
         staff.setPosition(position);
 
 
-        staffMapper.updateByPrimaryKeySelective(staff);
+        if(staffMapper.updateByPrimaryKeySelective(staff) ==0)
+            return -1;
+
+
+        staffPowerMapper.delete(user.getStaffId());
 
         for (int i : user.getPowerIdList()) {
             StaffPower staffPower = new StaffPower();
             staffPower.setSpPowerid(i);
             staffPower.setSpStaffid(staff.getStaffId());
-            staffPowerMapper.updateByPrimaryKeySelective(staffPower);
+            if(staffPowerMapper.insert(staffPower)==0)
+                return -1;
         }
 
         Users users = new Users();
         String md5 = MD5.getMd5(staff.getStaffPhone(), staff.getStaffPhone().substring(5));
         users.setUsersPassword(md5);
-        users.setUsersPhone(staff.getStaffPhone());
+        users.setStaffId(staff.getStaffId());
         users.setUsersState("0");
 
-        usersMapper.updateByPrimaryKeySelective(users);
+        if(usersMapper.updateByStaffId(users)==0)
+            return -1;
 
-        return "success";
+        return 200;
     }
 
     /**

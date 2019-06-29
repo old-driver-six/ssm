@@ -15,9 +15,9 @@
     from oas_staffpower
     where sp_id = #{spId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="delete" parameterType="java.lang.Integer" >
     delete from oas_staffpower
-    where sp_id = #{spId,jdbcType=INTEGER}
+    where sp_staffID = #{spStaffid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.StaffPower" >
     insert into oas_staffpower (sp_id, sp_staffID, sp_powerID

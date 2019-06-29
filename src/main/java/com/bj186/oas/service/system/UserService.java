@@ -13,7 +13,8 @@ public interface UserService {
    List<Staff> selectByDep(String depName,String filed, String value,Integer pageSize, Integer pageNum);
    List<Staff> selectAll();
    String insert(User user);
-   String update(User user);
+   Integer update(User user);
+   Integer updateRes(Users users);
    String delete(Integer staffID);
    String updateByPrimaryKeySelective(Staff staff);
    Integer selectCount(String tableName);

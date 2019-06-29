@@ -48,7 +48,7 @@
                 $('input[name="staffAdress"]').val(data.staffAdress)
                 $('input[name="staffCardID"]').val(data.staffIdntitycardid)
                 $('input[name="staffWage"]').val(data.staffWage)
-                $('input[name="staffBirthday"]').val(data.staffBirthday)
+                $('input[name="staffBirthday"]').val(data.staffBirthday.substring(0,10))
 
                 if(data.staffSex==1){
                     $('input[name="sex"]').eq(0).attr("checked","")
@@ -170,7 +170,7 @@
                 <div class="layui-col-lg6">
                     <label class="layui-form-label">生日：</label>
                     <div class="layui-input-block">
-                        <input type="date" name="staffBirthday" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="date" name="staffBirthday" lay-verify="required" placeholder="MM-dd" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -287,17 +287,25 @@
 
         var json = {'staffId':parseInt(staffId),'staffName':staffName,'staffAge':parseInt(staffAge),'staffSex':staffSex,'staffAdress':staffAdress,'staffEmail':staffEmail
         ,'staffPhone':staffPhone,'staffIdntitycardid':staffIdntitycardid,'powerIdList':powerList,'positionId':parseInt(positionId),'depId':parseInt(depId)
-            ,'staffWage':staffWage,'staffBirthday':staffBirthday}
+            ,'staffWage':staffWage}
         console.log(powerList)
         console.log(JSON.stringify(json))
         $.ajax({
             url: '/user/update'
-            , type: 'post',    //访问方式
+            ,type: 'post',    //访问方式
             data: JSON.stringify(json),
-            dataType: 'text',
+            dataType: 'json',
             contentType: 'application/json',
-            success: function (data) {
-                alert(data)
+            success: function (da) {
+                console.log(da)
+                if(da.code==200){
+                    alert("修改成功")
+                }else{
+                    alert('修改失败')
+                }
+
+            }
+            ,error:function (err) {console.log(err)
             }
         })
     })

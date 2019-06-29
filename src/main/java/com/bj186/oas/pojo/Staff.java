@@ -1,5 +1,7 @@
 package com.bj186.oas.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +40,7 @@ public class Staff {
     /**
      * 员工生日
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date staffBirthday;
 
     /**

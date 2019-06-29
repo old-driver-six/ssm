@@ -32,6 +32,8 @@ public interface StaffMapper {
 
     List<Staff> select(Map<String, Object> map);
 
+    List<Staff> selectLimit(Map<String, Object> map);
+
     List<Staff> selectByDep(Map<String, Object> map);
 
     List<Staff> selectAll();
