@@ -8,6 +8,18 @@ public class Users {
      * 用户ID（主键 10001自动递增)
      */
     private Integer usersId;
+    /**
+     * staffD（外键 ）
+     */
+    private Integer staffId;
+
+    public Integer getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(Integer staffId) {
+        this.staffId = staffId;
+    }
 
     /**
      * 用户登录账号（外键 员工手机号 一对一）

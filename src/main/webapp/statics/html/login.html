@@ -97,7 +97,6 @@
                 console.log(666)
                 console.log(data)
                 if (data.msg == 'success') {
-                    alert("登录成功！");
                     $.cookie('uId',data.uId,{ expires: 1, path: '/'})
                     $.cookie('name',data.staffName,{ expires: 1, path: '/'})
                     $.cookie('depName',data.depName,{ expires: 1, path: '/'})
