@@ -21,6 +21,19 @@
     <script>
         $(function () {
             console.log($.cookie("name"))
+            console.log($.cookie("depName"))
+            switch ($.cookie("depName")) {
+                case "行政部":$("li#dep1").css("display","block")
+                    break
+                case "人事部":$("li#dep2").css("display","block")
+                    break
+                case "财务部":$("li#dep3").css("display","block")
+                    break
+                case "董事局":$("li#dep1").css("display","block")
+                    $("li#dep2").css("display","block")
+                    $("li#dep3").css("display","block")
+                    break
+            }
             $("a#user_name").html($.cookie('name'))
             $.ajax({
                 type: "POST",
@@ -138,7 +151,7 @@
                 </ul>
             </li>
 
-            <li>
+            <li id="dep1" style="display: none">
                 <a href="javascript:;">
                     <i class="iconfont">&#xe724;</i>
                     <cite>人事管理</cite>
@@ -158,6 +171,48 @@
                 <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
                     <cite>行政管理</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/Tofoods.food" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>菜品管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/ToProInfo.do" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>采购清单</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <li id="dep2" style="display: none">
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe726;</i>
+                    <cite>人事管理</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/Tofoods.food" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>菜品管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/ToProInfo.do" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>采购清单</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <li id="dep3" style="display: none">
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe726;</i>
+                    <cite>财务管理</cite>
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">

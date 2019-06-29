@@ -51,11 +51,11 @@
     where rule_id = #{ruleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.Rule" >
-    insert into oas_rule (rule_id, rule_departmentId, rule_creatorId, 
-      rule_creator, rule_releaseDate, rule_title, 
+    insert into oas_rule (rule_id, rule_creatorId,
+       rule_releaseDate, rule_title,
       rule_state, rule_content)
-    values (#{ruleId,jdbcType=INTEGER}, #{ruleDepartmentid,jdbcType=INTEGER}, #{ruleCreatorid,jdbcType=INTEGER}, 
-      #{ruleCreator,jdbcType=VARCHAR}, #{ruleReleasedate,jdbcType=TIMESTAMP}, #{ruleTitle,jdbcType=VARCHAR}, 
+    values (#{ruleId,jdbcType=INTEGER}, #{ruleCreatorid,jdbcType=INTEGER},
+     #{ruleReleasedate,jdbcType=TIMESTAMP}, #{ruleTitle,jdbcType=VARCHAR},
       #{ruleState,jdbcType=INTEGER}, #{ruleContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Rule" >

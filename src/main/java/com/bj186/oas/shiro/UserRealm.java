@@ -63,8 +63,7 @@ public class UserRealm extends AuthorizingRealm {
                 info.addRole("notice");
             }
             if("制度发布".equals(power.getPowerName())){
-                info.addRole("admin");
-                info.addRole("call");
+                info.addRole("inst");
             }
             if("请假审批".equals(power.getPowerName())){
                 info.addRole("user");

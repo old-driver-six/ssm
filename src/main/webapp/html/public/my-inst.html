@@ -75,7 +75,7 @@
 
 <script>
     $("button#button2").click(function () {
-        x_admin_show('发布','insert-notice.html',800,500)
+        x_admin_show('发布','insert-inst.html',800,500)
     })
     $("button#button1").click(function () {
         tableIns.reload({//重载表格
@@ -102,11 +102,11 @@
             ,limits:[5,8,10]
             ,limit:5
             ,size:'lg'
+
             ,where: {'uId': $.cookie('uId')
                 ,'field':$('select#select1').val()
                 ,'value':$('input#value').val()
-            }
-            ,cols: [[
+            }      ,cols: [[
                 {type:'checkbox',fixed: 'left'}
                 ,{field: 'ruleTitle', title: '标题', sort: true, fixed: 'left'}
                 ,{field: 'ruleName', title: '制定人',fixed: 'left'}

@@ -105,6 +105,7 @@
                 <!--/logout = logout-->
                 <!--&lt;!&ndash;权限控制&ndash;&gt;-->
                 /html/public/my-notice.html = roles[notice]
+                /html/public/my-inst.html = roles[inst]
                 <!--/admin.jsp = roles[admin]-->
                 <!--/items/** = roles[admin]-->
                 <!--/user.jsp = roles[user]-->

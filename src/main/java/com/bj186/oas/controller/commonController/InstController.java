@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,19 +52,15 @@ public class InstController {
         oaResoult.setCode(i);
         return oaResoult;
     }
-//    @RequestMapping("/insert")
-//    @ResponseBody
-//    public String selectAll(@RequestBody NoticeInsertBean noticeInsertBean){
-//        noticeInsertBean.setAnnouncementsNotifierid(noticeInsertBean.getuId());
-//        Integer integer = noticeService.insertAnn(noticeInsertBean.getuId(), noticeInsertBean, noticeInsertBean.getDepNames());
-//        System.out.println(integer);
-//        if (integer == 0){
-//            return "添加失败！";
-//        }else if (integer == -1) {
-//            return "没有权限！";
-//        }
-//        return "添加成功";
-//    }
+    @RequestMapping("/insert")
+    @ResponseBody
+    public OAResoult insert(@RequestBody Rule rule){
+        rule.setRuleReleasedate(new Date(System.currentTimeMillis()));
+        Integer integer = instService.insertRule(rule.getRuleCreatorid(), rule);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(integer);
+        return oaResoult;
+    }
 //    @RequestMapping("/selectDetails")
 //    @ResponseBody
 //    public Announcements selectAnn(@RequestBody Announcements announcements){
