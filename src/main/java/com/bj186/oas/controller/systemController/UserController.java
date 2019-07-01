@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -48,12 +49,12 @@ public class UserController  extends HttpServlet {
 
     @RequestMapping("index")
     public String index() {
-        return "system/user-manage";
+        return "/system/user-management";
     }
 
     @RequestMapping("detailed")
     public String detailed() {
-        return "system/user-detailed";
+        return "/system/detailed";
     }
 
     @RequestMapping("/index2")
