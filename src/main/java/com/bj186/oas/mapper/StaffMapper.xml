@@ -41,6 +41,15 @@
         left join oas_staffpower b on a.staff_id = b.sp_staffID)a
         left join oas_power b on a.sp_powerID = b.power_id)a LEFT JOIN oas_users b on a.staff_id = b.users_staffId where staff_id=#{id}
   </select>
+
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
+        oas_staff a left join oas_department b
+        on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
+        left join oas_staffpower b on a.staff_id = b.sp_staffID)a
+        left join oas_power b on a.sp_powerID = b.power_id)a LEFT JOIN oas_users b on a.staff_id = b.users_staffId where staff_name=#{name}
+  </select>
+
   <select id="selectByPhoneKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
    SELECT * FROM (SELECT * FROM (SELECT * FROM (SELECT * FROM
 oas_staff a left join oas_department b
@@ -55,9 +64,6 @@ left join oas_power b on a.sp_powerID = b.power_id where staff_phone = #{id}
     on a.staff_depID = b.dep_id) a left join oas_position b on a.staff_positionID = b.position_id) a
     LEFT JOIN oas_users b on a.staff_id = b.users_staffId
     <where>
-      <if test="depName!='董事局'">
-        and dep_name = #{depName}
-      </if>
       <if test="filed!=''">
         and ${filed}
       </if>

@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserService {
 
    Staff selectByPrimaryKey(Integer staffID);
+   Staff selectByName(String staffName);
    List<Staff> select(String filed, String value, Integer pageSize, Integer pageNum);
    List<Staff> selectByDep(String depName,String filed, String value,Integer pageSize, Integer pageNum);
    List<Staff> selectAll();

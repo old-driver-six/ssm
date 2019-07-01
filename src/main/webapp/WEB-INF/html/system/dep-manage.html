@@ -91,7 +91,7 @@
                 var staffName = encodeURI(encodeURI(data.staffName));
                 var depName = encodeURI(encodeURI(data.depName));
                 if(layEvent ==='transfer'){
-                    x_admin_show('人事调动', '/dep/dep-detailed?staffName=' +staffName +'&depName='+depName, 900);
+                    x_admin_show('人事调动', '/dep/transfer?staffName=' +staffName +'&depName='+depName, 900);
                 }
             });
         });

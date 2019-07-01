@@ -30,6 +30,8 @@ public interface DepartmentMapper {
      */
     Department selectByPrimaryKey(Integer depId);
 
+    Department selectById(Integer depId);
+
     List<Department> selectDep();
 
     List<Staff> selectDepStaff(String depName);

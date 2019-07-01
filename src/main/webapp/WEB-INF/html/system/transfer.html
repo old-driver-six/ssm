@@ -20,7 +20,7 @@
     <script src="../../../statics/js/jquery.cookies.2.2.0.js"></script>
 </head>
 <script>
-
+var staffId ;
     $(function () {
         function GetQueryString(name)
         {
@@ -28,16 +28,21 @@
             var r = window.location.search.substr(1).match(reg);
             if(r!=null)return  unescape(r[2]); return null;
         }
-        var staffId = GetQueryString("staffId")
-        var json = {'staffId':staffId}
+        var staffName = GetQueryString("staffName")
+        var depName = GetQueryString("depName")
+        console.log(decodeURI(staffName))
+        console.log(decodeURI(depName))
+        $("div#header").html('部门：'+decodeURI(depName)+'&nbsp;部门经理：'+decodeURI(staffName))
+
         // 调用方法
         $.ajax({
-            url: '/user/selectByPrimaryKey'
+            url: '/user/selectByName'
             ,type:'post',    //访问方式
             data:JSON.stringify(json),
             dataType:'json',
             contentType:'application/json',
             success:function (data) {
+                staffId = data.staffId;
                 console.log(data)
                 if(data.position.positionName=='董事'){
                     $('input[name="position"]').eq(3).attr("checked","")
@@ -69,6 +74,51 @@
             }
         })
     })
+
+    $('button#update').click(function () {
+        var positionId;
+        if( $('input[name="position"]').eq(3).next("div").hasClass("layui-form-radioed")){
+            positionId = $('input[name="position"]').eq(3).val()
+        }else if( $('input[name="position"]').eq(2).next("div").hasClass("layui-form-radioed")){
+            positionId = $('input[name="position"]').eq(2).val()
+        }else if( $('input[name="position"]').eq(1).next("div").hasClass("layui-form-radioed")){
+            positionId = $('input[name="position"]').eq(1).val()
+        }else if($('input[name="position"]').eq(0).next("div").hasClass("layui-form-radioed")){
+            positionId = $('input[name="position"]').eq(0).val()
+        }
+        var depId;
+        if($('dd').eq(1).hasClass("layui-this")){
+            depId = $('dd').eq(1).attr("lay-value")
+        }else if($('dd').eq(2).hasClass("layui-this")) {
+            depId = $('dd').eq(2).attr("lay-value")
+        }else if($('dd').eq(3).hasClass("layui-this")){
+            depId = $('dd').eq(3).attr("lay-value")
+        }else if($('dd').eq(4).hasClass("layui-this")){
+            depId = $('dd').eq(4).attr("lay-value")
+        }
+
+        var json = {'staffId':staffId,'positionId':parseInt(positionId),'depId':parseInt(depId)}
+        console.log(JSON.stringify(json))
+        $.ajax({
+            url: '/user/update'
+            ,type: 'post',    //访问方式
+            data: JSON.stringify(json),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (da) {
+                console.log(da+'666')
+                if(da.code==200){
+                    alert("调动成功")
+                }else{
+                    alert('修改失败')
+                }
+
+            }
+            ,error:function (err) {console.log(err)
+            }
+        })
+    })
+
 </script>
 <body class="form-wrap">
 <div class="layui-fluid">
@@ -94,7 +144,6 @@
                         <div class="layui-input-block">
                             <input type="radio" name="position" value=4 title="员工">
                             <input type="radio" name="position" value=3 title="主管">
-                            <input type="radio" name="position" value=2 title="经理">
                             <input type="radio" name="position" value=1 title="董事">
                         </div>
                     </div>
@@ -103,7 +152,7 @@
                     <div class="layui-form-item layui-layout-admin">
                         <div class="layui-input-block">
                             <div class=" layui-footer" style="left:0">
-                                <button class="layui-btn" id="update">修改信息</button>
+                                <button class="layui-btn" id="update">调动</button>
                             </div>
                         </div>
                     </div>
@@ -114,52 +163,6 @@
 </div>
 </body>
 <script>
-    $('button#update').click(function () {
-        var positionId;
-        if( $('input[name="position"]').eq(3).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(3).val()
-        }else if( $('input[name="position"]').eq(2).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(2).val()
-        }else if( $('input[name="position"]').eq(1).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(1).val()
-        }else if($('input[name="position"]').eq(0).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(0).val()
-        }
-        var depId;
-        if($('dd').eq(1).hasClass("layui-this")){
-            depId = $('dd').eq(1).attr("lay-value")
-        }else if($('dd').eq(2).hasClass("layui-this")) {
-            depId = $('dd').eq(2).attr("lay-value")
-        }else if($('dd').eq(3).hasClass("layui-this")){
-            depId = $('dd').eq(3).attr("lay-value")
-        }else if($('dd').eq(4).hasClass("layui-this")){
-            depId = $('dd').eq(4).attr("lay-value")
-        }
-
-        var json = {'staffId':parseInt(staffId),'staffName':staffName,'staffAge':parseInt(staffAge),'staffSex':staffSex,'staffAdress':staffAdress,'staffEmail':staffEmail
-            ,'staffPhone':staffPhone,'staffIdntitycardid':staffIdntitycardid,'powerIdList':powerList,'positionId':parseInt(positionId),'depId':parseInt(depId)
-            ,'staffWage':staffWage}
-        console.log(powerList)
-        console.log(JSON.stringify(json))
-        $.ajax({
-            url: '/user/update'
-            ,type: 'post',    //访问方式
-            data: JSON.stringify(json),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (da) {
-                console.log(da+'666')
-                if(da.code==200){
-                    alert("修改成功")
-                }else{
-                    alert('修改失败')
-                }
-
-            }
-            ,error:function (err) {console.log(err)
-            }
-        })
-    })
 
 
 

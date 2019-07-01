@@ -69,21 +69,14 @@ public class DepController {
     }
 
     /**
-     * 查询部门成员
+     * 查询部门经理
      * @return
      */
     @RequestMapping("/selectDepStaff")
     @ResponseBody
-    public OAResoult selectDepStaff(@RequestParam("depName") String depName){
-        List<Staff> staffList = depService.selectDepStaff(depName);
-        System.out.println(staffList.get(1));
+    public Staff selectDepStaff(@RequestParam("staffName") String staffName){
+        Staff staff = userService.selectByName(staffName);
         OAResoult<List<Staff>> oaResoult = new OAResoult();
-
-        //放到返回类中
-        oaResoult.setCode(0);
-        oaResoult.setMsg("");
-        oaResoult.setCount(staffList.size());
-        oaResoult.setData(staffList);
-        return oaResoult;
+        return staff;
     }
 }

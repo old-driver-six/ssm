@@ -30,6 +30,8 @@ public interface StaffMapper {
      */
     Staff selectByPrimaryKey(Integer staffId);
 
+    Staff selectByName(String staffName);
+
     List<Staff> select(Map<String, Object> map);
 
     List<Staff> selectLimit(Map<String, Object> map);
