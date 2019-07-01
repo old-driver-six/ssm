@@ -1,8 +1,20 @@
 package com.bj186.oas.pojo;
 
+import com.bj186.oas.pojo.personalpojo.Paging;
+
 import java.util.Date;
 
 public class WorkLog {
+    private Paging paging;
+
+    public Paging getPaging() {
+        return paging;
+    }
+
+    public void setPaging(Paging paging) {
+        this.paging = paging;
+    }
+
     /**
      * 工作日志ID(自增)
      */
@@ -128,4 +140,5 @@ public class WorkLog {
     public void setWorklogContent(String worklogContent) {
         this.worklogContent = worklogContent == null ? null : worklogContent.trim();
     }
+
 }

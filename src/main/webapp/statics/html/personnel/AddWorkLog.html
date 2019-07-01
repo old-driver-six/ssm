@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加工作日志</title>
+    <link href="../../layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script src="../../js/jquery-3.1.1.js"></script>
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/basevalue.js"></script>
+    <link rel="stylesheet" href="../../css/personnel.css">
+    <script>
+        var index=null;     //富文本对象的id
+        var layedit=null;   //layui调用富文本的对象
+        layui.use('layedit', function(){
+            layedit = layui.layedit;
+            index=layedit.build('demo'); //建立编辑器
+        });
+        $(function () {
+            var sid=10007;
+            $("#Preservation").on('click',function () {
+                $.ajax({
+                    url:path+"/workLog/save.do",
+                    type:'post',
+                    data:{
+                        "worklogCreateid":sid,
+                        'worklogName':$("#worklogName").val(),
+                        'worklogContent':layedit.getContent(index)
+                    },
+                    dataType:'json',
+                    success:function (e) {
+                        console.log(e);
+                        layer.msg(e.msg);
+                    },
+                    error:function (e) {
+                        console.log("错误信息!"+e)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="leaveMain">
+        <div class="titleLeave">
+            <h1>添加工作日志</h1>
+        </div>
+        <div class="contextLeave">
+            <div class="layui-inline wth">
+                <label class="layui-form-label">日志标题:</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="worklogName" class="layui-input">
+                </div>
+            </div>
+            <h3 class="top">日志内容:</h3>
+            <div class="top">
+                <textarea id="demo" style="display: none;"></textarea>
+            </div>
+            <div style="margin-left: 50%" class="top">
+                <button class="layui-btn layui-btn-normal" id="Preservation" type="button">保存笔记</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

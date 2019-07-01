@@ -1,0 +1,120 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>创建请假条</title>
+    <!--监听表单提交的js-->
+   <!-- <link rel="stylesheet" href="../css/reset.css">-->
+    <link rel="stylesheet" href="../../layui/css/layui.css">
+    <script src="../../js/jquery-3.1.1.js"></script>
+    <script src="../../layui/layui.js"></script>
+    <script src="../../js/basevalue.js"></script>
+    <link rel="stylesheet" href="../../css/personnel.css">
+    <script>
+        var index=null;     //富文本对象的id
+        var layedit=null;   //layui调用富文本的对象
+        layui.use('layedit', function(){
+            layedit = layui.layedit;
+            index=layedit.build('demo'); //建立编辑器
+        });
+        $(function () {
+            $("#Preservation").on("click",function () {
+                var $Title=$("#leaveTitle").val();       //获取到请假表题
+                var $pressing=$("#pressing").val();      //请假紧急程度!
+                var $LeaveNumber=$("#LeaveNumber").val();   //请假天数
+                var $Type=$("#ltype").val();                //请假类型
+                var $createDate=$("#date1").val();          //请假起始时间
+                var $sendDate=$("#date2").val();            //请假结束时间
+                var demo=layedit.getContent(index);         //获取到请假原因
+                $.ajax({
+                    url:path+"/leave/saveLeave.do",
+                    type:"post",
+                    data:JSON.stringify({
+                        "leaveProcessing":$pressing,
+                        "leaveTitle":$Title,
+                        "leaveType":$Type,
+                        "leaveTime":$LeaveNumber,
+                        "leaveStarttime":$createDate,
+                        "leaveSendtime":$sendDate,
+                        "leaveReason":demo,
+                    }),
+                    contentType:"application/json;charset=utf-8",
+                    dataType:'json',
+                    success:function (e) {
+                        console.log(e);
+                    },
+                    error:function (e) {
+                        console.log(e);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="leaveMain">
+        <div class="titleLeave">
+            <h1>请假申请</h1>
+            <span>Leave application</span>
+        </div>
+        <div class="contextLeave">
+            <div class="layui-inline wth">
+                <label class="layui-form-label">请假标题:</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="leaveTitle" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline wth">
+                <label class="layui-form-label">紧急程度:</label>
+                <div class="layui-input-inline">
+                    <select class="selt" id="pressing">
+                        <option value="正常">正常</option>
+                        <option value="紧急">紧急</option>
+                        <option value="重要">重要</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline wth top">
+                <label class="layui-form-label">请假天数:</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="LeaveNumber" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline wth top">
+                <label class="layui-form-label">请假类型:</label>
+                <div class="layui-input-inline">
+                    <select class="selt" id="ltype">
+                        <option value="0">事假</option>
+                        <option value="1">年假</option>
+                        <option value="2">婚假</option>
+                        <option value="3">产假</option>
+                        <option value="3">病假</option>
+                        <option value="3">其他</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline wth top">
+                <label class="layui-form-label" style="width: 100px">请假起始日期:</label>
+                <div class="layui-input-inline">
+                    <input type="date" id="date1">
+                </div>
+            </div>
+            <div class="layui-inline wth top">
+                <label class="layui-form-label" style="width: 100px">请假结束日期:</label>
+                <div class="layui-input-inline">
+                    <input type="date" id="date2">
+                </div>
+            </div>
+            <h3 class="top">请假原因:</h3>
+            <div class="top">
+                <textarea id="demo" style="display: none;"></textarea>
+            </div>
+            <div class="top" style="margin-left: 50%">
+                <button class="layui-btn layui-btn-normal" id="Preservation" type="button">保存笔记</button>
+            </div>
+         </div>
+    </div>
+</body>
+</html>

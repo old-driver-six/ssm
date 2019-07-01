@@ -128,32 +128,68 @@
     <include refid="Blob_Column_List" />
     from oas_worklog
     <where>
-      <if test="worklogCreateid!=null">
+     <include refid="limitpage"/>
+    </where>
+  </select>
+
+  <!--
+    不能分页查询！
+  -->
+  <sql id="limitpage">
+    <if test="worklogCreateid!=null">
       and worklog_createID=#{worklogCreateid}
-      </if>
-      <!--
-        通过创建时间区间查询
-      -->
-      <!--大于传递进来的时间-->
-      <if test="workLogCreatedate1!=null">
-       and worklog_createdate &gt;=#{workLogCreatedate1}
-      </if>
-      <!--小于传递进来的时间-->
-      <if test="workLogCreatedate2!=null">
-        and worklog_createdate &lt;=#{workLogCreatedate2}
-      </if>
-      <!--通过修改时间查询!-->
-      <!--大于传递进来的时间-->
-      <if test="worklogUpdatetime1!=null">
-        and worklog_updatetime &gt;=#{worklogUpdatetime1}
-      </if>
-      <!--小于传递进来的时间-->
-      <if test="worklogUpdatetime2!=null">
-        and worklog_updatetime &lt;=#{worklogUpdatetime2}
-      </if>
-      <if test="pageSize!=null and pasgeThis!=null">
-        LIMIT #{pasgeThis},#{pageSize}
-      </if>
+    </if>
+    <!--
+      通过创建时间区间查询
+    -->
+    <!--大于传递进来的时间-->
+    <if test="workLogCreatedate1!=null">
+      and worklog_createdate &gt;=#{workLogCreatedate1}
+    </if>
+    <!--小于传递进来的时间-->
+    <if test="workLogCreatedate2!=null">
+      and worklog_createdate &lt;=#{workLogCreatedate2}
+    </if>
+    <!--通过修改时间查询!-->
+    <!--大于传递进来的时间-->
+    <if test="worklogUpdatetime1!=null">
+      and worklog_updatetime &gt;=#{worklogUpdatetime1}
+    </if>
+    <!--小于传递进来的时间-->
+    <if test="worklogUpdatetime2!=null">
+      and worklog_updatetime &lt;=#{worklogUpdatetime2}
+    </if>
+  </sql>
+  <!--可以分页的查询！-->
+  <sql id="workPageLimit">
+    <include refid="limitpage"/>
+    <if test="pageSize!=null and pageThis!=null">
+      LIMIT #{pageThis},#{pageSize}
+    </if>
+  </sql>
+
+  <select id="selCount" resultType="int" parameterType="com.bj186.oas.pojo.personalpojo.WorkLogUtil">
+    select count(*) as count from oas_worklog
+    <where>
+      <include refid="limitpage"/>
+    </where>
+  </select>
+
+  <resultMap id="selLimitWorkMap" type="com.bj186.oas.pojo.personalpojo.Paging">
+    <result column="cot" property="cot"/>
+    <collection property="data" resultMap="BaseResultMap"/>
+  </resultMap>
+
+  <select id="selLimitWork" resultMap="selLimitWorkMap" parameterType="com.bj186.oas.pojo.personalpojo.WorkLogUtil">
+    SELECT oas_worklog.*,
+    (SELECT count(*) FROM oas_worklog
+    <where>
+      <include refid="limitpage"/>
+    </where>
+    ) as cot
+    FROM oas_worklog
+    <where>
+      <include refid="workPageLimit"/>
     </where>
   </select>
 </mapper>
