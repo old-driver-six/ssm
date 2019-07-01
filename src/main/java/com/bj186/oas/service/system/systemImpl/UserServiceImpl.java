@@ -147,8 +147,33 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Integer Suspension(Integer staffID) {
-        if( usersMapper.Suspension(staffID)==1){
+    public Integer suspension(Integer staffID) {
+        if( usersMapper.suspension(staffID)==1){
+            return 200;
+        }
+        return -1;
+    }
+    /**
+     * 复职方法
+     * @param staffID 被复职人
+     * @return
+     */
+    @Override
+    public Integer office(Integer staffID) {
+        if( usersMapper.office(staffID)==1){
+            return 200;
+        }
+        return -1;
+    }
+
+    /**
+     * 离职方法
+     * @param staffID 被离职人
+     * @return
+     */
+    @Override
+    public Integer lizhi(Integer staffID) {
+        if( usersMapper.lizhi(staffID)==1){
             return 200;
         }
         return -1;

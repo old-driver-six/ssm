@@ -99,15 +99,6 @@
             ]]
             // ,contentType:'application/json'
             // ,request:json
-            ,where:
-                // JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
-                // {aa:JSON.stringify({'uid':'10001'})}
-                {
-                    uId:$.cookie('uId'),
-                }
-            // ,page: {
-            //     curr: 1 //重新从第 1 页开始
-            // }
         });
 
         //监听删除事件
@@ -125,7 +116,7 @@
                     var staffId = data.staffId;
                     var json={'staffId':staffId}
                     $.ajax({
-                        url: "/user/Suspension"
+                        url: "/user/suspension"
                         ,type: "post",    //访问方式
                         data:JSON.stringify(json),
                         dataType: "json",
@@ -145,7 +136,7 @@
             else if(layEvent ==='detailed') {
                 var staffId = data.staffId
                 console.log(staffId)
-                x_admin_show('员工详情', '/user/detailed?staffId='+ staffId, 800);
+                x_admin_show('员工详情', 'html/system/user-detailed.html?staffId='+ staffId, 800);
             }else if(layEvent ==='res') {
                 var staffId = data.staffId
                 // console.log(staffId)
@@ -175,7 +166,6 @@
         tableIns.reload({//重载表格
             // // contentType:'application/json'
                 where: {
-                uid:$.cookie('uId'),
                 filed:$('select[name="filed"]').val(),
                 value:$('input[name="value"]').val(),
             }
