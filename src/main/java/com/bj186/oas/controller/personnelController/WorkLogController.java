@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("/workLog")
@@ -86,7 +87,8 @@ public class WorkLogController {
 
     @RequestMapping("/selLimit.do")
     @ResponseBody
-    public OAResoult<Paging<WorkLog>> selLimit(WorkLogUtil workLogUtil){
-       return workLogService.selWorkLog(10007,1,1);
+    public OAResoult<List<WorkLog>> selLimit(Integer sid, Integer page, Integer limit){
+        System.out.println(sid+" "+page+" "+limit);
+        return workLogService.selWorkLog(sid, limit, page);
     }
 }

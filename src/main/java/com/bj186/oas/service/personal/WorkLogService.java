@@ -45,7 +45,7 @@ public interface WorkLogService {
      * @param pageThis
      * @return
      */
-    OAResoult<Paging<WorkLog>> selWorkLog(Integer sid, Integer pageSize, Integer pageThis);
+    OAResoult<List<WorkLog>> selWorkLog(Integer sid, Integer pageSize, Integer pageThis);
 
     /**
      * 根据创建时间区间查询,

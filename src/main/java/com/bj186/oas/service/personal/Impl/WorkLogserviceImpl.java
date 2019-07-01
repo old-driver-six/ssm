@@ -102,17 +102,18 @@ public class WorkLogserviceImpl implements WorkLogService {
      * @return
      */
     @Override
-    public OAResoult<Paging<WorkLog>> selWorkLog(Integer sid, Integer pageSize, Integer pageThis) {
+    public OAResoult<List<WorkLog>> selWorkLog(Integer sid, Integer pageSize, Integer pageThis) {
         WorkLogUtil util = getWorkLogUtil(pageThis, pageSize);
         util.setWorklogCreateid(sid);
         Paging<WorkLog> workLogPaging = workLogMapper.selLimitWork(util);
-        OAResoult<Paging<WorkLog>> resoult=new OAResoult<>();
+        OAResoult<List<WorkLog>> resoult=new OAResoult<>();
         resoult.setCode(0);
         if("".equals(workLogPaging)||null==workLogPaging){
             resoult.setMsg("当前还没有添加数据！");
             return resoult;
         }
-        resoult.setData(workLogPaging);
+        resoult.setCount(workLogPaging.getCot());
+        resoult.setData(workLogPaging.getData());
         return resoult;
     }
 
