@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>通知公告</title>
+    <title>会议管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -29,10 +29,8 @@
 <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">公共事务</a>
-           <a href="inst.html">规章制度</a>
-        <a>
-          <cite>我的制度</cite></a>
+        <a href="">行政管理</a>
+        <a><cite>会议管理</cite></a>
       </span>
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
@@ -44,9 +42,11 @@
                 <div class="layui-col-md6" style="width: 150px">
                     <select id="select1" name="city" lay-verify="">
                         <option value="">请选择搜索条件</option>
-                        <option value="rule_title">标题</option>
-                        <option value="rule_releaseDate">时间</option>
-                        <option value="rule_content">内容</option>
+                        <option value="meeting_title">标题</option>
+                        <option value="staff_name">发布人</option>
+                        <option value="meeting_time">时间</option>
+                        <option value="meeting_location">地点</option>
+                        <option value="meeting_type">类型</option>
                     </select>
                 </div>
                 &nbsp;
@@ -56,7 +56,7 @@
                 <div class="layui-input-inline">
                     <button id="button1" class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
                 </div>
-                <button id="button2" class="layui-btn layui-btn-primary" style="float: right">发布制度</button>
+                <button id="button2" class="layui-btn layui-btn-primary" style="float: right">召开会议</button>
             </div>
         </div>
     <table class="layui-hide"  id="demo" lay-filter="test">
@@ -65,23 +65,16 @@
             <div class="layui-card">
                 <div class="layui-card-body">
                     <div class="layui-btn-container">
-                        <a class="layui-btn layui-btn-sm" lay-event="edit"><i class="iconfont"  >&#xe6a2;</i></a>
+                        <a class="layui-btn layui-btn-danger layui-btn-sm"  lay-event="edit" style="margin-top: -5px"><i class="layui-icon" >&#xe640;</i></a>
                     </div>
                 </div>
             </div>
         </script>
 </div>
 </div>
-<script type="text/html" id="titleTpl">
-    {{#if (d.ruleState == 0) { }}
-    <span>可见</span>
-    {{# }else if(d.ruleState == 1){ }}
-    <span>不可见</span>
-    {{# } }}
-</script>
 <script>
     $("button#button2").click(function () {
-        x_admin_show('发布','insert-inst.html',800,500)
+        x_admin_show('发布','insert-meeting.html',800,500)
     })
     $("button#button1").click(function () {
         tableIns.reload({//重载表格
@@ -103,21 +96,27 @@
             elem: '#demo'
             ,id:'idTest'
             ,type:'get'
-            ,url:'/rule/select'
+            ,url:'/meeting/selectMyAll'
             ,page:true
             ,limits:[5,8,10]
             ,limit:5
             ,size:'lg'
-
             ,where: {'uId': $.cookie('uId')
                 ,'field':$('select#select1').val()
                 ,'value':$('input#value').val()
-            }      ,cols: [[
+            },
+            done: function (res,curr, count) {
+                for (var i = 0; i < res.data.length; i++) {
+                    res.data[i].announcementsState = "666"
+                }
+            }
+            ,cols: [[
                 {type:'checkbox',fixed: 'left'}
-                ,{field: 'ruleTitle', title: '标题', sort: true, fixed: 'left'}
-                ,{field: 'ruleName', title: '制定人',fixed: 'left'}
-                ,{field: 'ruleReleasedate', title: '发布时间', sort: true, fixed: 'left'}
-                ,{field: 'ruleState', title: '状态',templet:'#titleTpl',fixed: 'right'}
+                ,{field: 'meetingTitle', title: '标题', sort: true, fixed: 'left'}
+                ,{field: 'staffName', title: '发布人',fixed: 'left'}
+                ,{field: 'meetingLocation', title: '会议地址', sort: true, fixed: 'left'}
+                ,{field: 'meetingTime', title: '发布时间', sort: true, fixed: 'left'}
+                ,{field: 'meetingType', title: '会议类型',fixed: 'right'}
                 ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
             ]]
         });
@@ -126,8 +125,33 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
             if(layEvent === 'edit'){
-               console.log(data.ruleId)
-                x_admin_show('编辑','update-inst.html?id='+data.ruleId,800,500)
+               console.log(data.meetingId)
+                var json = {'meetingId':data.meetingId}
+                console.log(JSON.stringify(json))
+                $.ajax({
+                    url:'/meeting/delete'
+                    ,data: JSON.stringify(json)
+                    ,type:'post'
+                    ,dateType:'json'
+                    ,contentType:'application/json'
+                    , success: function (data) {
+                        if (data.code != 0) {
+                            layer.msg("删除成功！")
+                            tableIns.reload({//重载表格
+                                where: {
+                                    'field':$('select#select1').val()
+                                    ,'value':$('input#value').val()
+                                }
+                                ,page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
+                        }
+                        else {
+                            layer.msg("删除失败！")
+                        }
+                    }
+                })
             }
         });
     });

@@ -21,10 +21,10 @@
     where meetingStaff_id = #{meetingstaffId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.MeetingStaff" >
-    insert into oas_meetingstaff (meetingStaff_id, meetingStaff_meeting_id, 
-      meetingStaff_empid, meetingStaff_stffId)
-    values (#{meetingstaffId,jdbcType=VARCHAR}, #{meetingstaffMeetingId,jdbcType=VARCHAR}, 
-      #{meetingstaffEmpid,jdbcType=INTEGER}, #{meetingstaffStffid,jdbcType=INTEGER})
+    insert into oas_meetingstaff (meetingStaff_meeting_id,
+      meetingStaff_empid)
+    values (#{meetingstaffMeetingId,jdbcType=VARCHAR},
+      #{meetingstaffEmpid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.MeetingStaff" >
     insert into oas_meetingstaff

@@ -1,6 +1,8 @@
 package com.bj186.oas.pojo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Meeting {
     /**
@@ -21,7 +23,39 @@ public class Meeting {
     /**
      * 会议发起人员工
      */
-    private Integer meetingStffId;
+    private Integer meetingStaffId;
+
+    private String staffName;
+    private Integer meetingState;
+
+    /**
+     *可见部门
+     */
+    private List<Department> departments = new ArrayList<>();
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public Integer getMeetingState() {
+        return meetingState;
+    }
+
+    public void setMeetingState(Integer meetingState) {
+        this.meetingState = meetingState;
+    }
 
     /**
      * 会议位置
@@ -90,16 +124,16 @@ public class Meeting {
      * 会议发起人员工
      * @return meeting_stff_id 会议发起人员工
      */
-    public Integer getMeetingStffId() {
-        return meetingStffId;
+    public Integer getMeetingStaffId() {
+        return meetingStaffId;
     }
 
     /**
      * 会议发起人员工
-     * @param meetingStffId 会议发起人员工
+     * @param meetingStaffId 会议发起人员工
      */
-    public void setMeetingStffId(Integer meetingStffId) {
-        this.meetingStffId = meetingStffId;
+    public void setMeetingStaffId(Integer meetingStaffId) {
+        this.meetingStaffId = meetingStaffId;
     }
 
     /**
