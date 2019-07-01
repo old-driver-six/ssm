@@ -1,5 +1,7 @@
 package com.bj186.oas.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +40,7 @@ public class Staff {
     /**
      * 员工生日
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date staffBirthday;
 
     /**
@@ -75,6 +78,16 @@ public class Staff {
      */
     private List<Power> powerList = new ArrayList<>();
 
+    private Integer state;
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -98,7 +111,43 @@ public class Staff {
     public void setPowerList(List<Power> powerList) {
         this.powerList = powerList;
     }
+    /**
+     * 薪资
+     */
+    private List<Pay> paysList = new ArrayList<>();
 
+    public List<Pay> getPaysList() {
+        return paysList;
+    }
+
+    public void setPaysList(List<Pay> paysList) {
+        this.paysList = paysList;
+    }
+
+    /**
+     * 报销
+     */
+    private List<Reimburse> reimburses = new ArrayList<>();
+
+    public List<Reimburse> getReimburses() {
+        return reimburses;
+    }
+
+    public void setReimburses(List<Reimburse> reimburses) {
+        this.reimburses = reimburses;
+    }
+    /**
+     * 报销凭证
+     */
+    private List<Proof> proofs = new ArrayList<>();
+
+    public List<Proof> getProofs() {
+        return proofs;
+    }
+
+    public void setProofs(List<Proof> proofs) {
+        this.proofs = proofs;
+    }
     /**
      * 员工ID（主键 10001自增）
      * @return staff_id 员工ID（主键 10001自增）

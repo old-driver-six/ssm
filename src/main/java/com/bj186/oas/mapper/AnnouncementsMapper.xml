@@ -6,6 +6,7 @@
     <result column="announcements_date" property="announcementsDate" jdbcType="TIMESTAMP" />
     <result column="announcements_content" property="announcementsContent" jdbcType="VARCHAR" />
     <result column="announcements_notifierId" property="announcementsNotifierid" jdbcType="INTEGER" />
+    <result column="staff_name" property="notifieridName" jdbcType="INTEGER" />
     <result column="announcements_topic" property="announcementsTopic" jdbcType="VARCHAR" />
     <result column="announcements_state" property="announcementsState" jdbcType="INTEGER" />
   </resultMap>
@@ -17,31 +18,46 @@
     announcements_notifierId, announcements_topic, announcements_state
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from oas_announcements
-    where announcements_id = #{announcementsId,jdbcType=INTEGER}
+    SELECT * FROM (SELECT * FROM
+  oas_announcementsextent a RIGHT join oas_announcements b
+  on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
+  on a.announcementsExtent_departmentId = b.dep_id where announcements_id = #{announcementsId,jdbcType=INTEGER}
   </select>
   <select id="selectAnnsByNotifier" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    SELECT * FROM (SELECT * FROM
-  oas_announcementsextent a left join oas_announcements b
-  on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
-  on a.announcementsExtent_departmentId = b.dep_id where announcements_notifierId = #{notifierId} and announcements_state = 0
-  </select>
+ SELECT * FROM
+  oas_announcements a left join oas_staff b
+  on a.announcements_notifierId = b.staff_id where announcements_notifierId = #{uId}
+      <if test="field!=''">
+          and ${field} like ${value}
+      </if>
+    <if test="page!=null">
+      limit #{page},#{limit}
+    </if>
+</select>
 
   <select id="selectByDepIdVague" resultMap="BaseResultMap" parameterType="Map" >
+     SELECT * FROM (SELECT * FROM (SELECT * FROM
+  oas_announcementsextent a left join oas_announcements b
+  on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
+  on a.announcementsExtent_departmentId = b.dep_id )a left join oas_staff b
+   on a.announcements_notifierId = b.staff_id WHERE dep_id = #{depId,jdbcType=INTEGER} and announcements_state = 0
+  and ${field} like ${value}
+
+  </select>
+  <select id="selectByDepId" resultMap="BaseResultMap" parameterType="Map" >
     SELECT * FROM (SELECT * FROM
   oas_announcementsextent a left join oas_announcements b
   on a.announcementsExtent_announcementsId = b.announcements_id) a left join oas_department b
   on a.announcementsExtent_departmentId = b.dep_id WHERE dep_id = #{depId,jdbcType=INTEGER} and announcements_state = 0
-  and ${field} like ${value}
+
 
   </select>
   <select id="selectAllVague" resultMap="BaseResultMap" parameterType="Map">
     SELECT * FROM oas_announcements WHERE ${field} like ${content} and announcements_state = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    SELECT * FROM oas_announcements and announcements_state = 0
+    SELECT * FROM oas_announcements a left join oas_staff b on a.announcements_notifierId
+    = b.staff_id where announcements_state = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_announcements
@@ -134,7 +150,6 @@
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Announcements" >
     update oas_announcements
     set announcements_date = #{announcementsDate,jdbcType=TIMESTAMP},
-      announcements_notifier = #{announcementsNotifier,jdbcType=VARCHAR},
       announcements_content = #{announcementsContent,jdbcType=VARCHAR},
       announcements_notifierId = #{announcementsNotifierid,jdbcType=INTEGER},
       announcements_topic = #{announcementsTopic,jdbcType=VARCHAR},

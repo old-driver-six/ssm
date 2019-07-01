@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+      <title>修改合同</title>
+      <meta name="renderer" content="webkit">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+      <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+      <!-- layui等css -->
+      <link rel="stylesheet" href="../css/font.css">
+      <link rel="stylesheet" href="../css/xadmin.css">
+      <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+      <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+      <script src="../js/jquery.min.js"></script>
+      <script src="../js/jquery.cookie.js"></script>
+      <script src="../layui/layui.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/xadmin.js"></script>
+      <script>
+          layui.use(['jquery', 'form','laydate'], function () {
+              var $ = layui.jquery,
+                      form = layui.form,
+                      laydate = layui.laydate;
+
+              var saleID = getQueryString("saleID");
+              console.log(saleID);
+              $.ajax({
+                  url:'/SaleServlet?method=saleSelectByID',
+                  type:"post",
+                  data:{"saleID":saleID},
+                  dataType:'json',
+                  success:function (json) {
+                    var jsonData = json;
+                    console.log(jsonData.date);
+                    $("#staffID").attr("value",jsonData.staffID);
+                    $("#date").attr("value",jsonData.date);
+                    $("#receiptMoney").attr("value",jsonData.receiptMoney);
+                    $("#spendMoney").attr("value",jsonData.spendMoney);
+                    $("#profitAndLost").attr("value",jsonData.profitAndLost);
+                      $.ajax({
+                          url:'/SaleServlet?method=saleDescription',
+                          type:"post",
+                          data:{"saleID":saleID},
+                          dataType:'json',
+                          success:function (json) {
+                              var jsonData = json;
+                              console.log(jsonData.date);
+                              $("#saleDescription").val(jsonData.saleDescription);
+                          },
+                          error:function (e) {
+                          }
+                      });
+                  },
+                  error:function (e) {
+                  }
+              });
+
+
+              laydate.render({
+                      elem: '#date' //指定元素
+                      ,type: 'datetime'
+                  });
+
+
+                  //自定义验证规则
+                  form.verify({});
+
+                  //监听提交
+                  form.on('submit(update)', function (data) {
+                      var  updateSale = data.field;
+                      var  SaleDescription = data.field.saleDescription;
+                      var  updateSaleDescription ={ "SaleDescription":SaleDescription };
+                      updateSale.saleID = saleID;
+                      updateSaleDescription.saleID = saleID;
+                      delete  updateSale.saleDescription;
+                      console.log(updateSale);
+                      console.log(updateSaleDescription)
+                      $.ajax({
+                          url:'/SaleServlet?method=updateSale',
+                          type:"post",
+                          data:{"updateSale":JSON.stringify(updateSale)},
+                          dataType:'json',
+                          success:function (json) {
+                              console.log(json.date);
+                              $.ajax({
+                                  url:'/SaleServlet?method=updateSaleDescription',
+                                  type:"post",
+                                  data:{"updateSaleDescription":JSON.stringify(updateSaleDescription)},
+                                  dataType:'json',
+                                  success:function (json) {
+                                  },
+                                  error:function (e) {
+                                  }
+                              });
+                              layer.alert("保存成功", {icon: 6}, function () {
+                                  // 获得frame索引
+                                  var index = parent.layer.getFrameIndex(window.name);
+                                  //关闭当前frame
+                                  parent.layer.close(index);
+                                  window.parent.location.reload();
+                              });
+                          },
+                          error:function (e) {
+                          }
+                      });
+                      return false;
+                  });
+
+          });
+          function getQueryString(name) {
+              var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+              var reg_rewrite = new RegExp("(^|/)" + name + "/([^/]*)(/|$)", "i");
+              var r = window.location.search.substr(1).match(reg);
+              var q = window.location.pathname.substr(1).match(reg_rewrite);
+              if(r != null){
+                  return unescape(r[2]);
+              }else if(q != null){
+                  return unescape(q[2]);
+              }else{
+                  return null;
+              }
+          }
+      </script>
+  </head>
+  <body class="x-body">
+  <form class="layui-form" action="sale.html">
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>财务人员ID
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="staffID" name="staffID" autocomplete="off" class="layui-input" required lay-verify="required" >
+          </div>
+      </div>
+
+      <div class="layui-form-item layui-col-md12 x-so">
+          <label   for="staffID" class="layui-form-label">
+              <span class="x-red">*</span>统计时间
+          </label>
+          <input class="layui-input " placeholder="日期"  id="date" name="date" required lay-verify="required">
+      </div>
+
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>收款金额
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="receiptMoney" name="receiptMoney" required lay-verify="required"
+                     autocomplete="off" class="layui-input">
+          </div>
+      </div>
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>支出金额
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="spendMoney" name="spendMoney" required lay-verify="required"
+                     autocomplete="off" class="layui-input">
+          </div>
+      </div>
+
+          <div class="layui-form-item">
+              <label  class="layui-form-label">
+                  <span class="x-red">*</span>盈损金额
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="profitAndLost" name="profitAndLost" required lay-verify="required"
+                         autocomplete="off" class="layui-input">
+              </div>
+          </div>
+
+      <div class="layui-form-item layui-form-text">
+          <label for="saleDescription" class="layui-form-label">
+              描述
+          </label>
+          <div class="layui-input-block">
+              <textarea placeholder="请输入内容" id="saleDescription" name="saleDescription" class="layui-textarea" style="width: 600px;height: 280px"></textarea>
+          </div>
+      </div>
+
+      <div class="layui-form-item">
+          <label for="staffID" class="layui-form-label">
+          </label>
+          <button  class="layui-btn" lay-filter="update" lay-submit ="">
+              保存修改
+          </button>
+      </div>
+  </form>
+  </body>
+
+</html>

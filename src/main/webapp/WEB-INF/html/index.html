@@ -1,24 +1,40 @@
-﻿﻿
-<html> 
+﻿<html>
 <head>
-    <meta charset="UTF-8">
-    <title>餐厅系统管理页面</title>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>OA办公自动化系统</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="../../statics/css/font.css">
-    <link rel="stylesheet" href="../../statics/css/xadmin.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="statics/css/font.css">
+    <link rel="stylesheet" href="statics/css/xadmin.css">
 
-    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="statics/layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-    <script src="../../statics/js/jquery.min.js"></script>
-    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../../statics/js/xadmin.js"></script>
+    <script src="statics/js/jquery.min.js"></script>
+    <script src="statics/js/jquery.cookie.js"></script>
+    <script src="statics/js/jquery.cookies.2.2.0.js"></script>
+    <script src="statics/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="statics/js/xadmin.js"></script>
     <script>
         $(function () {
+            console.log($.cookie("name"))
+            console.log($.cookie("depName"))
+            switch ($.cookie("depName")) {
+                case "行政部":$("li#dep1").css("display","block")
+                    break
+                case "人事部":$("li#dep2").css("display","block")
+                    break
+                case "财务部":$("li#dep3").css("display","block")
+                    break
+                case "董事局":$("li#dep1").css("display","block")
+                    $("li#dep2").css("display","block")
+                    $("li#dep3").css("display","block")
+                    break
+            }
+            $("a#user_name").html($.cookie('name'))
             $.ajax({
                 type: "POST",
                 url: "/user/select",
@@ -32,10 +48,13 @@
             function exit() {
                 $.ajax({
                     type: "POST",
-                    url: "/user/select",
+                    url: "/logout",
                     success: function(msg){
-                        console.log(msg)
-                        // $(location).attr("href","html/login.html")
+                        if(msg == false){
+                            alert("注销出错！");
+                        }else{
+                            $(location).attr("href","/statics/html/login.html")
+                        }
                     }
                 })
             }
@@ -44,10 +63,9 @@
     </script>
 </head>
 <body>
-<i class="iconfont">&#xe6eb;</i>
 <!-- 顶部开始 -->
 <div class="container">
-    <div class="logo"><a href="index.html">系统管理</a></div>
+    <div class="logo"><a href="index2.html">OA办公自动化系统</a></div>
     <div class="left_open">
         <i title="展开左侧栏" class="iconfont">&#xe699;</i>
     </div>
@@ -70,9 +88,7 @@
                 <dd><a id="exit">退出</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item to-index"><a href="/logintoservlet">前台首页</a></li>
     </ul>
-
 </div>
 <!-- 顶部结束 -->
 <!-- 中部开始 -->
@@ -121,13 +137,13 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="public/test.html" class="title-send">
+                        <a _href="html/public/notice.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>通知公告</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="/systemServlet?method=users" class="title-send">
+                        <a _href="html/public/inst.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>规章制度</cite>
                         </a>
@@ -135,10 +151,52 @@
                 </ul>
             </li>
 
-            <li>
+            <li  id="dep1">
                 <a href="javascript:;">
                     <i class="iconfont">&#xe726;</i>
                     <cite>行政管理</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/Tofoods.food" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>菜品管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/ToProInfo.do" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>采购清单</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <li id="dep2" style="display: none">
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe726;</i>
+                    <cite>人事管理</cite>
+                    <i class="iconfont nav_right">&#xe6a7;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="/Tofoods.food" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>菜品管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/ToProInfo.do" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>采购清单</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <li id="dep3" style="display: none">
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe726;</i>
+                    <cite>财务管理</cite>
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
@@ -165,34 +223,46 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="/receptionServlet?method=reception_order" class="title-send">
+                        <a _href="user/index" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>结账系统</cite>
+                            <cite>用户管理</cite>
                         </a>
                     </li >
                     <li>
                         <a _href="/receptionServlet?method=reception_seat" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>座位信息</cite>
+                            <cite>部门管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/receptionServlet?method=reception_seat" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>职位管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/receptionServlet?method=reception_seat" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>权限管理</cite>
                         </a>
                     </li >
                 </ul>
             </li>
 
             <!--<li>-->
-                <!--<a href="javascript:;">-->
-                    <!--<i class="iconfont">&#xe726;</i>-->
-                    <!--<cite>财务管理</cite>-->
-                    <!--<i class="iconfont nav_right">&#xe6a7;</i>-->
-                <!--</a>-->
-                <!--<ul class="sub-menu">-->
-                    <!--<li>-->
-                        <!--<a _href="/systemServlet?method=sale" class="title-send">-->
-                            <!--<i class="iconfont">&#xe6a7;</i>-->
-                            <!--<cite>财务系统</cite>-->
-                        <!--</a>-->
-                    <!--</li >-->
-                <!--</ul>-->
+            <!--<a href="javascript:;">-->
+            <!--<i class="iconfont">&#xe726;</i>-->
+            <!--<cite>财务管理</cite>-->
+            <!--<i class="iconfont nav_right">&#xe6a7;</i>-->
+            <!--</a>-->
+            <!--<ul class="sub-menu">-->
+            <!--<li>-->
+            <!--<a _href="/systemServlet?method=sale" class="title-send">-->
+            <!--<i class="iconfont">&#xe6a7;</i>-->
+            <!--<cite>财务系统</cite>-->
+            <!--</a>-->
+            <!--</li >-->
+            <!--</ul>-->
             <!--</li>-->
 
         </ul>

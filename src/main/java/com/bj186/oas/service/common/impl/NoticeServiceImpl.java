@@ -1,5 +1,6 @@
 package com.bj186.oas.service.common.impl;
 
+import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.mapper.AnnouncementsExtentMapper;
 import com.bj186.oas.mapper.AnnouncementsMapper;
 import com.bj186.oas.mapper.DepartmentMapper;
@@ -8,8 +9,10 @@ import com.bj186.oas.pojo.*;
 import com.bj186.oas.service.common.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +69,8 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public Integer insertAnn(Integer uId,Announcements ann, List<String> depNames) {
+        Date date = new Date(System.currentTimeMillis());
+        ann.setAnnouncementsDate(date);
         //权限判定
         Integer integer = judgePower(uId, depNames);
         //无权限
@@ -102,9 +107,30 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<Announcements> selectAnnsByNotifier(Integer uId) {
-        List<Announcements> announcements = annMapper.selectAnnsByNotifier(uId);
-        return announcements;
+    public OAResoult selectAnnsByNotifier(Integer uId, Integer page, Integer limit,String field,String value) {
+        Map<String, Serializable> map = new HashMap<>();
+        map.put("uId",uId);
+        map.put("field",field);
+        map.put("value","\'%"+value+"%\'");
+        Integer count = annMapper.selectAnnsByNotifier(map).size();
+        map.put("page",(page - 1)*limit);
+        map.put("limit",limit);
+        List<Announcements> announcements = annMapper.selectAnnsByNotifier(map);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(0);
+        oaResoult.setCount(count);
+        oaResoult.setData(announcements);
+        return oaResoult;
+    }
+
+    @Override
+    public Announcements selectAnn(Integer annId) {
+        return annMapper.selectByPrimaryKey(annId);
+    }
+
+    @Override
+    public Staff selectByPhoneKey(String phone) {
+        return staffMapper.selectByPhoneKey(phone);
     }
 
 
@@ -119,8 +145,11 @@ public class NoticeServiceImpl implements NoticeService {
         }
         //单部门发布公告只能在本部门发布  否则没有权限
         if (depNames.size() == 1){
+
             if (!staff.getDepartment().getDepName().equals(depNames.get(0))){
-                return -1;
+                if (!staff.getDepartment().getDepName().equals("董事局")){
+                    return -1;
+                }
             }
         }
         //拥有公告发布权限的人才能发布公告，否则没有权限

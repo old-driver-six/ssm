@@ -13,11 +13,19 @@ public class Pay {
      * 员工编号（外键）
      */
     private Integer payStaffid;
+    /**
+     * 员工
+     */
+    private Staff staff;
 
     /**
      * 部门编号（外键）
      */
     private Integer payDepid;
+    /**
+     * 部门
+     */
+    private Department department;
 
     /**
      * 日期
@@ -48,7 +56,9 @@ public class Pay {
      * 员工真实月薪
      */
     private BigDecimal paySalary;
+    public Pay() {
 
+    }
     /**
      * 薪资id（主键）
      * @return pay_id 薪资id（主键）
@@ -191,5 +201,21 @@ public class Pay {
      */
     public void setPaySalary(BigDecimal paySalary) {
         this.paySalary = paySalary;
+    }
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

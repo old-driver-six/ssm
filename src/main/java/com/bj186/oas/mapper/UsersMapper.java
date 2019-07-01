@@ -15,8 +15,13 @@ public interface UsersMapper {
      */
     int insert(Users record);
 
-//停职
+    //停职
     int Suspension(Integer usersID);
+    //离职
+    int Departure(Integer usersID);
+    //复职
+    int Reinstatement(Integer usersID);
+
 
     /**
      *
@@ -28,13 +33,14 @@ public interface UsersMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    Users selectByPrimaryKey(Integer usersId);
+    Users selectByPrimaryKey(String usersPhone);
+    Users select(Integer staffid);
 
     /**
      *
      * @mbggenerated 2019-06-18
      */
-    int updateByPrimaryKeySelective(Users record);
+    int updateByStaffId(Users record);
 
     /**
      *

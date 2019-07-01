@@ -1,0 +1,21 @@
+package com.bj186.oas.service.system.systemImpl;
+
+import com.bj186.oas.mapper.DepartmentMapper;
+import com.bj186.oas.mapper.StaffMapper;
+import com.bj186.oas.pojo.Department;
+import com.bj186.oas.service.system.DepService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Service("depService")
+public class DepServiceImpl implements DepService {
+    @Resource
+    private DepartmentMapper departmentMapper;
+    @Override
+    public List<Department> selectDep() {
+        List<Department> departmentList = departmentMapper.selectDep();
+        return departmentList;
+    }
+}

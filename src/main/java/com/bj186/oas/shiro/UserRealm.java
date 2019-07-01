@@ -27,6 +27,8 @@ public class UserRealm extends AuthorizingRealm {
         user = userService.selectUsersByKey(Integer.valueOf(usernamePasswordToken.getUsername()));          // 通过service查询用户名是否存在
         if (user == null)
             throw new UnknownAccountException("用户不存在！");
+        if (user.getUsersState().equals("1"))
+            throw new LockedAccountException("用户已被冻结！");
         System.out.println("doGetAuthenticationInfo username=" + user.getUsersPhone());
         System.out.println("doGetAuthenticationInfo password=" + user.getUsersPassword());
 
@@ -57,12 +59,10 @@ public class UserRealm extends AuthorizingRealm {
         System.out.println("AuthorizationInfo principal=" + principal);
         for (Power power : powerList) {
             if("公告发布".equals(power.getPowerName())){
-                info.addRole("admin");
-                info.addRole("call");
+                info.addRole("notice");
             }
             if("制度发布".equals(power.getPowerName())){
-                info.addRole("admin");
-                info.addRole("call");
+                info.addRole("inst");
             }
             if("请假审批".equals(power.getPowerName())){
                 info.addRole("user");

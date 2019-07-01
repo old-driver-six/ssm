@@ -3,7 +3,8 @@
 <mapper namespace="com.bj186.oas.mapper.UsersMapper" >
   <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Users" >
     <id column="users_id" property="usersId" jdbcType="INTEGER" />
-    <result column="users_phone" property="usersPhone" jdbcType="VARCHAR" />
+    <result column="staff_phone" property="usersPhone" jdbcType="VARCHAR" />
+    <result column="staff_id" property="staffId" jdbcType="VARCHAR" />
     <result column="users_password" property="usersPassword" jdbcType="VARCHAR" />
     <result column="users_state" property="usersState" jdbcType="CHAR" />
 
@@ -16,9 +17,14 @@
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
    SELECT * FROM  (SELECT * FROM (SELECT * FROM oas_users a LEFT JOIN oas_staff b
-    on a.users_phone = b.staff_phone) a LEFT JOIN oas_staffpower b
+    on a.users_staffId = b.staff_id) a LEFT JOIN oas_staffpower b
     on a.staff_id = b.sp_staffID) a LEFT JOIN oas_power b
-    on a.sp_powerID = b.power_id WHERE users_phone=#{phone}
+    on a.sp_powerID = b.power_id WHERE staff_phone=#{phone}
+  </select>
+
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT * FROM oas_users a LEFT JOIN oas_staff b
+    on a.users_staffId = b.staff_id WHERE users_staffId=#{id}
   </select>
 
 
@@ -63,7 +69,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Users" >
+  <update id="updateByStaffId" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
     <set >
       <if test="usersPhone != null" >
@@ -76,7 +82,7 @@
         users_state = #{usersState,jdbcType=CHAR},
       </if>
     </set>
-    where users_id = #{usersId,jdbcType=INTEGER}
+    where users_staffid = #{staffId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
@@ -86,6 +92,18 @@
     where users_id = #{usersId,jdbcType=INTEGER}
   </update>
   <update id="Suspension" parameterType="com.bj186.oas.pojo.Users" >
+    update oas_users
+    set users_state = '1'
+    where users_staffid = #{staffId,jdbcType=INTEGER}
+  </update>
+
+  <update id="Departure" parameterType="com.bj186.oas.pojo.Users" >
+    update oas_users
+    set users_state = '-1'
+    where users_id = #{usersId,jdbcType=INTEGER}
+  </update>
+
+  <update id="Reinstatement" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
     set users_state = '0'
     where users_id = #{usersId,jdbcType=INTEGER}

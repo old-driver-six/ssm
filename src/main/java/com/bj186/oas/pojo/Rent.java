@@ -12,6 +12,18 @@ public class Rent {
      * 固定资产id（外键）
      */
     private Integer rentFixid;
+    /**
+     * 固定资产
+     */
+    private Fixed fixed;
+
+    public Fixed getFixed() {
+        return fixed;
+    }
+
+    public void setFixed(Fixed fixed) {
+        this.fixed = fixed;
+    }
 
     /**
      * 租赁数量
@@ -128,4 +140,5 @@ public class Rent {
     public void setRentCond(Integer rentCond) {
         this.rentCond = rentCond;
     }
+
 }

@@ -7,7 +7,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
+    <!--<link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />-->
     <link rel="stylesheet" href="../../../statics/css/font.css">
     <link rel="stylesheet" href="../../../statics/css/xadmin.css">
 
@@ -16,7 +16,8 @@
     <script src="../../../statics/js/jquery.min.js"></script>
     <script src="../../../statics/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../../../statics/js/xadmin.js"></script>
-
+    <script src="../../../statics/js/jquery.cookie.js"></script>
+    <script src="../../../statics/js/jquery.cookies.2.2.0.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -74,15 +75,14 @@
         <div class="layui-btn-container">
         <a class="layui-btn layui-btn-sm" lay-event="detailed"><i class="iconfont"  >&#xe6a2;</i></a>
         <a class="layui-btn layui-btn-danger layui-btn-sm"  lay-event="del"><i class="layui-icon" >&#xe640;</i></a>
+        <a class="layui-btn  layui-btn-sm"  lay-event="res"><i class="layui-icon" >&#xe6aa;</i></a>
             </div>
             </div>
         </div>
-
     </script>
 </div>
 </div>
 <script>
-
     var tableIns;
     layui.use(['table'], function(){
         var table = layui.table;
@@ -92,6 +92,7 @@
             ,id:'idTest'
             ,url:'/user/select'
             ,page:true
+            // ,method:'post'
             ,limits:[5,10,15]
             ,limit:10
             ,size:'lg'
@@ -103,6 +104,17 @@
                 ,{field: 'position', title: '职位',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
                 ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
             ]]
+            // ,contentType:'application/json'
+            // ,request:json
+            ,where:
+                // JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
+                // {aa:JSON.stringify({'uid':'10001'})}
+                {
+                    uId:$.cookie('uId'),
+                }
+            // ,page: {
+            //     curr: 1 //重新从第 1 页开始
+            // }
         });
 
         //监听删除事件
@@ -118,15 +130,15 @@
                     layer.close(index);
                     //向服务端发送删除指令
                     var staffId = data.staffId;
-                    // var json={'staffId':staffId}
+                    var json={'staffId':staffId}
                     $.ajax({
                         url: "/user/Suspension"
                         ,type: "post",    //访问方式
-                        data:"staffId="+staffId,
-                        dataType: "text",
-                        success: function (data) {
-                            console.log(data)
-                            if (data==200){
+                        data:JSON.stringify(json),
+                        dataType: "json",
+                        contentType: 'application/json',
+                        success: function (d) {
+                            if (d.code==200){
                                 layer.msg(staffName+"已被停职")
                                 tableIns.reload()
                             }
@@ -137,21 +149,46 @@
                     })
                 });
             }
+            else if(layEvent ==='detailed') {
+                var staffId = data.staffId
+                console.log(staffId)
+                x_admin_show('员工详情', '/user/detailed?staffId=' + staffId, 800);
+            }else if(layEvent ==='res') {
+                var staffId = data.staffId
+                // console.log(staffId)
+                var json = {'staffId':staffId}
+                $.ajax({
+                    url: "/user/updateRes"
+                    ,type: "post",    //访问方式
+                    data:JSON.stringify(json),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: function (dat) {
+                        console.log(dat)
+                        if(dat.code==200){
+                            alert(data.staffName+dat.msg);
+                        }else{
+                            alert("重置失败")
+                        }
+                    }
+                });
+            }
         });
     });
-
     //模糊查询方法
     function likeFind () {
         console.log($('select[name="filed"]').val())
         console.log($('input[name="value"]').val())
         tableIns.reload({//重载表格
-            where: { //设定异步数据接口的额外参数，任意设
-                filed:$('select[name="filed"]').val()
-                ,value:$('input[name="value"]').val()
+            // // contentType:'application/json'
+                where: {
+                uid:$.cookie('uId'),
+                filed:$('select[name="filed"]').val(),
+                value:$('input[name="value"]').val(),
             }
-            ,page: {
-                curr: 1 //重新从第 1 页开始
-            }
+            // ,page: {
+            //     curr: 1 //重新从第 1 页开始
+            // }
         });
         $('input[name="value"]').val("")
         console.log('成功')//查询完毕清空

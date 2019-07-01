@@ -2,6 +2,9 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.CheckingIn;
 
+import java.util.List;
+import java.util.Map;
+
 public interface CheckingInMapper {
     /**
      *
@@ -25,7 +28,7 @@ public interface CheckingInMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    CheckingIn selectByPrimaryKey(String checkinginId);
+    List<CheckingIn> selectByRequirement(Map map);
 
     /**
      *
@@ -38,4 +41,10 @@ public interface CheckingInMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(CheckingIn record);
+
+    int countCheckingIn(Map map);
+
+    int countAllCheckingIn();
+
+    CheckingIn selectByPrimaryKey(String checkinginId);
 }

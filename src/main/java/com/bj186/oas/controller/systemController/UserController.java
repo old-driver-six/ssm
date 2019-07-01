@@ -1,26 +1,31 @@
 package com.bj186.oas.controller.systemController;
 
 import com.bj186.oas.Util.OAResoult;
-import com.bj186.oas.pojo.Department;
-import com.bj186.oas.pojo.Position;
-import com.bj186.oas.pojo.Staff;
+import com.bj186.oas.entity.system.Like;
+import com.bj186.oas.entity.system.User;
+import com.bj186.oas.pojo.*;
 import com.bj186.oas.service.system.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController  extends HttpServlet {
 
     @Autowired
     private UserService userService;
-
     private Integer pageSize;
     private Integer pageNum;
 
@@ -28,26 +33,32 @@ public class UserController {
      * 根据ID查询员工 详细信息
      * @return staff 员工对象
      */
-    @RequestMapping("/detailed")
+    @RequestMapping("/selectByPrimaryKey")
     @ResponseBody
-    public Staff detailed(@RequestParam Integer staffID){
-        return userService.selectByPrimaryKey(staffID);
+    public Staff selectByPrimaryKey(@RequestBody Staff staff){
+        System.out.println(staff.getStaffId());
+        return userService.selectByPrimaryKey(staff.getStaffId());
     }
 
-    @RequestMapping(value = {"login","login2"})
-    public String login() {
-        System.out.println("view here");
+    @RequestMapping("/bbb")
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        System.out.println(req.getParameter("staffId"));
+    }
+
+    @RequestMapping("index")
+    public String index() {
         return "/system/user-management";
     }
 
-    @RequestMapping("login3")
-    public String login3() {
-        System.out.println("view here");
-        return "/system/test";
+    @RequestMapping("detailed")
+    public String detailed() {
+        return "/system/detailed";
     }
 
-    @RequestMapping("/index")
-    public String index() {
+    @RequestMapping("/index2")
+    public String index2() {
         System.out.println("view here");
         return "/index";
     }
@@ -63,22 +74,72 @@ public class UserController {
         return userService.selectCount("oas_staff");
     }
 
+
     /**
-     * 模糊查询
+     * 重置密码
+     * @return
+     */
+    @RequestMapping("/updateRes")
+    @ResponseBody
+    public OAResoult updateRes(@RequestBody Users users) {
+        Integer integer = userService.updateRes(users);
+        System.out.println(integer);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(integer);
+        oaResoult.setMsg("已重置密码为手机号后六位");
+        return oaResoult;
+    }
+
+
+    /**
+     * 模糊查询 初次显示
      * @return
      */
     @RequestMapping("/select")
     @ResponseBody
-    public Object select(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
-     ,@RequestParam(name="filed",required = true, defaultValue = "") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value) {
+    public OAResoult select(
+          @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
+     ,@RequestParam(name="filed",required = true, defaultValue ="") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
+//            @RequestBody Like like
+          ,@RequestParam("uId") Integer uId
+    ) {
         System.out.println(filed);
-        List<Staff> staffList = userService.select(filed, value, pageSize, pageNum);
+        System.out.println(value);
+        System.out.println(uId);
+        System.out.println(pageNum);
+        System.out.println(pageSize);
+//        Like like = new Like();
+//        like.setuId(10002);
+//        like.setFiled("dep_name");
+//        like.setValue("行政部");
+//        like.setPageSize(10);
+//        like.setPageNum(1);
+
+        List<Staff> staffList;
+//        Staff staff = userService.selectByPrimaryKey(like.getuId());
+        Staff staff = userService.selectByPrimaryKey(uId);
+        System.out.println(staff.getDepartment().getDepName());
+
+//        staffList = userService.selectByDep(staff.getDepartment().getDepName(), like.getFiled(), like.getValue(), like.getPageSize(), like.getPageNum());
+        staffList = userService.selectByDep(staff.getDepartment().getDepName(),filed, value, pageSize, pageNum);
+
+        if(staffList==null){
+            OAResoult oaResoult = new OAResoult();
+            oaResoult.setCode(0);
+            oaResoult.setMsg("无权查询部门");
+            return oaResoult;
+        }
+
         Integer count=staffList.size();
+
+//        if(like.getFiled()==null||like.getValue()==null){
+//            count = selectCount();
+//        }
 
         if(filed.equals("")||value.equals("")){
             count = selectCount();
         }
-
+        System.out.println(staffList);
         OAResoult<List<Staff>> oaResoult = new OAResoult();
         oaResoult.setCode(0);
         oaResoult.setMsg("");
@@ -94,18 +155,14 @@ public class UserController {
      */
     @RequestMapping("/selectLike")
     @ResponseBody
-    public Object selectLike(
-                             @RequestParam("page") Integer pageNum,
-                             @RequestParam("limit") Integer pageSize,
-                             @RequestParam("filed") String filed,
-                             @RequestParam("value") String value) {
-        System.out.println("filed:"+filed+" "+"value:"+value);
+    public Object selectLike(@RequestBody Like like) {
+
         Integer count = selectCount();
         OAResoult<List<Staff>> oaResoult = new OAResoult();
         oaResoult.setCode(0);
         oaResoult.setMsg("");
         oaResoult.setCount(count);
-        oaResoult.setData(userService.select(filed, value, pageSize, pageNum));
+        oaResoult.setData(userService.select(like.getFiled(), like.getValue(), like.getPageSize(),like.getPageNum()));
         System.out.println(oaResoult);
         return oaResoult;
     }
@@ -127,26 +184,7 @@ public class UserController {
     @RequestMapping("/insert")
     @ResponseBody
     public String insert() {
-        Staff staff = new Staff();
-        staff.setStaffName("叶");
-        staff.setStaffPhone("13281989189");
-        staff.setStaffAge((byte)21);
-        staff.setStaffAdress("成都");
-        staff.setStaffBirthday(new Date());
-        staff.setStaffEmail("193572912@qq.com");
-        staff.setStaffIdntitycardid("511521199712166158");
-        staff.setStaffSex("1");
-        staff.setStaffWage("15k");
-
-        Department department = new Department();
-        department.setDepId(2);
-        staff.setDepartment(department);
-
-        Position position = new Position();
-        position.setPositionId(1);
-        staff.setPosition(position);
-
-        return userService.insert(staff);
+        return userService.insert(new User());
     }
 
     /**
@@ -155,9 +193,12 @@ public class UserController {
      */
     @RequestMapping("/Suspension")
     @ResponseBody
-    public Integer Suspension(@RequestParam("staffId") Integer staffId) {
-        Integer suspension = userService.Suspension(staffId);
-        return suspension;
+    public OAResoult Suspension(@RequestBody Staff  staff) {
+        Integer suspension = userService.Suspension(staff.getStaffId());
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(suspension);
+        System.out.println();
+        return oaResoult;
     }
 
     /**
@@ -166,22 +207,12 @@ public class UserController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public String update() {
-        Staff staff = new Staff();
-        staff.setStaffId(10005);
-        staff.setStaffName("叶");
-        staff.setStaffPhone("13281989189");
-        staff.setStaffAge((byte)21);
-        staff.setStaffAdress("成都");
-        staff.setStaffBirthday(new Date());
-        staff.setStaffEmail("193572912@qq.com");
-        staff.setStaffIdntitycardid("511521199712166158");
+    public OAResoult update(@RequestBody User user) {
+        Integer update = userService.update(user);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(update);
+        return oaResoult;
 
-        Department department = new Department();
-        department.setDepId(2);
-        staff.setDepartment(department);
-
-        return userService.update(staff);
     }
 
     /**
@@ -191,8 +222,8 @@ public class UserController {
     @RequestMapping("/updateByPrimaryKeySelective")
     @ResponseBody
 
-    public String updateByPrimaryKeySelective() {
-        Staff staff = userService.selectByPrimaryKey(10002);
+    public String updateByPrimaryKeySelective(@RequestBody Staff staff1) {
+        Staff staff = userService.selectByPrimaryKey(staff1.getStaffId());
         staff.setStaffName("叶2");
         staff.setStaffPhone("13281989189");
         staff.setStaffIdntitycardid("511521199712166158");

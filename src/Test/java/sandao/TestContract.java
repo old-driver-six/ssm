@@ -1,3 +1,5 @@
+package sandao;
+
 import com.bj186.oas.mapper.AnnouncementsMapper;
 import com.bj186.oas.pojo.Announcements;
 import com.bj186.oas.pojo.Contract;

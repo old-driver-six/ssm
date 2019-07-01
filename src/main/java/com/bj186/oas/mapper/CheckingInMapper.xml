@@ -3,7 +3,7 @@
 <mapper namespace="com.bj186.oas.mapper.CheckingInMapper" >
   <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.CheckingIn" >
     <id column="checkingin_id" property="checkinginId" jdbcType="VARCHAR" />
-    <result column="check_staff_id" property="checkstaffId" jdbcType="INTEGER" />
+    <result column="check_staff_id" property="checkStaffId" jdbcType="INTEGER" />
     <result column="checkingin_startTime" property="checkinginStarttime" jdbcType="TIMESTAMP" />
     <result column="checkingin_sendTime" property="checkinginSendtime" jdbcType="TIMESTAMP" />
     <result column="checkingin_state" property="checkinginState" jdbcType="CHAR" />
@@ -11,16 +11,65 @@
   <sql id="Base_Column_List" >
     checkingin_id, check_staff_id, checkingin_startTime, checkingin_sendTime, checkingin_state
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByRequirement" resultMap="BaseResultMap" parameterType="map" >
     select 
     <include refid="Base_Column_List" />
     from oas_checkingin
+    <where>
+      <if test="checkstaffId!=null">
+        check_staff_id = #{checkstaffId}
+      </if>
+      <if test="startTime!='\'null\''">
+        AND checkingin_startTime &gt;= ${startTime}
+      </if>
+      <if test="endTime!='\'null\''">
+        AND checkingin_sendTime &lt;= ${endTime}
+      </if>
+    </where>
+    <if test="LimitParameter_1!=null">
+      <if test="LimitParameter_2!=null">
+        LIMIT #{LimitParameter_1},#{LimitParameter_2}
+      </if>
+    </if>
+  </select>
+
+  <select id="countCheckingIn" parameterType="map" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM (select
+    <include refid="Base_Column_List" />
+    from oas_checkingin
+    <where>
+      <if test="checkstaffId!=null">
+        check_staff_id = #{checkstaffId}
+      </if>
+      <if test="startTime!='\'null\''">
+        AND checkingin_startTime &gt;= ${startTime}
+      </if>
+      <if test="endTime!='\'null\''">
+        AND checkingin_sendTime &lt;= ${endTime}
+      </if>
+    </where>
+    <if test="LimitParameter_1!=null">
+      <if test="LimitParameter_2!=null">
+        LIMIT #{LimitParameter_1},#{LimitParameter_2}
+      </if>
+    </if>)
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * from oas_checkingin
     where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
   </select>
+
+  <select id="countAllCheckingIn" resultType="java.lang.Integer">
+          SELECT COUNT(*) FROM oas_checkingin
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_checkingin
     where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
   </delete>
+
   <insert id="insert" parameterType="com.bj186.oas.pojo.CheckingIn" >
     insert into oas_checkingin (checkingin_id, check_staff_id, checkingin_startTime,
       checkingin_sendTime, checkingin_state)
@@ -64,12 +113,10 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
     <set >
-      <if test="checkstaffId != null" >
-        check_staff_id = #{checkstaffId,jdbcType=INTEGER},
-      </if>
       <if test="checkinginStarttime != null" >
         checkingin_startTime = #{checkinginStarttime,jdbcType=TIMESTAMP},
       </if>
@@ -80,8 +127,11 @@
         checkingin_state = #{checkinginState,jdbcType=CHAR},
       </if>
     </set>
-    where checkingin_id = #{checkinginId,jdbcType=VARCHAR}
+    where  checkingin_id = #{checkinginId,jdbcType=VARCHAR}
   </update>
+
+
+
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
     set check_staff_id = #{checkstaffId,jdbcType=INTEGER},

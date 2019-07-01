@@ -1,18 +1,14 @@
 package com.bj186.oas.service.system.systemImpl;
 
-import com.bj186.oas.mapper.Mapper;
-import com.bj186.oas.mapper.StaffMapper;
-import com.bj186.oas.mapper.UsersMapper;
-import com.bj186.oas.pojo.Staff;
-import com.bj186.oas.pojo.Users;
+import com.bj186.oas.Util.MD5;
+import com.bj186.oas.entity.system.User;
+import com.bj186.oas.mapper.*;
+import com.bj186.oas.pojo.*;
 import com.bj186.oas.service.system.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -22,7 +18,10 @@ public class UserServiceImpl implements UserService {
     private Mapper mapper;
     @Resource
     private UsersMapper usersMapper;
-
+    @Resource
+    private StaffPowerMapper staffPowerMapper;
+    @Resource
+    private PowerMapper powerMapper;
 
     /**
      * 根据ID查询
@@ -68,7 +67,35 @@ public class UserServiceImpl implements UserService {
         List<Staff> staffList = staffMapper.select(params);
         System.out.println("查询成功");
         return staffList;
+    }
 
+    /**
+     *
+     * @param filed 字段
+     * @param value 值
+     * @param pageSize 分页数据数量
+     * @param pageNum 分页页码
+     * @return
+     */
+    @Override
+    public List<Staff> selectByDep(String depName,String filed, String value,Integer pageSize, Integer pageNum) {
+        Map<String,Object> params = new LinkedHashMap<String,Object>();
+        List<Staff> staffList = new ArrayList<>();
+        params.put("filed",filed);//字段
+        params.put("value", "\'%"+value+"%\'");//模糊查询
+        params.put("start",(pageNum-1)*pageSize);//sql语句从哪里开始 页码-1 乘以 分页数据数量
+        params.put("end", pageSize); //分页数量
+        params.put("depName",depName);
+        if(!depName.equals("董事局")){
+            if(!filed.equals("dep_Name") || filed.equals("dep_Name") && value.equals(depName)){
+                staffList = staffMapper.selectLimit(params);
+            }else{
+                return null;
+            }
+        }else{
+            staffList = staffMapper.selectLimit(params);
+        }
+        return staffList;
     }
 
     /**
@@ -107,30 +134,143 @@ public class UserServiceImpl implements UserService {
         return -1;
     }
 
+    @Override
+    public Integer Departure(Integer staffID) {
+        if( usersMapper.Departure(staffID)==1){
+            return 200;
+        }
+        return -1;
+    }
+
+    @Override
+    public Integer Reinstatement(Integer staffID) {
+        if( usersMapper.Reinstatement(staffID)==1){
+            return 200;
+        }
+        return -1;
+    }
+
     /**
      *  插入员工方法
-     * @param staff
+     * @param user
      * @return success 成功 error 失败
      */
     @Override
-    public String insert(Staff staff) {
-        if(staffMapper.insert(staff)==1){
-            return "success";
+    public String insert(User user) {
+
+        Staff staff = new Staff();
+
+        staff.setStaffName("叶123123");
+        staff.setStaffPhone("13281989189");
+        staff.setStaffAge((byte)21);
+        staff.setStaffAdress("成都");
+        staff.setStaffBirthday(new Date());
+        staff.setStaffEmail("193572912@qq.com");
+        staff.setStaffIdntitycardid("511521199712166158");
+        staff.setStaffSex("1");
+        staff.setStaffWage("15k");
+
+        Department department = new Department();
+        department.setDepId(2);
+        staff.setDepartment(department);
+
+        Position position = new Position();
+        position.setPositionId(1);
+        staff.setPosition(position);
+
+        staffMapper.insert(staff);
+
+//        List<Power> powerList = new ArrayList<>();
+        String[] strings = new String[]{"制度发布","公告发布"};
+        int[] ints = new int[]{1,3};
+        for (int i : ints) {
+            StaffPower staffPower = new StaffPower();
+            staffPower.setSpPowerid(i);
+            staffPower.setSpStaffid(staff.getStaffId());
+           staffPowerMapper.insert(staffPower);
         }
-        return "error";
+
+        Users users = new Users();
+        String md5 = MD5.getMd5(staff.getStaffPhone(), staff.getStaffPhone().substring(5));
+        users.setUsersPassword(md5);
+        users.setUsersPhone(staff.getStaffPhone());
+        users.setUsersState("0");
+
+        usersMapper.insert(users);
+
+        return "success";
+    }
+
+    /**
+     *  重置密码
+     * @param users
+     * @return success 成功 error 失败
+     */
+    @Override
+    public Integer updateRes(Users users) {
+        System.out.println(users.getStaffId());
+        Users select = usersMapper.select(users.getStaffId());
+        String md5 = MD5.getMd5(select.getUsersPhone(), select.getUsersPhone().substring(5));
+        users.setUsersPassword(md5);
+      if(usersMapper.updateByStaffId(users)==1)
+          return 200;
+      else
+          return -1;
     }
 
     /**
      *  修改信息 必须包含所有信息 建议查询信息进行修改
-     * @param staff
+     * @param user
      * @return success 成功 error 失败
      */
     @Override
-    public String update(Staff staff) {
-        if( staffMapper.updateByPrimaryKey(staff)==1){
-            return "success";
+    public Integer update(User user) {
+
+        Staff staff = new Staff();
+        staff.setStaffId(user.getStaffId());
+        staff.setStaffName(user.getStaffName());
+        staff.setStaffPhone(user.getStaffPhone());
+        staff.setStaffAge(user.getStaffAge());
+        staff.setStaffAdress(user.getStaffAdress());
+        staff.setStaffBirthday(user.getStaffBirthday());
+        staff.setStaffEmail(user.getStaffEmail());
+        staff.setStaffIdntitycardid(user.getStaffIdntitycardid());
+        staff.setStaffSex(user.getStaffSex());
+        staff.setStaffWage(user.getStaffWage());
+
+        Department department = new Department();
+        department.setDepId(user.getDepId());
+        staff.setDepartment(department);
+
+        Position position = new Position();
+        position.setPositionId(user.getPositionId());
+        staff.setPosition(position);
+
+
+        if(staffMapper.updateByPrimaryKeySelective(staff) ==0)
+            return -1;
+
+
+        staffPowerMapper.delete(user.getStaffId());
+
+        for (int i : user.getPowerIdList()) {
+            StaffPower staffPower = new StaffPower();
+            staffPower.setSpPowerid(i);
+            staffPower.setSpStaffid(staff.getStaffId());
+            if(staffPowerMapper.insert(staffPower)==0)
+                return -1;
         }
-        return "error";
+
+        Users users = new Users();
+        String md5 = MD5.getMd5(staff.getStaffPhone(), staff.getStaffPhone().substring(5));
+        users.setUsersPassword(md5);
+        users.setStaffId(staff.getStaffId());
+        users.setUsersState("0");
+
+        if(usersMapper.updateByStaffId(users)==0)
+            return -1;
+
+        return 200;
     }
 
     /**
