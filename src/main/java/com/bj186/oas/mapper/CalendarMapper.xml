@@ -145,4 +145,41 @@
       calerdar_createTime = #{calerdarCreatetime,jdbcType=TIMESTAMP}
     where calendar_id = #{calendarId,jdbcType=VARCHAR}
   </update>
+
+  <!--
+    查详情的动态sql
+  -->
+  <sql id="leftJoinStaffDepPos">
+    LEFT JOIN oas_department ON staff_depID=dep_id
+    LEFT JOIN oas_position ON staff_positionID=position_id
+  </sql>
+  <sql id="showStaffInfo">
+    staff_name,dep_name,position_name
+  </sql>
+<select id="getStaffInfo" parameterType="int" resultMap="getStaffInfoMap">
+  select
+  <include refid="showStaffInfo"/>
+  ,
+  <include refid="Base_Column_List" />
+  ,
+  <include refid="Blob_Column_List" />
+  from oas_calendar
+  LEFT JOIN oas_staff ON calendar_stff_id=staff_id
+  <include refid="leftJoinStaffDepPos"/>
+  <where>
+    AND staff_id=#{sid}
+  </where>
+</select>
+
+  <!--
+    返回给领导看的信息
+      用户姓名,部门 职位
+      行程信息!
+  -->
+<resultMap id="getStaffInfoMap" type="com.bj186.oas.pojo.personalpojo.StaffInfo">
+  <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+  <result column="dep_name" property="depName" jdbcType="VARCHAR" />
+  <result column="position_name" property="positionName" jdbcType="VARCHAR" />
+  <collection property="dataInfo" resultMap="BaseResultMap"/>
+</resultMap>
 </mapper>

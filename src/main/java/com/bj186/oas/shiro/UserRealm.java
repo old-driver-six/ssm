@@ -24,8 +24,7 @@ public class UserRealm extends AuthorizingRealm {
         Users user = null;
         // 把AuthenticationToken实质为UsernamePasswordToken，直接转换即可
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
-        user = userService.selectUsersByKey(usernamePasswordToken.getUsername());          // 通过service查询用户名是否存在
-        System.out.println("User:"+user);
+        user = userService.selectUsersByKey(Integer.valueOf(usernamePasswordToken.getUsername()));          // 通过service查询用户名是否存在
         if (user == null)
             throw new UnknownAccountException("用户不存在！");
         System.out.println("doGetAuthenticationInfo username=" + user.getUsersPhone());

@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 查询工具类
  */
-public class WorkLogUtil implements Serializable{
+public class WorkLogUtil extends Page implements Serializable{
     private Integer worklogCreateid;        //通过创建人id查询
 
     private String workLogCreatedate1;        //通过创建时间区间查询
@@ -16,9 +16,6 @@ public class WorkLogUtil implements Serializable{
 
     private String worklogUpdatetime1;        //根据修改时间区间查询
     private String worklogUpdatetime2;        //根据修改时间区间查询
-
-    private Integer pageSize;                   //每页大小
-    private Integer pasgeThis;                  //当前是第几页
 
     public Integer getWorklogCreateid() {
         return worklogCreateid;
@@ -43,23 +40,6 @@ public class WorkLogUtil implements Serializable{
     public void setWorklogUpdatetime1(String worklogUpdatetime1) {
         this.worklogUpdatetime1 = worklogUpdatetime1;
     }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Integer getPasgeThis() {
-        return pasgeThis;
-    }
-
-    public void setPasgeThis(Integer pasgeThis) {
-        this.pasgeThis = pasgeThis;
-    }
-
     public String getWorkLogCreatedate2() {
         return workLogCreatedate2;
     }

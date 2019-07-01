@@ -28,7 +28,7 @@ public interface UsersMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    Users selectByPrimaryKey(String usersPhone);
+    Users selectByPrimaryKey(Integer usersId);
 
     /**
      *

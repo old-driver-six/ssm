@@ -4,6 +4,7 @@ import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.exception.NullNameException;
 import com.bj186.oas.mapper.WorkLogMapper;
 import com.bj186.oas.pojo.WorkLog;
+import com.bj186.oas.pojo.personalpojo.Paging;
 import com.bj186.oas.pojo.personalpojo.WorkLogUtil;
 import com.bj186.oas.service.personal.WorkLogService;
 import org.springframework.stereotype.Service;
@@ -94,16 +95,164 @@ public class WorkLogserviceImpl implements WorkLogService {
     }
 
     /**
+     * 查询个人日志分页
+     * @param sid   工号
+     * @param pageSize  页面显示大小
+     * @param pageThis  当前页
+     * @return
+     */
+    @Override
+    public OAResoult<Paging<WorkLog>> selWorkLog(Integer sid, Integer pageSize, Integer pageThis) {
+        WorkLogUtil util = getWorkLogUtil(pageThis, pageSize);
+        util.setWorklogCreateid(sid);
+        Paging<WorkLog> workLogPaging = workLogMapper.selLimitWork(util);
+        OAResoult<Paging<WorkLog>> resoult=new OAResoult<>();
+        resoult.setCode(0);
+        if("".equals(workLogPaging)||null==workLogPaging){
+            resoult.setMsg("当前还没有添加数据！");
+            return resoult;
+        }
+        resoult.setData(workLogPaging);
+        return resoult;
+    }
+
+    /**
      * 更具创建时间查询
      * @param createDate1 将要大于的时间
      * @param createDate2 将要小于的时间
      * @return
      */
     @Override
-    public OAResoult<List<WorkLog>> selWorkLog(String createDate1, String createDate2) {
-        WorkLogUtil util=new WorkLogUtil();
-        return null;
+    public OAResoult<List<WorkLog>> selWorkLog(String createDate1, String createDate2,Integer type) {
+        WorkLogUtil util = getWorkLogUtil(createDate1, createDate2, type);
+        List<WorkLog> workLogs;
+        workLogs = workLogMapper.selectWorkBymapper(util);
+        OAResoult<List<WorkLog>> resoult=new OAResoult<>();
+        resoult.setCode(0);
+        resoult.setData(workLogs);
+        return resoult;
+    }
+
+    /**
+     * 更具创建时间分页查询
+     * 最高权限的人才能调用这个方法,可以查询出所有日志
+     * @param createDate1 将要大于的时间
+     * @param createDate2 将要小于的时间
+     * @param type 查询的类型,1为创建时间 2位修改时间 默认为1
+     * @param pageSize 页面显示多少条
+     * @param pageThis  当前页
+     * @return
+     */
+    @Override
+    public OAResoult<Paging<WorkLog>> selWorkLog(String createDate1, String createDate2, Integer type, Integer pageSize, Integer pageThis) {
+        WorkLogUtil util = getWorkLogUtil(createDate1, createDate2, type);
+        util = getWorkLogUtil(pageThis, pageSize, util);
+        Paging<WorkLog> workLogPaging = workLogMapper.selLimitWork(util);   //获取查询结果
+
+        //创建返回结果集
+        OAResoult<Paging<WorkLog>> resoult=new OAResoult<>();
+        resoult.setCode(0);
+        if(workLogPaging!=null||"".equals(workLogPaging)){
+            resoult.setMsg("当前查询条没有数据!");
+            return resoult;
+        }
+        resoult.setData(workLogPaging);
+        return resoult;
+    }
+
+    /**
+     * 普通用户具有的权限,查询自己的日志信息
+     * @param createDate1 将要大于的时间
+     * @param createDate2 将要小于的时间
+     * @param type          查询的类型,1为创建时间 2位修改时间 默认为1
+     * @param sid           工号
+     * @return
+     */
+    @Override
+    public OAResoult<List<WorkLog>> selWorkLog(String createDate1, String createDate2, Integer type, Integer sid) {
+        WorkLogUtil util = getWorkLogUtil(createDate1, createDate2, type);
+        util.setWorklogCreateid(sid);
+        List<WorkLog> workLogs;
+        workLogs = workLogMapper.selectWorkBymapper(util);
+        OAResoult<List<WorkLog>> resoult=new OAResoult<>();
+        resoult.setCode(0);
+        resoult.setData(workLogs);
+        return resoult;
+    }
+
+    /**
+     * 普通用户具有的权限,查询自己的日志信息
+     * @param createDate1
+     * @param createDate2
+     * @param type
+     * @param sid
+     * @param pageSize
+     * @param pageThis
+     * @return
+     */
+    @Override
+    public OAResoult<Paging<WorkLog>> selWorkLog(String createDate1, String createDate2, Integer type, Integer sid, Integer pageSize, Integer pageThis) {
+        WorkLogUtil util = getWorkLogUtil(createDate1, createDate2, type);
+        util=getWorkLogUtil(pageThis,pageSize,util);
+        util.setWorklogCreateid(sid);
+        Paging<WorkLog> workLogPaging = workLogMapper.selLimitWork(util);
+        OAResoult<Paging<WorkLog>> resoult=new OAResoult<>();
+        resoult.setCode(0);
+        if("".equals(workLogPaging)||null==workLogPaging){
+            resoult.setMsg("当前查询条没有数据!");
+            return resoult;
+        }
+        resoult.setData(workLogPaging);
+        return resoult;
     }
 
 
+    /**
+     * 组装查询条件实体类
+     * @param createDate1 时间一
+     * @param createDate2 时间二
+     * @param type  类型
+     * @return  工具实体类
+     */
+    private WorkLogUtil getWorkLogUtil(String createDate1, String createDate2, Integer type){
+        createDate1=createDate1+"%";        //传递过来的时间可能没有百分号需要加上
+        createDate2=createDate2+"%";
+        WorkLogUtil util=new WorkLogUtil();
+        if(type==2){
+            util.setWorklogUpdatetime1(createDate1);
+            util.setWorklogUpdatetime2(createDate2);
+
+        }else{
+            util.setWorkLogCreatedate1(createDate1);
+            util.setWorkLogCreatedate2(createDate2);
+        }
+        return util;
+    }
+
+    /**
+     * 组装查询条件实体类
+     * @param pageThis  当前页
+     * @param pageSize  页面显示多少条
+     * @return  工具实体类
+     */
+    private WorkLogUtil getWorkLogUtil(Integer pageThis,Integer pageSize){
+        WorkLogUtil util=new WorkLogUtil();
+        util.setPageThis((pageThis-1)*pageSize);
+        util.setPageSize(pageSize);
+        return util;
+    }
+
+    /**
+     *
+     * 连接组装查询条件实体类
+     * @param pageThis  当前页
+     * @param pageSize  页面显示多少条
+     * @param util      实体类
+     * @return 工具实体类
+     */
+    private WorkLogUtil getWorkLogUtil(Integer pageThis,Integer pageSize,WorkLogUtil util){
+        util.setPageThis((pageThis-1)*pageSize);
+        util.setPageSize(pageSize);
+        return util;
+    }
 }

@@ -1,6 +1,11 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Calendar;
+import com.bj186.oas.pojo.personalpojo.CalendarUtil;
+import com.bj186.oas.pojo.personalpojo.StaffInfo;
+
+import java.util.List;
+import java.util.Map;
 
 public interface CalendarMapper {
     /**
@@ -44,4 +49,6 @@ public interface CalendarMapper {
      * @mbggenerated 2019-06-18
      */
     int updateByPrimaryKey(Calendar record);
+
+    StaffInfo<Calendar> getStaffInfo(Integer sid);
 }

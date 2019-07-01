@@ -14,7 +14,7 @@
     users_id, users_phone, users_password, users_state
   </sql>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
    SELECT * FROM  (SELECT * FROM (SELECT * FROM oas_users a LEFT JOIN oas_staff b
     on a.users_phone = b.staff_phone) a LEFT JOIN oas_staffpower b
     on a.staff_id = b.sp_staffID) a LEFT JOIN oas_power b

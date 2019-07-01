@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
      * @return Users对象
      */
     @Override
-    public Users selectUsersByKey(String phone) {
+    public Users selectUsersByKey(Integer phone) {
         Users users =usersMapper.selectByPrimaryKey(phone);
         return users;
 

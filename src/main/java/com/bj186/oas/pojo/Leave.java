@@ -1,5 +1,7 @@
 package com.bj186.oas.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -37,11 +39,13 @@ public class Leave {
     /**
      * 请假起始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date leaveStarttime;
 
     /**
      * 请假结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date leaveSendtime;
 
     /**
@@ -168,6 +172,7 @@ public class Leave {
      * 请假起始时间
      * @return leave_startTime 请假起始时间
      */
+
     public Date getLeaveStarttime() {
         return leaveStarttime;
     }
@@ -242,5 +247,23 @@ public class Leave {
      */
     public void setLeaveReason(String leaveReason) {
         this.leaveReason = leaveReason == null ? null : leaveReason.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Leave{" +
+                "leaveId='" + leaveId + '\'' +
+                ", leaveStaffId=" + leaveStaffId +
+                ", leaveProcessing='" + leaveProcessing + '\'' +
+                ", leaveTitle='" + leaveTitle + '\'' +
+                ", leaveType='" + leaveType + '\'' +
+                ", leaveTime=" + leaveTime +
+                ", leaveStarttime=" + leaveStarttime +
+                ", leaveSendtime=" + leaveSendtime +
+                ", leaveState='" + leaveState + '\'' +
+                ", leaveCeatetime=" + leaveCeatetime +
+                ", leaveReason='" + leaveReason + '\'' +
+                ", leaveAdvices=" + leaveAdvices +
+                '}';
     }
 }
