@@ -27,51 +27,49 @@
                       laydate = layui.laydate;
 
 
-                  laydate.render({
-                      elem: '#date' //指定元素
-                      ,type: 'datetime'
-                  });
+
+              laydate.render({
+                  elem: '#checkinginStarttime' //指定元素
+                  ,type: 'datetime'
+              });
+              laydate.render({
+                  elem: '#checkinginSendtime' //指定元素
+                  ,type: 'datetime'
+              });
 
               //自定义验证规则
                   form.verify({});
 
                   //监听提交
                   form.on('submit(add)', function (data) {
+                      data.field.uId=$.cookie('uId');
+                      console.log(data.field);
                       console.log(JSON.stringify(data.field));
                       $.ajax({
-                          url:'/SaleServlet?method=insertSale',
+                          url:'/CheckingIn/insertCheckingIn',
                           type:"post",
-                          data:{"insertSale":JSON.stringify(data.field)},
+                          data:JSON.stringify(data.field),
+                          contentType:'application/json;charset=UTF-8',
                           dataType:'json',
-                          success:function (json) {
-                              if (json.isSuccess) {
-                                  $.ajax({
-                                  url:'/SaleServlet?method=insertSaleDescription',
-                                  type:"post",
-                                  data:{"insertSale":JSON.stringify(data.field)},
-                                  dataType:'json',
-                                  success:function (json) {
-                                      if (json.isSuccess) {
-                                          layer.alert("增加成功", {icon: 6}, function () {
-                                              // 获得frame索引
-                                              var index = parent.layer.getFrameIndex(window.name);
-                                              //关闭当前frame
-                                              parent.layer.close(index);
-                                              window.parent.location.reload();
-                                          });
-                                      } else {
-                                          layer.alert("增加失败", {icon: 2}, function () {
-                                              // 获得frame索引
-                                              var index = parent.layer.getFrameIndex(window.name);
-                                              //关闭当前frame
-                                              parent.layer.close(index);
-                                          })
-                                      }}, error:function (e) {
-                                      layer.msg('系统错误1', {icon: 2});
-                                  }
-                              });
-                          }}, error:function (e) {
-                              layer.msg('系统错误2', {icon: 2});
+                          success:function (data) {
+                              if (data===1) {
+                                  layer.alert("增加成功", {icon: 6}, function () {
+                                      // 获得frame索引
+                                      var index = parent.layer.getFrameIndex(window.name);
+                                      //关闭当前frame
+                                      parent.layer.close(index);
+                                      window.parent.location.reload();
+                                  });
+                              } else {
+                                  layer.alert("增加失败", {icon: 2}, function () {
+                                      // 获得frame索引
+                                      var index = parent.layer.getFrameIndex(window.name);
+                                      //关闭当前frame
+                                      parent.layer.close(index);
+                                  })
+                              }
+                              }, error:function (e) {
+                              layer.msg('请求失败', {icon: 2});
                           }
                       });
 
@@ -84,71 +82,54 @@
   <form class="layui-form" action="">
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>财务人员
+              <span class="x-red">*</span>考勤人员
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="staffID" name="staffID" autocomplete="off" class="layui-input" required lay-verify="required" >
+              <input type="text" id="checkStaffId" name="checkStaffId" autocomplete="off" class="layui-input" required lay-verify="required" >
           </div>
       </div>
 
-
-      <div class="layui-form-item">
-          <label  for="staffID" class="layui-form-label">
-              查看明细
-          </label>
-          <div class="layui-input-block">
-              <button class="layui-btn"   onclick="x_admin_show('查询采购单','../html/bill-view.html',900)" type="button">查询订单</button>
-              <button class="layui-btn"  onclick="x_admin_show('查询采购单','../html/purchase-view.html',700)" type="button">查询采购单</button>
-          </div>
-      </div>
 
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>收款金额
+              <span class="x-red">*</span>上班时间
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="receiptMoney" name="receiptMoney" required lay-verify="required"
+              <input type="text" id="checkinginStarttime" name="checkinginStarttime" required lay-verify="required"
                      autocomplete="off" class="layui-input">
           </div>
       </div>
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>支出金额
+              <span class="x-red">*</span>下班时间
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="spendMoney" name="spendMoney" required lay-verify="required"
+              <input type="text" id="checkinginSendtime" name="checkinginSendtime" required lay-verify="required"
                      autocomplete="off" class="layui-input">
           </div>
       </div>
 
           <div class="layui-form-item">
               <label  class="layui-form-label">
-                  <span class="x-red">*</span>盈损金额
+                  <span class="x-red">*</span>考勤表状态
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="profitAndLost" name="profitAndLost" required lay-verify="required"
-                         autocomplete="off" class="layui-input">
+                  <select id="checkinginState" name="checkinginState"   lay-verify="required">
+                      <option value="0">正常考勤</option>
+                      <option value="1">外勤</option>
+                      <option value="2">请假</option>
+                      <option value="3">非考勤日</option>
+                      <option value="4">旷工</option>
+                  </select>
+<!--                  <input type="text" id="checkinginState" name="checkinginState" required lay-verify="required"-->
+<!--                         autocomplete="off" class="layui-input">-->
               </div>
           </div>
 
-      <div class="layui-form-item layui-form-text">
-          <label for="saleDescription" class="layui-form-label">
-              描述
-          </label>
-          <div class="layui-input-block">
-              <textarea placeholder="请输入内容" id="saleDescription" name="saleDescription" class="layui-textarea" style="width: 600px;height: 280px"></textarea>
-          </div>
-      </div>
 
-      <div class="layui-form-item layui-col-md12 x-so">
-          <label   for="staffID" class="layui-form-label">
-              <span class="x-red">*</span>统计时间
-          </label>
-          <input class="layui-input " placeholder="日期"  id="date"  name="date" required lay-verify="required">
-      </div>
 
       <div class="layui-form-item">
-          <label for="staffID" class="layui-form-label">
+          <label class="layui-form-label">
           </label>
           <button  class="layui-btn" lay-filter="add" lay-submit ="">
               增加

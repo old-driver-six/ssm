@@ -103,7 +103,6 @@
                 }
             ,where: {'uId': $.cookie('uId')
             }
-
             ,cols: [[ //表头
                 {type:'checkbox', fixed: 'left'}
                 ,{field: 'checkinginId', title: '考勤表ID', width:140, sort: true, fixed: 'left'}
@@ -121,15 +120,17 @@
             var data = obj.data;
             layEvent = obj.event; //获得 lay-event 对应的值
             var tr = obj.tr;
+            console.log(data)
           if(layEvent === 'edit'){
-                console.log(data.checkingInID);
+              var json_1 ={'checkinginId':data.checkinginId,'uId':$.cookie('uId')}
+              console.log(json_1);
                 $.ajax({
-                    url:'/CheckingIn/selectCheckingInByCheckinginId',
+                    url:'/CheckingIn',
                     type:"post",
-                    data:{"checkingInID":data.checkingInID},
+                    data:json_1,
                     dataType:'json',
                     success:function (json) {
-                    x_admin_show('','',800);
+                    x_admin_show('修改考勤表','checkingin-update.html',800);
                     },
                     error:function (e) {
                         layer.msg('系统错误', {icon: 2});

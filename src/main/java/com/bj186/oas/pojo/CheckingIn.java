@@ -1,5 +1,7 @@
 package com.bj186.oas.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class CheckingIn {
@@ -16,11 +18,13 @@ public class CheckingIn {
     /**
      * 上班时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date checkinginStarttime;
 
     /**
      * 下班时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date checkinginSendtime;
 
     /**
@@ -106,5 +110,17 @@ public class CheckingIn {
      */
     public void setCheckinginState(String checkinginState) {
         this.checkinginState = checkinginState == null ? null : checkinginState.trim();
+    }
+
+    @Override
+    public String
+    toString() {
+        return "CheckingIn{" +
+                "checkinginId='" + checkinginId + '\'' +
+                ", checkStaffId=" + checkStaffId +
+                ", checkinginStarttime=" + checkinginStarttime +
+                ", checkinginSendtime=" + checkinginSendtime +
+                ", checkinginState='" + checkinginState + '\'' +
+                '}';
     }
 }

@@ -16,8 +16,8 @@
     <include refid="Base_Column_List" />
     from oas_checkingin
     <where>
-      <if test="checkstaffId!=null">
-        check_staff_id = #{checkstaffId}
+      <if test="checkStaffId!=null">
+        check_staff_id = #{checkStaffId}
       </if>
       <if test="startTime!='\'null\''">
         AND checkingin_startTime &gt;= ${startTime}
@@ -38,8 +38,8 @@
     <include refid="Base_Column_List" />
     from oas_checkingin
     <where>
-      <if test="checkstaffId!=null">
-        check_staff_id = #{checkstaffId}
+      <if test="checkStaffId!=null">
+        check_staff_id = #{checkStaffId}
       </if>
       <if test="startTime!='\'null\''">
         AND checkingin_startTime &gt;= ${startTime}
@@ -73,7 +73,7 @@
   <insert id="insert" parameterType="com.bj186.oas.pojo.CheckingIn" >
     insert into oas_checkingin (checkingin_id, check_staff_id, checkingin_startTime,
       checkingin_sendTime, checkingin_state)
-    values (#{checkinginId,jdbcType=VARCHAR}, #{checkstaffId,jdbcType=INTEGER}, #{checkinginStarttime,jdbcType=TIMESTAMP}, 
+    values (#{checkinginId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=INTEGER}, #{checkinginStarttime,jdbcType=TIMESTAMP}, 
       #{checkinginSendtime,jdbcType=TIMESTAMP}, #{checkinginState,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.CheckingIn" >
@@ -99,8 +99,8 @@
       <if test="checkinginId != null" >
         #{checkinginId,jdbcType=VARCHAR},
       </if>
-      <if test="checkstaffId != null" >
-        #{checkstaffId,jdbcType=INTEGER},
+      <if test="checkStaffId != null" >
+        #{checkStaffId,jdbcType=INTEGER},
       </if>
       <if test="checkinginStarttime != null" >
         #{checkinginStarttime,jdbcType=TIMESTAMP},
@@ -134,7 +134,7 @@
 
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.CheckingIn" >
     update oas_checkingin
-    set check_staff_id = #{checkstaffId,jdbcType=INTEGER},
+    set check_staff_id = #{checkStaffId,jdbcType=INTEGER},
       checkingin_startTime = #{checkinginStarttime,jdbcType=TIMESTAMP},
       checkingin_sendTime = #{checkinginSendtime,jdbcType=TIMESTAMP},
       checkingin_state = #{checkinginState,jdbcType=CHAR}
