@@ -23,21 +23,34 @@
                       form = layui.form,
                       laydate = layui.laydate;
 
-              var checkinginId = getQueryString("checkinginId");
-              console.log(checkinginId);
-              var databean = {'checkinginId':checkinginId,'uId': $.cookie('uId')};
-              console.log(databean)
+              var saleID = getQueryString("saleID");
+              console.log(saleID);
               $.ajax({
-                  url:'/CheckingIn/selectCheckingInByCheckinginId',
+                  url:'/SaleServlet?method=saleSelectByID',
                   type:"post",
-                  data:JSON.stringify(databean),
+                  data:{"saleID":saleID},
                   dataType:'json',
-                  contentType:'application/json;charset=UTF-8',
                   success:function (json) {
-                    $("#checkStaffId").attr("value",json.checkStaffId);
-                    $("#checkinginStarttime").attr("value",json.checkinginStarttime);
-                    $("#checkinginSendtime").attr("value",json.checkinginSendtime);
-                    $("#checkinginState").attr("value",json.checkinginState);
+                    var jsonData = json;
+                    console.log(jsonData.date);
+                    $("#staffID").attr("value",jsonData.staffID);
+                    $("#date").attr("value",jsonData.date);
+                    $("#receiptMoney").attr("value",jsonData.receiptMoney);
+                    $("#spendMoney").attr("value",jsonData.spendMoney);
+                    $("#profitAndLost").attr("value",jsonData.profitAndLost);
+                      $.ajax({
+                          url:'/SaleServlet?method=saleDescription',
+                          type:"post",
+                          data:{"saleID":saleID},
+                          dataType:'json',
+                          success:function (json) {
+                              var jsonData = json;
+                              console.log(jsonData.date);
+                              $("#saleDescription").val(jsonData.saleDescription);
+                          },
+                          error:function (e) {
+                          }
+                      });
                   },
                   error:function (e) {
                   }
@@ -45,27 +58,41 @@
 
 
               laydate.render({
-                  elem: '#checkinginStarttime' //指定元素
-                  ,type: 'datetime'
-              });
-              laydate.render({
-                  elem: '#checkinginSendtime' //指定元素
-                  ,type: 'datetime'
-              });
+                      elem: '#date' //指定元素
+                      ,type: 'datetime'
+                  });
 
 
-
+                  //自定义验证规则
+                  form.verify({});
 
                   //监听提交
                   form.on('submit(update)', function (data) {
+                      var  updateSale = data.field;
+                      var  SaleDescription = data.field.saleDescription;
+                      var  updateSaleDescription ={ "SaleDescription":SaleDescription };
+                      updateSale.saleID = saleID;
+                      updateSaleDescription.saleID = saleID;
+                      delete  updateSale.saleDescription;
+                      console.log(updateSale);
+                      console.log(updateSaleDescription)
                       $.ajax({
-                          url:'/CheckingIn/updateCheckingIn',
+                          url:'/SaleServlet?method=updateSale',
                           type:"post",
-                          data:{"updateSale":JSON.stringify(data.field)},
+                          data:{"updateSale":JSON.stringify(updateSale)},
                           dataType:'json',
-                          contentType:'application/json;charset=UTF-8',
                           success:function (json) {
                               console.log(json.date);
+                              $.ajax({
+                                  url:'/SaleServlet?method=updateSaleDescription',
+                                  type:"post",
+                                  data:{"updateSaleDescription":JSON.stringify(updateSaleDescription)},
+                                  dataType:'json',
+                                  success:function (json) {
+                                  },
+                                  error:function (e) {
+                                  }
+                              });
                               layer.alert("保存成功", {icon: 6}, function () {
                                   // 获得frame索引
                                   var index = parent.layer.getFrameIndex(window.name);
@@ -81,7 +108,6 @@
                   });
 
           });
-
           function getQueryString(name) {
               var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
               var reg_rewrite = new RegExp("(^|/)" + name + "/([^/]*)(/|$)", "i");
@@ -98,56 +124,63 @@
       </script>
   </head>
   <body class="x-body">
-  <form class="layui-form" action="">
+  <form class="layui-form" action="sale.html">
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>考勤人员
+              <span class="x-red">*</span>财务人员ID
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="checkStaffId" name="checkStaffId" autocomplete="off" class="layui-input" required lay-verify="required" >
+              <input type="text" id="staffID" name="staffID" autocomplete="off" class="layui-input" required lay-verify="required" >
           </div>
       </div>
 
+      <div class="layui-form-item layui-col-md12 x-so">
+          <label   for="staffID" class="layui-form-label">
+              <span class="x-red">*</span>统计时间
+          </label>
+          <input class="layui-input " placeholder="日期"  id="date" name="date" required lay-verify="required">
+      </div>
 
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>上班时间
+              <span class="x-red">*</span>收款金额
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="checkinginStarttime" name="checkinginStarttime" required lay-verify="required"
+              <input type="text" id="receiptMoney" name="receiptMoney" required lay-verify="required"
                      autocomplete="off" class="layui-input">
           </div>
       </div>
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>下班时间
+              <span class="x-red">*</span>支出金额
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="checkinginSendtime" name="checkinginSendtime" required lay-verify="required"
+              <input type="text" id="spendMoney" name="spendMoney" required lay-verify="required"
                      autocomplete="off" class="layui-input">
           </div>
       </div>
 
-      <div class="layui-form-item">
-          <label  class="layui-form-label">
-              <span class="x-red">*</span>考勤表状态
+          <div class="layui-form-item">
+              <label  class="layui-form-label">
+                  <span class="x-red">*</span>盈损金额
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="profitAndLost" name="profitAndLost" required lay-verify="required"
+                         autocomplete="off" class="layui-input">
+              </div>
+          </div>
+
+      <div class="layui-form-item layui-form-text">
+          <label for="saleDescription" class="layui-form-label">
+              描述
           </label>
-          <div class="layui-input-inline">
-              <select id="checkinginState" name="checkinginState"   lay-verify="required">
-                  <option value="0">正常考勤</option>
-                  <option value="1">外勤</option>
-                  <option value="2">请假</option>
-                  <option value="3">非考勤日</option>
-                  <option value="4">旷工</option>
-              </select>
-              <!--                  <input type="text" id="checkinginState" name="checkinginState" required lay-verify="required"-->
-              <!--                         autocomplete="off" class="layui-input">-->
+          <div class="layui-input-block">
+              <textarea placeholder="请输入内容" id="saleDescription" name="saleDescription" class="layui-textarea" style="width: 600px;height: 280px"></textarea>
           </div>
       </div>
 
-
       <div class="layui-form-item">
-          <label  class="layui-form-label">
+          <label for="staffID" class="layui-form-label">
           </label>
           <button  class="layui-btn" lay-filter="update" lay-submit ="">
               保存修改

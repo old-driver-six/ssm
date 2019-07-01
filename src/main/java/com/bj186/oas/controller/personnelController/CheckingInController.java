@@ -69,8 +69,7 @@ public class CheckingInController {
         List<CheckingIn> checkingIns = checkingInService.selectCheckingInByRequirement(uId,staffId,startTime,
                 endTime,pageNow,pageLimit);
         Integer countCheckingIn = checkingInService.countCheckingIn(uId, staffId, startTime,
-                endTime);
-        System.out.println(checkingIns.toString());
+                endTime,  null, null);
         OAResoult oaResoult = new OAResoult();
         oaResoult.setCount(countCheckingIn);
         oaResoult.setCode(0);
@@ -81,28 +80,32 @@ public class CheckingInController {
 
     /**
      * 根据主键修改考勤(修改上下班时间和考勤状态)
-     * @param checkingInInsertBean
+     * @param uId
+     * @param checkingIn
      * @return
      */
     @RequestMapping("/updateCheckingIn")
     @ResponseBody
     public Integer updateCheckingIn(
-            @RequestBody CheckingInInsertBean checkingInInsertBean){
-        CheckingIn checkingIn =checkingInInsertBean;
-        Integer integer = checkingInService.updateChecking(checkingInInsertBean.getuId(),checkingIn);
+            @RequestParam("uId") Integer uId,
+            @RequestBody CheckingIn checkingIn){
+        Integer integer = checkingInService.updateChecking(uId, checkingIn);
         return integer;
     }
 
     /**
      * 主键查询方法
-     * @param checkingInInsertBean
+     * @param uId
+     * @param checkinginId
      * @return
      */
     @RequestMapping("/selectCheckingInByCheckinginId")
     @ResponseBody
     public CheckingIn selectCheckingInByCheckinginId(
-    @RequestBody CheckingInInsertBean checkingInInsertBean){
-        CheckingIn checkingIn = checkingInService.selectByPrimaryKey(checkingInInsertBean.getuId(), checkingInInsertBean.getCheckinginId());
+            @RequestParam("uId") Integer uId,
+            @RequestParam("checkinginId") String checkinginId){
+
+        CheckingIn checkingIn = checkingInService.selectByPrimaryKey(uId, checkinginId);
         return checkingIn;
     }
 

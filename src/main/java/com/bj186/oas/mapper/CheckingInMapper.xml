@@ -35,7 +35,7 @@
 
   <select id="countCheckingIn" parameterType="map" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM (select
-    <include refid="Base_Column_List"/>
+    <include refid="Base_Column_List" />
     from oas_checkingin
     <where>
       <if test="checkStaffId!=null">
@@ -47,7 +47,12 @@
       <if test="endTime!='\'null\''">
         AND checkingin_sendTime &lt;= ${endTime}
       </if>
-    </where>) s
+    </where>
+    <if test="LimitParameter_1!=null">
+      <if test="LimitParameter_2!=null">
+        LIMIT #{LimitParameter_1},#{LimitParameter_2}
+      </if>
+    </if>)
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

@@ -18,13 +18,13 @@ public class CheckingIn {
     /**
      * 上班时间
      */
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date checkinginStarttime;
 
     /**
      * 下班时间
      */
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date checkinginSendtime;
 
     /**

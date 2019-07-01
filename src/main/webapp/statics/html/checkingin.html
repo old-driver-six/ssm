@@ -39,7 +39,7 @@
             <input class="layui-input" placeholder="截止日" name="end" id="end" >
             </div>
              <div class="layui-input-inline">
-             <input type="text" name="staffId"  placeholder="输入员工ID查询记录" autocomplete="off" class="layui-input">
+             <input type="text" name="checkingInID"  placeholder="输入员工ID查询记录" autocomplete="off" class="layui-input">
              </div>
             <div class="layui-input-inline">
                 <button class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
@@ -102,8 +102,6 @@
                 };
                 }
             ,where: {'uId': $.cookie('uId')
-            },done: function (res, curr,count) {
-                console.log(res)
             }
             ,cols: [[ //表头
                 {type:'checkbox', fixed: 'left'}
@@ -124,10 +122,22 @@
             var tr = obj.tr;
             console.log(data)
           if(layEvent === 'edit'){
-              console.log(data.checkinginId);
-              x_admin_show('修改考勤表','checkingin-update.html?checkinginId='+
-                  data.checkinginId,800);
-          }
+              var json_1 ={'checkinginId':data.checkinginId,'uId':$.cookie('uId')}
+              console.log(json_1);
+                $.ajax({
+                    url:'/CheckingIn',
+                    type:"post",
+                    data:json_1,
+                    dataType:'json',
+                    success:function (json) {
+                    x_admin_show('修改考勤表','checkingin-update.html',800);
+                    },
+                    error:function (e) {
+                        layer.msg('系统错误', {icon: 2});
+                    }
+                })
+
+            }
     });
 
         // table.on('checkbox(checkingIn)', function(obj){
@@ -142,19 +152,38 @@
         form.on('submit(search)', function(data){
             console.log(data.field.start);
             console.log(data.field.end);
-            console.log(data.field.staffId);
-            tableIns.reload({
-                  url:'/CheckingIn/selectCheckingInByRequirement',
+            console.log(data.field.checkingInID);
+          if (data.field.start !== ""&&data.field.end !== ""&&data.field.checkingInID ===""){
+              tableIns.reload({
+                  url:'/',
                   where:{
-                      startTime:data.field.start,
-                      endTime:data.field.end,
-                      staffId:data.field.staffId
+                      start:data.field.start,
+                      end:data.field.end,
+                      checkingInID:data.field.checkingInID
                   }
                   //设定异步数据接口的额外参数
                   ,page: {
                       curr: 1 //重新从第 1 页开始
                   }
               } );
+          }else if (data.field.start !== ""&&data.field.end !== ""&&data.field.checkingInID !==""){
+               layer.msg('请日期和id分开查询',{icon: 2})
+          }else if (data.field.start === ""&&data.field.end === ""&&data.field.checkingInID ===""){
+              table.reload('checkingIn', {});
+          }else if (data.field.start === ""&&data.field.end === ""&&data.field.checkingInID !==""){
+              tableIns.reload({
+                  url:'/',
+                  where:{
+                      start:data.field.start,
+                      end:data.field.end,
+                      checkingInID:data.field.checkingInID
+                  }
+                  //设定异步数据接口的额外参数
+                  ,page: {
+                      curr: 1 //重新从第 1 页开始
+                  }
+              } );
+          }
             return false;
         });
 
