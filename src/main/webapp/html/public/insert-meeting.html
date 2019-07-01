@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../statics/css/font.css">
+    <link rel="stylesheet" href="../../statics/css/xadmin.css">
+
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <script src="../../statics/js/jquery.cookies.2.2.0.js"></script>
+    <script src="../../statics/layui/lay/modules/element.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../statics/js/xadmin.js"></script>
+
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script>
+        $(function () {
+            $("button#button2").click(function () {
+                var deps = new Array()
+
+                if ($('input#dep1').next().hasClass("layui-form-checked")){
+                    deps.push("人事部")
+                }
+                if ($('input#dep2').next().hasClass("layui-form-checked")){
+                    deps.push("财务部")
+                }
+                if ($('input#dep3').next().hasClass("layui-form-checked")){
+                    deps.push("行政部")
+                }
+                if ($('input#dep4').next().hasClass("layui-form-checked")){
+                    deps.push("董事局")
+                }
+                var json = {'meetingTitle':$('input#meetingTitle').val(),
+                  'meetingContent':$('textarea#meetingContent').val()
+                , 'meetingTime':$('input#meetingTime').val().replace('T',' ') + ':00','meetingType':$('select#meetingType').val()
+                    ,'depNames':deps,'meetingLocation':$('input#meetingLocation').val(),'meetingStaffId':$.cookie('uId')}
+                console.log(json)
+                $.ajax({
+                    url:'/meeting/insert'
+                    ,data: JSON.stringify(json)
+                    ,type:'post'
+                    ,dateType:'json'
+                    ,contentType:'application/json'
+                    , success: function (data) {
+                        console.log(data)
+                        if (data.code == 0){
+                            layer.msg("发布失败！")
+                        } else if(data.code == -1){
+                            layer.msg("类型与部门不符！")
+                        }else{
+                            alert("发布成功！")
+                            x_admin_close()
+                        }
+                    }
+                })
+            })
+        })
+
+    </script>
+  </head>
+  
+  <body class="form-wrap" >
+
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-header">会议发布</div>
+      <div class="layui-card-body" style="padding: 15px;">
+        <div class="layui-form" action="" lay-filter="component-form-group">
+          <div class="layui-form-item">
+            <label class="layui-form-label">会议标题</label>
+            <div class="layui-input-block">
+              <input type="text" id="meetingTitle" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">会议时间</label>
+            <div class="layui-input-block">
+              <input id="meetingTime" type="datetime-local" value="2015-09-24T00:00"/>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">会议地点</label>
+            <div class="layui-input-block">
+              <input type="text" id="meetingLocation" lay-verify="title" autocomplete="off" placeholder="请输入地点" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">会议类型</label>
+            <div class="layui-input-block" style="width: 150px">
+              <select id="meetingType" name="city" lay-verify="">
+                <option value="高层会议">高层会议</option>
+                <option value="部门会议">部门会议</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">部门</label>
+            <div class="layui-input-block">
+              <input type="checkbox" id="dep1" title="人事部" ><div class="layui-unselect layui-form-checkbox"><span>人事部</span><i class="layui-icon layui-icon-ok"></i></div>
+              <input type="checkbox" id="dep2" title="财务部" ><div  class="layui-unselect layui-form-checkbox"><span>财务部</span><i class="layui-icon layui-icon-ok"></i></div>
+              <input type="checkbox" id="dep3" title="行政部"><div class="layui-unselect layui-form-checkbox"><span>行政部</span><i class="layui-icon layui-icon-ok"></i></div>
+              <input type="checkbox" id="dep4" title="董事局"><div class="layui-unselect layui-form-checkbox"><span>董事局</span><i class="layui-icon layui-icon-ok"></i></div>
+            </div>
+          </div>
+
+          <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">会议内容</label>
+            <div class="layui-input-block">
+              <textarea id="announcementsContent" placeholder="请输入内容" class="layui-textarea"></textarea>
+            </div>
+          </div>        
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button id="button2" class="layui-btn" lay-filter="component-form-demo1">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+
+
+</html>

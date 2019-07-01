@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>部门管理</title>
+    <title>职位管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -32,7 +32,7 @@
         <a href="">首页</a>
         <a href="">系统设置</a>
         <a>
-          <cite>部门管理</cite></a>
+          <cite>职位管理</cite></a>
       </span>
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
@@ -52,7 +52,7 @@
             tableIns =table.render({
                 elem: '#demo'
                 ,id:'idTest'
-                ,url:'/dep/selectDep'
+                ,url:'/position/selectPosition'
                 ,page:true
                 // ,method:'post'
                 ,limits:[5,10,15]
@@ -60,11 +60,9 @@
                 ,size:'lg'
                 ,cols: [[
                     {type:'checkbox',fixed: 'left'}
-                    ,{field: 'depId', title: 'ID', sort: true, fixed: 'left'}
-                    ,{field: 'depName', title: '部门',fixed: 'left'}
-                    ,{field: 'depNumber', title: '部门人数',fixed: 'left'}
-                    ,{field: 'staffName', title: '部门经理',fixed: 'left'}
-                    ,{field: 'depDescribe', title: '部门简介',fixed: 'left'}
+                    ,{field: 'positionId', title: 'ID', sort: true, fixed: 'left'}
+                    ,{field: 'positionName', title: '职位',fixed: 'left'}
+                    ,{field: 'positionDescribe', title: '职能',fixed: 'left'}
                 ]]
             });
         });

@@ -23,6 +23,8 @@ public class DepServiceImpl implements DepService {
     @Override
     public List<Staff> selectDepStaff(String depName) {
         List<Staff> staffList = departmentMapper.selectDepStaff(depName);
+        System.out.println(staffList);
+        System.out.println(11111);
         return staffList;
     }
 }

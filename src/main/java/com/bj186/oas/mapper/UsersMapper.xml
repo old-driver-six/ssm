@@ -72,8 +72,8 @@
   <update id="updateByStaffId" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
     <set >
-      <if test="usersPhone != null" >
-        users_phone = #{usersPhone,jdbcType=VARCHAR},
+      <if test="staffId != null" >
+        users_staffId = #{staffId,jdbcType=VARCHAR},
       </if>
       <if test="usersPassword != null" >
         users_password = #{usersPassword,jdbcType=VARCHAR},

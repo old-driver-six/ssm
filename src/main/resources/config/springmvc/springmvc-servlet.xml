@@ -21,6 +21,15 @@
         <property name="prefix" value="/WEB-INF/html/pay/"></property>
         <property name="suffix" value=".html"></property>
     </bean>
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <!-- 转换器 -->
+        <property name="converters">
+            <list>
+                <bean class="com.bj186.oas.Util.DateConverter" />
+            </list>
+        </property>
+    </bean>
     <mvc:annotation-driven >
         <!-- 处理responseBody 里面日期类型 -->
         <mvc:message-converters>

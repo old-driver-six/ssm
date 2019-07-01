@@ -1,6 +1,7 @@
 package com.bj186.oas.service.system.systemImpl;
 
 import com.bj186.oas.Util.MD5;
+import com.bj186.oas.entity.UpdatePwd;
 import com.bj186.oas.entity.system.User;
 import com.bj186.oas.mapper.*;
 import com.bj186.oas.pojo.*;
@@ -19,6 +20,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UsersMapper usersMapper;
     @Resource
+    private DepartmentMapper departmentMapper;
+    @Resource
     private StaffPowerMapper staffPowerMapper;
     @Resource
     private PowerMapper powerMapper;
@@ -34,6 +37,17 @@ public class UserServiceImpl implements UserService {
         return staff;
 
     }
+    /**
+     * 根据姓名查询
+     * @param staffName
+     * @return staff对象
+     */
+    @Override
+    public  Staff selectByName(String staffName){
+        Staff staff = staffMapper.selectByName(staffName);
+        return staff;
+
+    }
 
     /**
      * 根据手机号查询
@@ -45,6 +59,18 @@ public class UserServiceImpl implements UserService {
         Users users =usersMapper.selectByPrimaryKey(phone);
         return users;
 
+    }
+
+    @Override
+    public Integer updatePwd(UpdatePwd updatePwd) {
+        Staff staff = staffMapper.selectByPrimaryKey(updatePwd.getuId());
+        Users user = usersMapper.select(staff.getStaffId());
+        String md5 = MD5.getMd5(staff.getStaffPhone(), updatePwd.getPassword());
+        if(!md5.equals(user.getUsersPassword()))
+            return -1;
+        user.setUsersPassword(MD5.getMd5(staff.getStaffPhone(), updatePwd.getNewPassword()));
+        usersMapper.updateByStaffId(user);
+        return 0;
     }
 
 
@@ -86,15 +112,9 @@ public class UserServiceImpl implements UserService {
         params.put("start",(pageNum-1)*pageSize);//sql语句从哪里开始 页码-1 乘以 分页数据数量
         params.put("end", pageSize); //分页数量
         params.put("depName",depName);
-        if(!depName.equals("董事局")){
-            if(!filed.equals("dep_Name") || filed.equals("dep_Name") && value.equals(depName)){
-                staffList = staffMapper.selectLimit(params);
-            }else{
-                return null;
-            }
-        }else{
-            staffList = staffMapper.selectLimit(params);
-        }
+
+        staffList = staffMapper.selectLimit(params);
+
         return staffList;
     }
 
@@ -238,13 +258,27 @@ public class UserServiceImpl implements UserService {
         staff.setStaffSex(user.getStaffSex());
         staff.setStaffWage(user.getStaffWage());
 
-        Department department = new Department();
-        department.setDepId(user.getDepId());
-        staff.setDepartment(department);
+        if(user.getDepId()==3&&user.getPositionId()!=1 || user.getPositionId()==1&&user.getDepId()!=3){
+           return -1;
+        }
 
         Position position = new Position();
         position.setPositionId(user.getPositionId());
         staff.setPosition(position);
+
+        Department department = departmentMapper.selectById(user.getDepId());
+        if(user.getPositionId()==2 || user.getPositionId()==1){
+            Integer depManagerid = department.getDepManagerid();
+            Staff staff1 = staffMapper.selectByPrimaryKey(depManagerid);
+            position.setPositionId(4);
+            staff1.setPosition(position);
+            staffMapper.updateByPrimaryKeySelective(staff1);
+
+            department.setDepManagerid(staff.getStaffId());
+            departmentMapper.updateByPrimaryKeySelective(department);
+        }
+        staff.setDepartment(department);
+
 
 
         if(staffMapper.updateByPrimaryKeySelective(staff) ==0)

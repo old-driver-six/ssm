@@ -5,9 +5,12 @@
     <id column="meeting_id" property="meetingId" jdbcType="VARCHAR" />
     <result column="meeting_title" property="meetingTitle" jdbcType="VARCHAR" />
     <result column="meeting_type" property="meetingType" jdbcType="CHAR" />
-    <result column="meeting_stff_id" property="meetingStffId" jdbcType="INTEGER" />
+    <result column="meeting_staffId" property="meetingStaffId" jdbcType="INTEGER" />
     <result column="meeting_location" property="meetingLocation" jdbcType="VARCHAR" />
     <result column="meeting_time" property="meetingTime" jdbcType="TIMESTAMP" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="meeting_state" property="meetingState" jdbcType="INTEGER" />
+    <collection property="departments" resultMap="com.bj186.oas.mapper.DepartmentMapper.BaseResultMap"></collection>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Meeting" extends="BaseResultMap" >
     <result column="meeting_content" property="meetingContent" jdbcType="LONGVARCHAR" />
@@ -26,17 +29,71 @@
     from oas_meeting
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </select>
+  <select id="selectMeetByDepId" resultMap="ResultMapWithBLOBs" parameterType="Map" >
+     SELECT * FROM (SELECT * FROM(SELECT * FROM
+  oas_meeting a left join oas_staff b
+  on a.meeting_staffId = b.staff_id) a LEFT JOIN oas_meetingstaff b on a.meeting_id = b.meetingStaff_meeting_id) a
+  left join oas_department b on a.meetingStaff_empid = b.dep_id
+WHERE meetingStaff_empid = #{depId} and meeting_state = 0
+    <if test="type!=null">
+      and meeting_type = #{type}
+    </if>
+  </select>
+
+  <select id="selectMeetAll" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM (SELECT * FROM(SELECT * FROM
+    oas_meeting a left join oas_staff b
+    on a.meeting_staffId = b.staff_id) a LEFT JOIN oas_meetingstaff b on a.meeting_id = b.meetingStaff_meeting_id) a
+    left join oas_department b on a.meetingStaff_empid = b.dep_id
+    WHERE meeting_state = 0
+  </select>
+  <select id="selectMeetAllVague" resultMap="ResultMapWithBLOBs" parameterType="Map">
+    SELECT * FROM (SELECT * FROM(SELECT * FROM
+    oas_meeting a left join oas_staff b
+    on a.meeting_staffId = b.staff_id) a LEFT JOIN oas_meetingstaff b on a.meeting_id = b.meetingStaff_meeting_id) a
+    left join oas_department b on a.meetingStaff_empid = b.dep_id
+    WHERE meeting_state = 0
+    <if test="field!=''">
+      and ${field} like ${value}
+    </if>
+    <if test="page!=null">
+      limit #{page},#{limit}
+    </if>
+  </select>
+
+  <select id="selectMeetByDepIdVague" resultMap="ResultMapWithBLOBs" parameterType="Map" >
+  SELECT * FROM (SELECT * FROM(SELECT * FROM
+  oas_meeting a left join oas_staff b
+  on a.meeting_staffId = b.staff_id) a LEFT JOIN oas_meetingstaff b on a.meeting_id = b.meetingStaff_meeting_id) a
+  left join oas_department b on a.meetingStaff_empid = b.dep_id
+  WHERE meetingStaff_empid = #{depId} and meeting_state = 0 and ${field} like ${value}
+  <if test="type!=null">
+    and meeting_type = #{type}
+  </if>
+  </select>
+  <select id="selectMeetByUid" resultMap="ResultMapWithBLOBs" parameterType="Map" >
+    SELECT * FROM
+  oas_meeting a left join oas_staff b
+  on a.meeting_staffId = b.staff_id WHERE meeting_staffId = #{Uid}
+    <if test="field!=''">
+      and ${field} like ${value}
+    </if>
+    <if test="page!=null">
+      limit #{page},#{limit}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from oas_meeting
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.bj186.oas.pojo.Meeting" >
+  <insert id="insert" parameterType="com.bj186.oas.pojo.Meeting"
+          useGeneratedKeys="true" keyProperty="meetingId">
     insert into oas_meeting (meeting_id, meeting_title, meeting_type, 
-      meeting_stff_id, meeting_location, meeting_time, 
-      meeting_content)
+      meeting_staffId, meeting_location, meeting_time,
+      meeting_content,meeting_state)
     values (#{meetingId,jdbcType=VARCHAR}, #{meetingTitle,jdbcType=VARCHAR}, #{meetingType,jdbcType=CHAR}, 
-      #{meetingStffId,jdbcType=INTEGER}, #{meetingLocation,jdbcType=VARCHAR}, #{meetingTime,jdbcType=TIMESTAMP}, 
-      #{meetingContent,jdbcType=LONGVARCHAR})
+      #{meetingStaffId,jdbcType=INTEGER}, #{meetingLocation,jdbcType=VARCHAR}, #{meetingTime,jdbcType=TIMESTAMP},
+      #{meetingContent,jdbcType=LONGVARCHAR},#{meetingState,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Meeting" >
     insert into oas_meeting
@@ -88,27 +145,9 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.bj186.oas.pojo.Meeting" >
-    update oas_meeting
-    <set >
-      <if test="meetingTitle != null" >
-        meeting_title = #{meetingTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="meetingType != null" >
-        meeting_type = #{meetingType,jdbcType=CHAR},
-      </if>
-      <if test="meetingStffId != null" >
-        meeting_stff_id = #{meetingStffId,jdbcType=INTEGER},
-      </if>
-      <if test="meetingLocation != null" >
-        meeting_location = #{meetingLocation,jdbcType=VARCHAR},
-      </if>
-      <if test="meetingTime != null" >
-        meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="meetingContent != null" >
-        meeting_content = #{meetingContent,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
+    update oas_meeting set
+        meeting_state = #{meetingState,jdbcType=VARCHAR}
+
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bj186.oas.pojo.Meeting" >

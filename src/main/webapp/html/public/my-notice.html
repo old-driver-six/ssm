@@ -72,7 +72,13 @@
         </script>
 </div>
 </div>
-
+<script type="text/html" id="titleTpl">
+    {{#if (d.announcementsState == 0) { }}
+    <span>可见</span>
+    {{# }else if(d.announcementsState == 1){ }}
+    <span>不可见</span>
+    {{# } }}
+</script>
 <script>
     $("button#button2").click(function () {
         x_admin_show('发布','insert-notice.html',800,500)
@@ -105,13 +111,18 @@
             ,where: {'uId': $.cookie('uId')
                 ,'field':$('select#select1').val()
                 ,'value':$('input#value').val()
+            },
+            done: function (res,curr, count) {
+                for (var i = 0; i < res.data.length; i++) {
+                    res.data[i].announcementsState = "666"
+                }
             }
             ,cols: [[
                 {type:'checkbox',fixed: 'left'}
                 ,{field: 'announcementsTopic', title: '标题', sort: true, fixed: 'left'}
                 ,{field: 'notifieridName', title: '通知人',fixed: 'left'}
                 ,{field: 'announcementsDate', title: '发布时间', sort: true, fixed: 'left'}
-                ,{field: 'announcementsState', title: '状态',fixed: 'right'}
+                ,{field: 'announcementsState', title: '状态',templet:'#titleTpl',fixed: 'right'}
                 ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
             ]]
         });

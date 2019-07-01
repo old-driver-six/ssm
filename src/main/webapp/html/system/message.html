@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>员工详情</title>
+    <title>个人资料</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -29,7 +29,7 @@
             if(r!=null)return  unescape(r[2]); return null;
         }
         var staffId = GetQueryString("staffId")
-        var json = {'staffId':staffId}
+        var json = {'staffId':$.cookie('uId')}
         // 调用方法
         $.ajax({
             url: '/user/selectByPrimaryKey'
@@ -119,7 +119,7 @@
                 <div class="layui-col-lg6">
                     <label class="layui-form-label">员工姓名：</label>
                     <div class="layui-input-block">
-                        <input type="text" name="staffName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" >
+                        <input type="text" name="staffName" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" disabled >
                     </div>
                 </div>
             </div>
@@ -128,7 +128,7 @@
                     <div class="layui-col-lg6">
                         <label class="layui-form-label">联系方式：</label>
                         <div class="layui-input-block">
-                            <input type="text" name="staffPhone" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                            <input type="text" name="staffPhone" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" disabled>
                         </div>
                     </div>
                 </div>
@@ -136,16 +136,7 @@
                         <div class="layui-col-lg6">
                             <label class="layui-form-label">邮箱：</label>
                             <div class="layui-input-block">
-                                <input type="text" name="staffEmail" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="layui-row layui-col-space10 layui-form-item">
-                        <div class="layui-col-lg6">
-                            <label class="layui-form-label">年龄：</label>
-                            <div class="layui-input-block">
-                                <input type="text" name="staffAge" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                <input type="text" name="staffEmail" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" disabled>
                             </div>
                         </div>
                     </div>
@@ -153,43 +144,18 @@
                                 <div class="layui-col-lg6">
                                     <label class="layui-form-label">地址：</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="staffAdress" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                        <input type="text" name="staffAdress" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" disabled>
                                     </div>
                                 </div>
                             </div>
             <div class="layui-row layui-col-space10 layui-form-item">
                 <div class="layui-col-lg6">
-                    <label class="layui-form-label">薪资</label>
-                    <div class="layui-input-block" style="width: 100px;">
-                        <input type="text" name="staffWage" lay-verify="required" placeholder="￥" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layui-row layui-col-space10 layui-form-item">
-                <div class="layui-col-lg6">
                     <label class="layui-form-label">生日：</label>
                     <div class="layui-input-block">
-                        <input type="date" name="staffBirthday" lay-verify="required" placeholder="MM-dd" autocomplete="off" class="layui-input">
+                        <input type="date" name="staffBirthday" lay-verify="required" placeholder="MM-dd" autocomplete="off" class="layui-input" disabled>
                     </div>
                 </div>
             </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">性别：</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="sex" value="1" title="男">
-                                <input type="radio" name="sex" value="0" title="女">
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10 layui-form-item">
-                            <div class="layui-col-lg6">
-                                <label class="layui-form-label">身份证号：</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="staffCardID" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-                        </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">拥有权限：</label>
                 <div class="layui-input-block">
@@ -200,7 +166,7 @@
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">所属职称：</label>
+                <label class="layui-form-label">所属职位：</label>
                 <div class="layui-input-block">
                     <input type="radio" name="position" value=4 title="员工">
                     <input type="radio" name="position" value=3 title="主管">
@@ -213,7 +179,7 @@
                     <label class="layui-form-label">所属部门：</label>
                     <div class="layui-input-block">
                         <select name="type" lay-verify="required" lay-filter="dep">
-                            <option name="dep" value=0></option>
+                            <option name="dep" value=0 ></option>
                             <option name="dep" value=1>人事部</option>
                             <option name="dep" value=2>行政部</option>
                             <option name="dep" value=3>董事局</option>
@@ -221,96 +187,10 @@
                         </select>
                     </div>
                 </div>
-
-            <div class="layui-form-item layui-layout-admin">
-                <div class="layui-input-block">
-                    <div class=" layui-footer" style="left:0">
-                        <button class="layui-btn" id="update">修改信息</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
     </div>
 </div>
 </body>
-<script>
-    $('button#update').click(function () {
-        var staffId =  $('input[name="staffId"]').val()
-        var staffName = $('input[name="staffName"]').val()
-        var staffPhone = $('input[name="staffPhone"]').val()
-        var staffEmail = $('input[name="staffEmail"]').val()
-        var staffAge =  $('input[name="staffAge"]').val()
-        var staffAdress = $('input[name="staffAdress"]').val()
-        var staffIdntitycardid = $('input[name="staffCardID"]').val()
-        var staffWage = $('input[name="staffWage"]').val()
-        var staffBirthday = $('input[name="staffBirthday"]').val()
-        var staffSex;
-        if($('input[name="sex"]').eq(0).next("div").hasClass("layui-form-radioed")){
-            staffSex = $('input[name="sex"]').eq(0).val()
-        }else{
-            staffSex = $('input[name="sex"]').eq(1).val()
-        }
-        var powerList = new Array();
-
-        if($('input[name="power"]').eq(0).next("div").hasClass("layui-form-checked")){
-            powerList.push(parseInt($('input[name="power"]').eq(0).val()))
-        }
-        if($('input[name="power"]').eq(1).next("div").hasClass("layui-form-checked")){
-            powerList.push(parseInt($('input[name="power"]').eq(1).val()))
-        }
-        if( $('input[name="power"]').eq(2).next("div").hasClass("layui-form-checked")){
-            powerList.push(parseInt($('input[name="power"]').eq(2).val()))
-        }
-
-        var positionId;
-        if( $('input[name="position"]').eq(3).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(3).val()
-        }else if( $('input[name="position"]').eq(2).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(2).val()
-        }else if( $('input[name="position"]').eq(1).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(1).val()
-        }else if($('input[name="position"]').eq(0).next("div").hasClass("layui-form-radioed")){
-            positionId = $('input[name="position"]').eq(0).val()
-        }
-        var depId;
-        if($('dd').eq(1).hasClass("layui-this")){
-            depId = $('dd').eq(1).attr("lay-value")
-        }else if($('dd').eq(2).hasClass("layui-this")) {
-            depId = $('dd').eq(2).attr("lay-value")
-        }else if($('dd').eq(3).hasClass("layui-this")){
-            depId = $('dd').eq(3).attr("lay-value")
-        }else if($('dd').eq(4).hasClass("layui-this")){
-            depId = $('dd').eq(4).attr("lay-value")
-        }
-
-        var json = {'staffId':parseInt(staffId),'staffName':staffName,'staffAge':parseInt(staffAge),'staffSex':staffSex,'staffAdress':staffAdress,'staffEmail':staffEmail
-        ,'staffPhone':staffPhone,'staffIdntitycardid':staffIdntitycardid,'powerIdList':powerList,'positionId':parseInt(positionId),'depId':parseInt(depId)
-            ,'staffWage':staffWage,'staffBirthday':staffBirthday+' 00:00:00'}
-        console.log(powerList)
-        console.log(JSON.stringify(json))
-        $.ajax({
-            url: '/user/update'
-            ,type: 'post',    //访问方式
-            data: JSON.stringify(json),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (da) {
-                console.log(da+'666')
-                if(da.code==200){
-                    alert("修改成功")
-                }else{
-                    alert('修改失败')
-                }
-
-            }
-            ,error:function (err) {console.log(err)
-            }
-        })
-    })
-
-
-
-</script>
 </html>
