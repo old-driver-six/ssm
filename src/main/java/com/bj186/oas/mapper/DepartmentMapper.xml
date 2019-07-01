@@ -30,6 +30,10 @@
   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
     SELECT * FROM oas_department a WHERE a.dep_name = #{depName}
   </select>
+
+  <select id="selectDepStaff" resultMap="BaseResultMap" parameterType="java.lang.String" >
+ SELECT * FROM oas_staff a LEFT JOIN oas_department b on a.staff_depID = b.dep_id where dep_name=#{depName}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_department
     where dep_id = #{depId,jdbcType=INTEGER}

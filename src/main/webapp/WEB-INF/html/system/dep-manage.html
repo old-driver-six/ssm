@@ -23,11 +23,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        #det{
 
-        }
-    </style>
 </head>
 
 <body>
@@ -43,7 +39,6 @@
 </div>
 <div class="x-body">
     <div class="layui-row">
-        <div class="layui-row">
             <!--表格-->
             <table class="layui-hide"  id="demo" lay-filter="demo">
             </table>
@@ -67,7 +62,7 @@
             tableIns =table.render({
                 elem: '#demo'
                 ,id:'idTest'
-                ,url:'/dep/select'
+                ,url:'/dep/selectDep'
                 ,page:true
                 // ,method:'post'
                 ,limits:[5,10,15]
@@ -77,21 +72,15 @@
                     {type:'checkbox',fixed: 'left'}
                     ,{field: 'depId', title: 'ID', sort: true, fixed: 'left'}
                     ,{field: 'depName', title: '部门',fixed: 'left'}
-                    ,{field: 'depNumber', title: '部门人数',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
-                    ,{field: 'depDescribe', title: '部门简介',fixed: 'left',templet: '<div>{{d.position.positionName}}</div>'}
+                    ,{field: 'depNumber', title: '部门人数',fixed: 'left'}
+                    ,{field: 'staffName', title: '部门经理',fixed: 'left'}
+                    ,{field: 'depDescribe', title: '部门简介',fixed: 'left'}
                     ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
                 ]]
-                // ,contentType:'application/json'
-                // ,request:json
                 ,where:
-                // JSON.stringify({'uid':10002,'filed':$('select[name="filed"]').val(),'value':$('input[name="value"]').val(),'pageSize':10,'pageNum':1})
-                // {aa:JSON.stringify({'uid':'10001'})}
                     {
                         uId:$.cookie('uId'),
                     }
-                // ,page: {
-                //     curr: 1 //重新从第 1 页开始
-                // }
             });
 
             //监听删除事件
@@ -99,77 +88,13 @@
                 var data = obj.data; //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
                 var tr = obj.tr; //获得当前行 tr 的DOM对象
-                if(layEvent ==='del'){
-                    console.log(data)
-                    var staffName = data.staffName
-                    layer.confirm('是否让'+staffName+'停职?', function(index){
-                        obj.del(); //删除对应行（tr）的DOM结构
-                        layer.close(index);
-                        //向服务端发送删除指令
-                        var staffId = data.staffId;
-                        var json={'staffId':staffId}
-                        $.ajax({
-                            url: "/user/Suspension"
-                            ,type: "post",    //访问方式
-                            data:JSON.stringify(json),
-                            dataType: "json",
-                            contentType: 'application/json',
-                            success: function (d) {
-                                if (d.code==200){
-                                    layer.msg(staffName+"已被停职")
-                                    tableIns.reload()
-                                }
-                                else {
-                                    layer.msg("停职失败")
-                                }
-                            }
-                        })
-                    });
-                }
-                else if(layEvent ==='detailed') {
-                    var staffId = data.staffId
-                    console.log(staffId)
-                    x_admin_show('员工详情', '/user/detailed?staffId=' + staffId, 800);
-                }else if(layEvent ==='res') {
-                    var staffId = data.staffId
-                    // console.log(staffId)
-                    var json = {'staffId':staffId}
-                    $.ajax({
-                        url: "/user/updateRes"
-                        ,type: "post",    //访问方式
-                        data:JSON.stringify(json),
-                        dataType: "json",
-                        contentType: 'application/json',
-                        success: function (dat) {
-                            console.log(dat)
-                            if(dat.code==200){
-                                alert(data.staffName+dat.msg);
-                            }else{
-                                alert("重置失败")
-                            }
-                        }
-                    });
+                var staffName = encodeURI(encodeURI(data.staffName));
+                var depName = encodeURI(encodeURI(data.depName));
+                if(layEvent ==='transfer'){
+                    x_admin_show('人事调动', '/dep/dep-detailed?staffName=' +staffName +'&depName='+depName, 900);
                 }
             });
         });
-        //模糊查询方法
-        function likeFind () {
-            console.log($('select[name="filed"]').val())
-            console.log($('input[name="value"]').val())
-            tableIns.reload({//重载表格
-                // // contentType:'application/json'
-                where: {
-                    uid:$.cookie('uId'),
-                    filed:$('select[name="filed"]').val(),
-                    value:$('input[name="value"]').val(),
-                }
-                // ,page: {
-                //     curr: 1 //重新从第 1 页开始
-                // }
-            });
-            $('input[name="value"]').val("")
-            console.log('成功')//查询完毕清空
-        }
     </script>
 </body>
 

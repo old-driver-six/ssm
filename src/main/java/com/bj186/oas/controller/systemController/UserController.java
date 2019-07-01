@@ -53,7 +53,7 @@ public class UserController  extends HttpServlet {
 
     @RequestMapping("detailed")
     public String detailed() {
-        return "/system/detailed";
+        return "system/user-detailed";
     }
 
     @RequestMapping("/index2")

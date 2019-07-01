@@ -1,6 +1,7 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Department;
+import com.bj186.oas.pojo.Staff;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public interface DepartmentMapper {
     Department selectByPrimaryKey(Integer depId);
 
     List<Department> selectDep();
+
+    List<Staff> selectDepStaff(String depName);
     /**
      *
      * @mbggenerated 2019-06-18

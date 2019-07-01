@@ -17,8 +17,8 @@ public class TestDep {
         context=new ClassPathXmlApplicationContext("config/spring.xml");
         depController = context.getBean(DepController.class);
     }
-    @Test
-    public void selectDep(){
-        List<Dep> depList = depController.selectDep();
-    }
+//    @Test
+//    public void selectDep(){
+//        List<Dep> depList = depController.selectDep();
+//    }
 }
