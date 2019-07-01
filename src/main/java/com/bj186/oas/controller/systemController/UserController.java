@@ -39,13 +39,6 @@ public class UserController  extends HttpServlet {
         return userService.selectByPrimaryKey(staff.getStaffId());
     }
 
-    @RequestMapping("/bbb")
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        System.out.println(req.getParameter("staffId"));
-    }
-
     @RequestMapping("index")
     public String index() {
         return "system/user-manage";
@@ -56,10 +49,9 @@ public class UserController  extends HttpServlet {
         return "system/user-detailed";
     }
 
-    @RequestMapping("/index2")
+    @RequestMapping("/state")
     public String index2() {
-        System.out.println("view here");
-        return "/statics/html/index2.html";
+        return "system/user-state";
     }
 
 
@@ -99,41 +91,16 @@ public class UserController  extends HttpServlet {
     public OAResoult select(
           @RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize
      ,@RequestParam(name="filed",required = true, defaultValue ="") String filed, @RequestParam(name="value",required = true, defaultValue = "") String value
-//            @RequestBody Like like
-          ,@RequestParam("uId") Integer uId
     ) {
         System.out.println(filed);
         System.out.println(value);
-        System.out.println(uId);
         System.out.println(pageNum);
         System.out.println(pageSize);
-//        Like like = new Like();
-//        like.setuId(10002);
-//        like.setFiled("dep_name");
-//        like.setValue("行政部");
-//        like.setPageSize(10);
-//        like.setPageNum(1);
 
         List<Staff> staffList;
-//        Staff staff = userService.selectByPrimaryKey(like.getuId());
-        Staff staff = userService.selectByPrimaryKey(uId);
-        System.out.println(staff.getDepartment().getDepName());
-
-//        staffList = userService.selectByDep(staff.getDepartment().getDepName(), like.getFiled(), like.getValue(), like.getPageSize(), like.getPageNum());
-        staffList = userService.selectByDep(staff.getDepartment().getDepName(),filed, value, pageSize, pageNum);
-
-        if(staffList==null){
-            OAResoult oaResoult = new OAResoult();
-            oaResoult.setCode(0);
-            oaResoult.setMsg("无权查询部门");
-            return oaResoult;
-        }
+        staffList = userService.select(filed, value, pageSize, pageNum);
 
         Integer count=staffList.size();
-
-//        if(like.getFiled()==null||like.getValue()==null){
-//            count = selectCount();
-//        }
 
         if(filed.equals("")||value.equals("")){
             count = selectCount();

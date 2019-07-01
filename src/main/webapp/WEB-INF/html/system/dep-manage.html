@@ -42,16 +42,6 @@
             <!--表格-->
             <table class="layui-hide"  id="demo" lay-filter="demo">
             </table>
-            <!--功能-->
-            <script type="text/html" id="barDemo">
-                <div class="layui-card">
-                    <div class="layui-card-body">
-                        <div class="layui-btn-container">
-                            <a class="layui-btn layui-btn-danger layui-btn-sm"  lay-event="transfer"><i class="layui-icon" >&#xe642;</i>人事调动</a>
-                        </div>
-                    </div>
-                </div>
-            </script>
         </div>
     </div>
     <script>
@@ -75,24 +65,7 @@
                     ,{field: 'depNumber', title: '部门人数',fixed: 'left'}
                     ,{field: 'staffName', title: '部门经理',fixed: 'left'}
                     ,{field: 'depDescribe', title: '部门简介',fixed: 'left'}
-                    ,{field:'toolbar', title: '操作',align:'center',toolbar: '#barDemo'}
                 ]]
-                ,where:
-                    {
-                        uId:$.cookie('uId'),
-                    }
-            });
-
-            //监听删除事件
-            table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-                var data = obj.data; //获得当前行数据
-                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-                var tr = obj.tr; //获得当前行 tr 的DOM对象
-                var staffName = encodeURI(encodeURI(data.staffName));
-                var depName = encodeURI(encodeURI(data.depName));
-                if(layEvent ==='transfer'){
-                    x_admin_show('人事调动', '/dep/transfer?staffName=' +staffName +'&depName='+depName, 900);
-                }
             });
         });
     </script>

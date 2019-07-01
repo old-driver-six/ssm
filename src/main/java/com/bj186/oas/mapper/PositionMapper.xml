@@ -15,6 +15,9 @@
     from oas_position
     where position_id = #{positionId,jdbcType=INTEGER}
   </select>
+  <select id="selectPosition" resultMap="BaseResultMap">
+    select * from oas_position
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_position
     where position_id = #{positionId,jdbcType=INTEGER}

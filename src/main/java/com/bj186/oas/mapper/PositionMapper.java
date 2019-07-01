@@ -2,6 +2,8 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Position;
 
+import java.util.List;
+
 public interface PositionMapper {
     /**
      *
@@ -26,6 +28,8 @@ public interface PositionMapper {
      * @mbggenerated 2019-06-18
      */
     Position selectByPrimaryKey(Integer positionId);
+
+    List<Position> selectPosition();
 
     /**
      *

@@ -42,8 +42,7 @@ public class DepController {
      */
     @RequestMapping("/selectDep")
     @ResponseBody
-    public OAResoult selectDep(@RequestParam("uId") Integer uId){
-        Staff staff1 = userService.selectByPrimaryKey(uId);
+    public OAResoult selectDep(){
         OAResoult<List<Dep>> oaResoult = new OAResoult();
         List<Dep> depList = new ArrayList<>();
 
