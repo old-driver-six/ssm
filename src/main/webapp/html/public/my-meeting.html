@@ -106,9 +106,7 @@
                 ,'value':$('input#value').val()
             },
             done: function (res,curr, count) {
-                for (var i = 0; i < res.data.length; i++) {
-                    res.data[i].announcementsState = "666"
-                }
+                console.log(res)
             }
             ,cols: [[
                 {type:'checkbox',fixed: 'left'}

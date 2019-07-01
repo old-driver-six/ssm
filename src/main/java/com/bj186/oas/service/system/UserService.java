@@ -1,5 +1,6 @@
 package com.bj186.oas.service.system;
 
+import com.bj186.oas.entity.UpdatePwd;
 import com.bj186.oas.entity.system.User;
 import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.pojo.Users;
@@ -39,4 +40,5 @@ public interface UserService {
     */
    Integer Reinstatement(Integer staffID);
    Users selectUsersByKey(String phone);
+   Integer updatePwd(UpdatePwd updatePwd);
 }

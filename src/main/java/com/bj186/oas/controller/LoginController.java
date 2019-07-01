@@ -1,12 +1,15 @@
 package com.bj186.oas.controller;
 
 import com.bj186.oas.Util.MD5;
+import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.entity.LoginBean;
+import com.bj186.oas.entity.UpdatePwd;
 import com.bj186.oas.entity.common.SelectAllBean;
 import com.bj186.oas.mapper.UsersMapper;
 import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.pojo.Users;
 import com.bj186.oas.service.common.NoticeService;
+import com.bj186.oas.service.system.UserService;
 import com.bj186.oas.shiro.MyLogoutFilter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -31,6 +34,8 @@ public class LoginController {
     MyLogoutFilter myLogoutFilter;
     @Autowired
     NoticeService noticeService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/login")
     @ResponseBody
@@ -78,6 +83,14 @@ public class LoginController {
             e.printStackTrace();
         }
         return false;
+    }
+    @RequestMapping(value = "/updatePwd")
+    @ResponseBody
+    public OAResoult updatePwd(@RequestBody UpdatePwd updatePwd) {
+        Integer integer = userService.updatePwd(updatePwd);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(integer);
+        return oaResoult;
     }
 
     @RequestMapping(value = "/lo")

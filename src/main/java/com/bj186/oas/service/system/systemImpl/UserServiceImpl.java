@@ -1,6 +1,7 @@
 package com.bj186.oas.service.system.systemImpl;
 
 import com.bj186.oas.Util.MD5;
+import com.bj186.oas.entity.UpdatePwd;
 import com.bj186.oas.entity.system.User;
 import com.bj186.oas.mapper.*;
 import com.bj186.oas.pojo.*;
@@ -58,6 +59,18 @@ public class UserServiceImpl implements UserService {
         Users users =usersMapper.selectByPrimaryKey(phone);
         return users;
 
+    }
+
+    @Override
+    public Integer updatePwd(UpdatePwd updatePwd) {
+        Staff staff = staffMapper.selectByPrimaryKey(updatePwd.getuId());
+        Users user = usersMapper.select(staff.getStaffId());
+        String md5 = MD5.getMd5(staff.getStaffPhone(), updatePwd.getPassword());
+        if(!md5.equals(user.getUsersPassword()))
+            return -1;
+        user.setUsersPassword(MD5.getMd5(staff.getStaffPhone(), updatePwd.getNewPassword()));
+        usersMapper.updateByStaffId(user);
+        return 0;
     }
 
 
