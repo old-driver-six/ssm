@@ -42,7 +42,7 @@ public class CheckingInServiceImpl implements CheckingInService {
         Map<String,Object> map = new LinkedHashMap<>();
         map.put("startTime","\'"+startTime+"\'");
         map.put("endTime","\'"+endTime+"\'");
-        map.put("checkstaffId",staffId);
+        map.put("checkStaffId",staffId);
         map.put("LimitParameter_1",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
         map.put("LimitParameter_2",Integer.parseInt(pageLimit));
         System.out.println(map.toString());
@@ -69,28 +69,23 @@ public class CheckingInServiceImpl implements CheckingInService {
      * @param staffId
      * @param startTime
      * @param endTime
-     * @param pageNow
-     * @param pageLimit
      * @return
      */
     @Override
     public Integer countCheckingIn(
             Integer uId,Integer staffId,String startTime,
-            String endTime,String pageNow,
-            String pageLimit) {
+            String endTime) {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Integer depId = staff.getDepartment().getDepId();
         if (depId == 1||depId == 3){
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("startTime","\'"+startTime+"\'");
             map.put("endTime","\'"+endTime+"\'");
-            map.put("checkstaffId",staffId);
-            map.put("LimitParameter_1",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));
-            map.put("LimitParameter_2",Integer.parseInt(pageLimit));
+            map.put("checkStaffId",staffId);
             int i = checkingInMapper.countCheckingIn(map);
             return i;
         }else{
-            return null;
+            return -1;
         }
     }
 

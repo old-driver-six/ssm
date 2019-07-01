@@ -14,7 +14,7 @@ public interface CheckingInService {
 
  Integer countAllCheckingIns();
 
- Integer countCheckingIn(Integer uId,Integer staffId,String startTime, String endTime,String pageNow,String pageLimit);
+ Integer countCheckingIn(Integer uId,Integer staffId,String startTime, String endTime);
 
  CheckingIn selectByPrimaryKey(Integer uId,String checkinginId);
 }

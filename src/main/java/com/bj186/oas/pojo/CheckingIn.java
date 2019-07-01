@@ -18,11 +18,13 @@ public class CheckingIn {
     /**
      * 上班时间
      */
+
     private Date checkinginStarttime;
 
     /**
      * 下班时间
      */
+
     private Date checkinginSendtime;
 
     /**
