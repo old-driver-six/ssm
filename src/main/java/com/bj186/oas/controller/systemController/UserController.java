@@ -40,6 +40,7 @@ public class UserController  extends HttpServlet {
         return userService.selectByPrimaryKey(staff.getStaffId());
     }
 
+
     @RequestMapping("index")
     public String index() {
         return "/system/user-management";
@@ -50,7 +51,7 @@ public class UserController  extends HttpServlet {
         return "/system/detailed";
     }
 
-    @RequestMapping("/state")
+    @RequestMapping("/index2")
     public String index2() {
         return "system/user-state";
     }
@@ -106,6 +107,7 @@ public class UserController  extends HttpServlet {
         if(filed.equals("")||value.equals("")){
             count = selectCount();
         }
+
         System.out.println(staffList);
         OAResoult<List<Staff>> oaResoult = new OAResoult();
         oaResoult.setCode(0);
@@ -158,10 +160,24 @@ public class UserController  extends HttpServlet {
      * 停职功能
      * @return
      */
-    @RequestMapping("/Suspension")
+    @RequestMapping("/suspension")
     @ResponseBody
-    public OAResoult Suspension(@RequestBody Staff  staff) {
-        Integer suspension = userService.Suspension(staff.getStaffId());
+    public OAResoult suspension(@RequestBody Staff  staff) {
+        Integer suspension = userService.suspension(staff.getStaffId());
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(suspension);
+        System.out.println();
+        return oaResoult;
+    }
+
+    /**
+     * 复职功能
+     * @return
+     */
+    @RequestMapping("/office")
+    @ResponseBody
+    public OAResoult office(@RequestBody Staff  staff) {
+        Integer suspension = userService.office(staff.getStaffId());
         OAResoult oaResoult = new OAResoult();
         oaResoult.setCode(suspension);
         System.out.println();

@@ -26,7 +26,9 @@ public interface UserService {
     * @param staffID
     * @return
     */
-   Integer Suspension(Integer staffID);
+   Integer suspension(Integer staffID);
+   Integer office(Integer staffID);
+   Integer lizhi(Integer staffID);
    /**
     * 离职
     * @param staffID
