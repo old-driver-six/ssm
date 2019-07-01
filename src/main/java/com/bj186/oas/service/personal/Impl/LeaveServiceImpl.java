@@ -3,7 +3,6 @@ package com.bj186.oas.service.personal.Impl;
 import com.bj186.oas.Util.Massgs;
 import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.Util.UUIDUtil;
-import com.bj186.oas.exception.NullNameException;
 import com.bj186.oas.mapper.LeaveAdviceMapper;
 import com.bj186.oas.mapper.LeaveMapper;
 import com.bj186.oas.mapper.StaffMapper;
@@ -41,9 +40,6 @@ public class LeaveServiceImpl implements LeaveService {
         OAResoult<List<Massgs>> oaResoult=new OAResoult<>();
         oaResoult.setCode(-1);
         oaResoult.setMsg("服务器繁忙,请稍后再试!");
-        leave.setLeaveId(UUIDUtil.getUUID());                   //后端赋值
-        leave.setLeaveCeatetime(System.currentTimeMillis());    //后端赋值
-        leave.setLeaveState("1");                               //默认未审核成功!
         int insert = mapper.insert(leave);
         if(insert>0){
             oaResoult.setCode(200);
@@ -147,23 +143,6 @@ public class LeaveServiceImpl implements LeaveService {
             }
         }
         return null;
-    }
-
-    @Override
-    public OAResoult update(Leave leave) throws NullNameException {
-        OAResoult resoult=new OAResoult();
-        if(leave==null){
-            resoult.setCode(-1);
-            resoult.setMsg("系统故障请稍后重试!");
-            return resoult;
-        }
-        int update = mapper.updateByPrimaryKeySelective(leave);
-        if(update==0){
-           throw  new NullNameException("修改失败!请稍后重试!");
-        }
-        resoult.setCode(0);
-        resoult.setMsg("修改成功!");
-        return resoult;
     }
 
     /**

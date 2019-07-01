@@ -2,9 +2,6 @@ package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Leave;
 import com.bj186.oas.pojo.personalpojo.GetLeaveUtil;
-import com.bj186.oas.pojo.personalpojo.Page;
-import com.bj186.oas.pojo.personalpojo.Paging;
-import com.bj186.oas.pojo.personalpojo.ShowLeave;
 
 import java.util.List;
 
@@ -52,8 +49,4 @@ public interface LeaveMapper {
     int updateByPrimaryKey(Leave record);
 
     List<Leave> selLeaveLeftAdvice(GetLeaveUtil getLeaveUtil);
-
-    List<ShowLeave> showLeaves(Integer sid);
-
-    Paging<ShowLeave> showLeaveLimit(Page<GetLeaveUtil> page);
 }

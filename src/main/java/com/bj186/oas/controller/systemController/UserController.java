@@ -59,7 +59,7 @@ public class UserController  extends HttpServlet {
     @RequestMapping("/index2")
     public String index2() {
         System.out.println("view here");
-        return "/index";
+        return "/statics/html/index2.html";
     }
 
 

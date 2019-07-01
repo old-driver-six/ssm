@@ -6,19 +6,12 @@ import com.bj186.oas.Util.UUIDUtil;
 import com.bj186.oas.mapper.LeaveMapper;
 import com.bj186.oas.pojo.Leave;
 import com.bj186.oas.pojo.personalpojo.GetLeaveUtil;
-import com.bj186.oas.pojo.personalpojo.Page;
-import com.bj186.oas.pojo.personalpojo.Paging;
-import com.bj186.oas.pojo.personalpojo.ShowLeave;
 import com.bj186.oas.service.personal.LeaveService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class TestLeave {
@@ -39,7 +32,7 @@ public class TestLeave {
         leave.setLeaveProcessing("正常");
         leave.setLeaveTitle("生病了");
         leave.setLeaveType("1");
-        leave.setLeaveTime(4);
+        leave.setLeaveTime(16);
         leave.setLeaveState("1");
         leave.setLeaveReason("生病了,难受!");
         leave.setLeaveCeatetime(System.currentTimeMillis());
@@ -84,42 +77,4 @@ public class TestLeave {
         System.out.println(leaves);
     }
 
-    /**
-     * 查询出第一次用户看到的请假的简略信息
-     */
-    @Test
-    public void Test3(){
-        LeaveMapper bean = ac.getBean(LeaveMapper.class);
-        List<ShowLeave> showLeaves = bean.showLeaves(10007);
-        System.out.println(showLeaves.get(0));
-    }
-    @Test
-    public void Test4(){
-        LeaveMapper bean = ac.getBean(LeaveMapper.class);
-       // Paging<ShowLeave> pagings = bean.showLeaveLimit(10007);
-        //System.out.println(pagings);
-    }
-    @Test
-    public void Test5(){
-        LeaveMapper bean = ac.getBean(LeaveMapper.class);
-        String leaveId="2f9b792ba5a3489eba5f2cd39e8ef6b6";
-        Leave leave = bean.selectByPrimaryKey(leaveId);
-        System.out.println(leave);
-    }
-    @Test
-    public void Test6() throws ParseException {
-        LeaveMapper bean = ac.getBean(LeaveMapper.class);
-        Page<GetLeaveUtil> page=new Page<>();
-        page.setSid(10007);
-        page.setPageSize(1);
-        page.setPageThis(0);
-        GetLeaveUtil getLeaveUtil=new GetLeaveUtil();
-        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-        Date parse1 = format.parse("2019-06-03");
-        Date parse = format.parse("2019-06-06");
-        getLeaveUtil.setCreateDate(parse1);
-        getLeaveUtil.setSendDate(parse);
-        page.setEntity(getLeaveUtil);
-        Paging<ShowLeave> paging = bean.showLeaveLimit(page);
-    }
 }

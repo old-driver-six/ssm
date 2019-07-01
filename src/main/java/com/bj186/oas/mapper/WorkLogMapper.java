@@ -1,7 +1,6 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.WorkLog;
-import com.bj186.oas.pojo.personalpojo.Paging;
 import com.bj186.oas.pojo.personalpojo.WorkLogUtil;
 
 import java.util.List;
@@ -50,8 +49,4 @@ public interface WorkLogMapper {
     int updateByPrimaryKey(WorkLog record);
 
     List<WorkLog> selectWorkBymapper(WorkLogUtil workLogUtil);
-
-    Integer selCount(WorkLogUtil workLogUtil);
-
-    Paging<WorkLog> selLimitWork(WorkLogUtil workLogUtil);
 }

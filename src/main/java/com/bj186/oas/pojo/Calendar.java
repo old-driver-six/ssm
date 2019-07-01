@@ -170,18 +170,4 @@ public class Calendar {
     public void setCalendarContent(String calendarContent) {
         this.calendarContent = calendarContent == null ? null : calendarContent.trim();
     }
-
-    @Override
-    public String toString() {
-        return "Calendar{" +
-                "calendarId='" + calendarId + '\'' +
-                ", calendarStffId=" + calendarStffId +
-                ", calendarType='" + calendarType + '\'' +
-                ", calendarStarttime=" + calendarStarttime +
-                ", calendarSendtime=" + calendarSendtime +
-                ", calendarAdjuncturl='" + calendarAdjuncturl + '\'' +
-                ", calerdarCreatetime=" + calerdarCreatetime +
-                ", calendarContent='" + calendarContent + '\'' +
-                '}';
-    }
 }

@@ -7,7 +7,7 @@ public class Department {
     /**
      * 部门编号（自增主键）
      */
-    private Integer depId;
+        private Integer depId;
 
     /**
      * 部门名称

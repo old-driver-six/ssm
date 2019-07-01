@@ -2,7 +2,6 @@ package com.bj186.oas.service.personal;
 
 import com.bj186.oas.Util.Massgs;
 import com.bj186.oas.Util.OAResoult;
-import com.bj186.oas.exception.NullNameException;
 import com.bj186.oas.pojo.Leave;
 
 import java.util.List;
@@ -45,12 +44,5 @@ public interface LeaveService {
      * @return
      */
     OAResoult CkeckLeaveProcess(String lid,Integer sid);
-
-    /**
-     * 修改请假条方法!
-     * @param leave
-     * @return
-     */
-    OAResoult update(Leave leave) throws NullNameException;
 
 }

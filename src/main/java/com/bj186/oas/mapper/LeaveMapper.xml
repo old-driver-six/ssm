@@ -30,7 +30,9 @@
     <include refid="Blob_Column_List" />
     from oas_leave
     <where>
-        leave_Id = #{lId,jdbcType=VARCHAR}
+      <if test="leaveId!=null">
+        leave_Id = #{leaveId,jdbcType=VARCHAR}
+      </if>
     </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -217,75 +219,4 @@
   <resultMap id="LeftAdviceMap" type="com.bj186.oas.pojo.Leave" extends="com.bj186.oas.mapper.LeaveMapper.BaseResultMap">
     <collection property="leaveAdvices" resultMap="com.bj186.oas.mapper.LeaveAdviceMapper.BaseResultMap"></collection>
   </resultMap>
-
-  <!--将请假信息展示给用户去看!不分页的情况下-->
-  <select id="showLeaves" resultMap="sohowLeaveMap" parameterType="int">
-    select
-    (<include refid="limit"/>) as cunt
-    ,
-    <include refid="com.bj186.oas.mapper.CalendarMapper.showStaffInfo"/>
-    ,leave_time,leave_state,leave_ceateTime
-    from oas_leave LEFT JOIN oas_staff ON leave_staff_id=staff_id
-    <include refid="com.bj186.oas.mapper.CalendarMapper.leftJoinStaffDepPos"/>
-    <where>
-      <include refid="selJuit"></include>
-    </where>
-  </select>
-  <!--分页的情况下!-->
-  <select id="showLeaveLimit" resultMap="showLeaveLimitMap" parameterType="com.bj186.oas.pojo.personalpojo.Page">
-    select
-    (<include refid="limit"/>) as cunt
-    ,
-    <include refid="com.bj186.oas.mapper.CalendarMapper.showStaffInfo"/>
-    ,leave_time,leave_state,leave_ceateTime,leave_Id
-    from oas_leave LEFT JOIN oas_staff ON leave_staff_id=staff_id
-    <include refid="com.bj186.oas.mapper.CalendarMapper.leftJoinStaffDepPos"/>
-    <where>
-      <include refid="selJuit"></include>
-      <if test="pageSize!=null and pageThis!=null">
-        limit #{pageThis},#{pageSize}
-      </if>
-    </where>
-  </select>
-  <!--不分页返回数据-->
-  <resultMap id="sohowLeaveMap" type="com.bj186.oas.pojo.personalpojo.ShowLeave">
-    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
-    <result column="dep_name" property="depName" jdbcType="VARCHAR" />
-    <result column="position_name" property="positionName" jdbcType="VARCHAR" />
-    <result column="leave_state" property="leaveState" jdbcType="CHAR" />
-    <result column="leave_ceateTime" property="leaveCeatetime" jdbcType="BIGINT" />
-    <result column="leave_time" property="leaveTime" jdbcType="INTEGER" />
-    <result column="leave_Id" property="leaveId" jdbcType="VARCHAR" />
-  </resultMap>
-  <!--分页返回数据-->
-  <resultMap id="showLeaveLimitMap" type="com.bj186.oas.pojo.personalpojo.Paging">
-    <result column="cunt" property="cot"/>
-    <collection property="data" resultMap="sohowLeaveMap"/>
-  </resultMap>
-
-  <sql id="selJuit">
-    <if test="sid!=null">
-      and leave_staff_id=#{sid}
-    </if>
-    <if test="entity!=null">
-      <if test="entity.createDate!=null">
-       and leave_startTime &gt;=#{entity.createDate}
-      </if>
-      <if test="entity.sendDate!=null">
-       and leave_startTime&lt;=#{entity.sendDate}
-      </if>
-      <if test="entity.leaveTime!=null">
-        and leave_time &gt;=#{entity.leaveTime}
-      </if>
-      <if test="entity.sendTime!=null">
-        and leave_time &lt;=#{entity.sendTime}
-      </if>
-    </if>
-  </sql>
-  <sql id="limit">
-    select count(*) from  oas_leave
-    <where>
-      <include refid="selJuit"/>
-    </where>
-  </sql>
 </mapper>

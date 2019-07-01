@@ -7,17 +7,17 @@ import java.io.Serializable;
  * @param <T>
  */
 public class OAResoult<T> implements Serializable {
-    private Integer code;//状态
+    private Integer Code;//状态
     private String msg;//信息
     private Integer count;//总数
     private T data;//数据
 
     public Integer getCode() {
-        return code;
+        return Code;
     }
 
     public void setCode(Integer code) {
-        this.code = code;
+        Code = code;
     }
 
     public String getMsg() {
@@ -47,7 +47,7 @@ public class OAResoult<T> implements Serializable {
     @Override
     public String toString() {
         return "OAResoult{" +
-                "Code=" + code +
+                "Code=" + Code +
                 ", msg='" + msg + '\'' +
                 ", count=" + count +
                 ", data=" + data +
