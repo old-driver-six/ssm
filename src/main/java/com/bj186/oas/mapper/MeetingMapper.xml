@@ -48,10 +48,9 @@ WHERE meetingStaff_empid = #{depId} and meeting_state = 0
     WHERE meeting_state = 0
   </select>
   <select id="selectMeetAllVague" resultMap="ResultMapWithBLOBs" parameterType="Map">
-    SELECT * FROM (SELECT * FROM(SELECT * FROM
+  SELECT * FROM
     oas_meeting a left join oas_staff b
-    on a.meeting_staffId = b.staff_id) a LEFT JOIN oas_meetingstaff b on a.meeting_id = b.meetingStaff_meeting_id) a
-    left join oas_department b on a.meetingStaff_empid = b.dep_id
+    on a.meeting_staffId = b.staff_id
     WHERE meeting_state = 0
     <if test="field!=''">
       and ${field} like ${value}
