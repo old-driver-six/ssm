@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/jquery.min.js"></script>
+</head>
+<body>
+<button>查询</button>
+<script>
+    $(function () {
+        $("button").click(function () {
+            $.ajax({
+                url: '/fixed/selectAllFixed',
+                cache: false,
+                dataType: 'json',
+                type: 'post',
+                // data:JSON.stringify(object),
+                contentType: 'application/json;charset=utf-8',
+                success: function (object) {
+                    console.log(1)
+                    var length = object.length;
+                    console.log(length)
+                    console.log(object)
+
+                },
+                error: function (e) {
+                    console.log(2)
+                    console.log(e)
+                }
+            });
+        })
+
+    })
+</script>
+</body>
+</html>

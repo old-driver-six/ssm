@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <script>
+        //Demo
+        layui.use('form', function(){
+            var form = layui.form
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                var object = data.field;
+                console.log(object)
+                $.ajax(
+                    {
+                        url: "/fixed/updateByPrimaryKey", //访问路径
+                        type: "post",    //访问方式
+                        data:JSON.stringify(object), //传入服务端的数据
+                        dataType: "json",
+                        cache:false,
+                        contentType:'application/json;charset=utf-8',
+                        success: function (object) {
+                            console.log(object)
+                            if (object=='true'){
+                                alert("修改成功！");
+                                $('#jsForm')[0].reset()
+                            }
+                            else {
+                                alert('修改失败')
+                            }
+                        }
+                    }
+                );
+                return false;
+            });
+            form.render();
+        });
+    </script>
+</head>
+<body>
+<form class="layui-form" action="" id="jsForm">
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-card-header">固定资产信息修改</div>
+        <label class="layui-form-label">用户ID</label>
+        <div class="layui-input-block">
+            <!-- 使用隐藏域用于保存编辑项的ID值，便于提交修改 -->
+            <input type="text" class="fixId" name="fixId" lay-verify="required"  disabled style="height: 35px;width: 165px;background:#40AFFE;border: 0.5px solid silver">
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">资产名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="fixeName" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">单位</label>
+        <div class="layui-input-block">
+            <select name="fixUnit" lay-verify="required">
+                <option value=""></option>
+                <option value="个">个</option>
+                <option value="张">张</option>
+                <option value="台">台</option>
+                <option value="盆">盆</option>
+                <option value="条">条</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">数量</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="fixNumber"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">租赁数量</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="fixRentNumber"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">未租数量</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="fixSurpNumber"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">总计金额</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="fixAmount" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea type="text" name="fixRemarks" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn"  lay-submit lay-filter="formDemo"  style="background: lawngreen;">立即提交</button>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>

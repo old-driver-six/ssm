@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <!--<script>-->
+        <!--//Demo-->
+        <!--layui.use('form', function(){-->
+            <!--var form = layui.form-->
+            <!--//监听提交-->
+            <!--form.on('submit(formDemo)', function(data){-->
+                <!--var j = data.field;-->
+
+                <!--layer.msg(JSON.stringify(j));-->
+
+                <!--$.ajax(-->
+                    <!--{-->
+                        <!--url: "/pay/addPay", //访问路径-->
+                        <!--type: "post",    //访问方式-->
+                        <!--data:JSON.stringify(j), //传入服务端的数据-->
+                        <!--dataType: "json",-->
+                        <!--success: function (data) {-->
+                            <!--console.log(data)-->
+                            <!--if (data===true){-->
+                                <!--alert("添加成功！");-->
+                                <!--$('#jsForm')[0].reset()-->
+                            <!--}-->
+                            <!--else {-->
+                                <!--alert('添加失败')-->
+                            <!--}-->
+                        <!--}-->
+                    <!--}-->
+                <!--);-->
+                <!--return false;-->
+            <!--});-->
+            <!--form.render();-->
+        <!--});-->
+    <!--</script>-->
+
+</head>
+<body>
+
+    <div class="layui-form-item">
+        <div class="layui-card-header">员工信息录入表格</div>
+        <label class="layui-form-label">员工id</label>
+        <div class="layui-input-block">
+            <input type="text" name="payStaffid" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<div class="layui-input-block">-->
+            <!--<button class="layui-btn" id="select" lay-submit lay-filter="formDemo"  style="background: lawngreen;">验证</button>-->
+
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">日期</label>
+        <div class="layui-input-block">
+            <input  type="text" name="payDate"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">公积金</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="payAccum" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">基本工资</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="payWage" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">医疗保险</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="payMedical" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">全勤奖</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="payAward" placeholder="￥" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <button id="pay" class="layui-form-label" style="margin-left:10px;width: 90px;height: 40px;background: #0dc316;border: 0px solid">员工薪资</button>
+            <div class="layui-input-inline" style="width: 100px;height:40px;line-height: 40px">
+                <p id="paySalary" style="margin-left: 10px;"></p>
+                <!--<input type="text" name="paySalary" placeholder="￥" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="add" lay-submit lay-filter="formDemo"  style="background: lawngreen;">立即提交</button>
+            <button type="reset" name="res" id="res" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+<script>
+    $(function () {
+        $("#pay").click(function () {
+            var val = parseFloat($('input[name="payAccum"]').val());
+            var val1 = parseFloat($('input[name="payWage"]').val());
+            var val2 = parseFloat($('input[name="payMedical"]').val());
+            var val3 = parseFloat($('input[name="payAward"]').val());
+            var  p = document.getElementById("paySalary");
+            try{
+                var value=val1+val3-val2-val;
+                console.log(value)
+                p.innerHTML=value;
+            }catch(e){
+                p.value ="Error";
+            }
+            })
+    })
+</script>
+<script>
+    $(function () {
+        $("#add").click(function () {
+            var object = {'payStaffid':$('input[name="payStaffid"]').val(),
+                'payDate':$('input[name="payDate"]').val(),
+                'payAccum':$('input[name="payAccum"]').val(),'payWage':$('input[name="payWage"]').val(),
+                'payMedical':$('input[name="payMedical"]').val(),'payAward':$('input[name="payAward"]').val(),
+                'paySalary':$('p').html()}
+            console.log(object)
+            $.ajax({
+                url:'/pay/addPay',
+                cache:false,
+                dataType:'json',
+                type:'post',
+                data:JSON.stringify(object),
+                contentType:'application/json;charset=utf-8',
+                success:function (object) {
+                    console.log(1)
+                    console.log(object)
+
+                    if (object=='true') {
+                        alert("薪资添加成功")
+                    }else {
+                        alert("添加失败")
+                    }
+                },
+                error:function (e) {
+                    console.log(2)
+                    console.log(e)
+                }
+            });
+        })
+
+    })
+</script>
+</body>
+</html>

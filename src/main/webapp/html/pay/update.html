@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>修改页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../../statics/css/font.css">
+    <link rel="stylesheet" href="../../statics/css/xadmin.css">
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../statics/js/xadmin.js"></script>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+
+    <!--<script>-->
+        <!--layui.use('form', function(){-->
+            <!--var form = layui.form-->
+            <!--form.on('submit(formDemo)', function(data){-->
+                <!--var j = data.field;-->
+                 <!--layer.msg(JSON.stringify(j));-->
+                 <!--console.log(j)-->
+
+                <!--var id = $(".staffID").val();-->
+               <!--console.log(id)-->
+                <!--$.ajax(-->
+                    <!--{-->
+                        <!--url: "/pay/updateByPrimaryKey", //访问路径-->
+                        <!--cache:false,-->
+                        <!--type: "post",    //访问方式-->
+                        <!--data:JSON.stringify(object), //传入服务端的数据-->
+                        <!--contentType:'application/json;charset=utf-8',-->
+                        <!--dataType: "json",-->
+                        <!--success: function (data) {-->
+                            <!--console.log(data)-->
+
+                            <!--if (data===true){-->
+                                <!--layer.msg("修改成功")-->
+                                <!--$('#jsForm')[0].reset()-->
+                            <!--}-->
+                            <!--else {-->
+                                <!--layer.msg("修改失败")-->
+                            <!--}-->
+
+                        <!--}-->
+
+                    <!--}-->
+                <!--);-->
+                <!--return false;-->
+            <!--});-->
+            <!--form.render();-->
+        <!--})-->
+    <!--</script>-->
+    <script>
+        $(function () {
+            $("#update").click(function () {
+                var object = {'payId':$('input[name="payId"]').val(),'payStaffid':$('input[name="payStaffid"]').val()
+                    ,'payDepid':$('input[name="payDepid"]').val(),'payDate':$('input[name="payDate"]').val(),
+                    'payAccum':$('input[name="payAccum"]').val(),'payWage':$('input[name="payWage"]').val(),
+                    'payMedical':$('input[name="payMedical"]').val(),'payAward':$('input[name="payAward"]').val(),
+                    'paySalary':$('input[name="paySalary"]').val()}
+                console.log(object)
+                $.ajax({
+                    url:'/pay/updateByPrimaryKey',
+                    cache:false,
+                    dataType:'json',
+                    type:'post',
+                    data:JSON.stringify(object),
+                    contentType:'application/json;charset=utf-8',
+                    success:function (object) {
+                        console.log(1)
+                        console.log(object)
+
+                        if (object=='true') {
+                            alert("薪资修改成功")
+                        }else {
+                            alert("修改失败")
+                        }
+                    },
+                    error:function (e) {
+                        console.log(2)
+                        console.log(e)
+                    }
+                });
+            })
+
+        })
+    </script>
+</head>
+
+<body>
+<div class="layui-form-item layui-row layui-col-xs12">
+    <label class="layui-form-label">用户ID</label>
+    <div class="layui-input-block">
+        <!-- 使用隐藏域用于保存编辑项的ID值，便于提交修改 -->
+        <input type="text"  name="payId" lay-verify="required"  disabled style="height: 35px;width: 165px;background:#40AFFE;border: 0.5px solid silver">
+
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">日期</label>
+    <div class="layui-input-block">
+        <input id="meetingTime" type="datetime-local" class="payDate" name="payDate"/>
+    </div>
+</div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">公积金</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text"  name="payAccum" placeholder="￥" autocomplete="off" class="payAccum">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">基本工资</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="payWage" placeholder="￥" autocomplete="off" class="payWage">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">医疗保险</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="payMedical" placeholder="￥" autocomplete="off" class="payMedical">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">全勤奖</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="payAward" placeholder="￥" autocomplete="off" class="payAward">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">员工薪资</label>
+                <div class="layui-input-inline" style="width: 100px;">
+                    <input type="text" name="paySalary" placeholder="￥" autocomplete="off" class="paySalary">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="update"  style="background: lawngreen;">立即提交</button>
+                <button type="reset" name="res" id="res" class="layui-btn layui-btn-primary">重置</button>
+                <!--<a class="layui-btn" href="users.html">返回</a>-->
+            </div>
+        </div>
+
+
+
+</body>
+
+</html>
