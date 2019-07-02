@@ -1,35 +1,39 @@
 package com.bj186.oas.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
 
 import java.util.Date;
 
-public class CheckingIn {
+public class CheckingIn extends BaseRowModel {
     /**
      * 考勤表主键
      */
+    @ExcelProperty(value="checkinginId",index=0)
     private String checkinginId;
 
     /**
      * 员工ID(关联员表信息,方便查询这个员工的考勤情况)
      */
+    @ExcelProperty(value="checkStaffId",index=1)
     private Integer checkStaffId;
 
     /**
      * 上班时间
      */
-
+    @ExcelProperty(value="checkinginStarttime",index=2)
     private Date checkinginStarttime;
 
     /**
      * 下班时间
      */
-
+    @ExcelProperty(value="checkinginSendtime",index=3)
     private Date checkinginSendtime;
 
     /**
      * 考勤状态表(0为正常考勤,1为外勤,2为请假,3位不用考勤的日期)
      */
+    @ExcelProperty(value="checkinginState",index=4)
     private String checkinginState;
 
     /**

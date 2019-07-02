@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="shortcut icon" href="../../favicon.ico" type="image/x-icon" />
     <!-- layui等css -->
-    <link rel="stylesheet" href="../css/font.css">
-    <link rel="stylesheet" href="../css/xadmin.css">
-    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../statics/css/font.css">
+    <link rel="stylesheet" href="../../statics/css/xadmin.css">
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/jquery.cookie.js"></script>
-    <script src="../layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../statics/js/xadmin.js"></script>
 </head>
 
 <body>
@@ -99,12 +99,17 @@
 
         upload.render({
             elem: '#uploadButton' //绑定元素
-            ,url: '/upload' //上传接口
+            ,url: '/CheckingIn/uploadFile' //上传接口
+            ,accept:'file'//文件类型
+            ,data: {'uId': $.cookie('uId')
+            }
             ,done: function(res){
                 //上传完毕回调
+                layer.msg("上传成功！")
             }
             ,error: function(){
                 //请求异常回调
+                layer.msg("上传失败请重新上传！")
             }
         });
 

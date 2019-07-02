@@ -1,5 +1,11 @@
 package com.bj186.oas.controller.personnelController;
 
+
+import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
+import com.bj186.oas.Util.ExcelListener;
+import com.bj186.oas.Util.FileUtil;
 import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.Util.UUIDUtil;
 import com.bj186.oas.entity.common.CheckingInInsertBean;
@@ -11,9 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/CheckingIn")
@@ -127,4 +141,60 @@ public class CheckingInController {
         System.out.println(integer);
         return integer;
     }
+
+    /**
+     * 文件上传接口
+     * @param request
+     * @param file
+     * @return
+     */
+    @RequestMapping("/uploadFile")
+    @ResponseBody
+    public OAResoult upFile(HttpServletRequest request,MultipartFile file){
+        String uId = request.getParameter("uId");
+        System.out.println(uId);
+        Map<String,Object> map = new HashMap<>();
+        FileUtil fileUtil = new FileUtil(file,request);
+
+        String path = fileUtil.uploadFile();
+        InputStream inputStream = null;
+
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+
+            // 解析每行结果在listener中处理
+            ExcelListener listener = new ExcelListener();
+
+            ExcelReader excelReader = new ExcelReader(inputStream, ExcelTypeEnum.XLS, null, listener);
+            excelReader.read(new Sheet(1, 1,CheckingIn.class));
+            List<Object> datas = listener.getDatas();
+            for (Object data : datas) {
+                CheckingIn c =(CheckingIn)data;
+                System.out.println(c);
+                checkingInService.insertChecking(Integer.parseInt(uId),c);
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        map.put("filePath",path);
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCount(map.size());
+        oaResoult.setCode(0);
+        oaResoult.setMsg("");
+        oaResoult.setData(map);
+        return oaResoult;
+    }
+
 }

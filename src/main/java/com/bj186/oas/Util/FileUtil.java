@@ -12,13 +12,13 @@ import java.util.UUID;
  * 上传文件的工具类
  */
 public class FileUtil {
-    private static final String IMAGE_PREFIX = "/statis/imges";  //服务器储存上传图片地址的前缀
+    private static final String File_PREFIX = "statics/excel";  //服务器储存上传图片地址的前缀
     private String path;         //存放的路径
     //判断文件是什么类型的
     private MultipartFile file;
     public FileUtil(MultipartFile file,HttpServletRequest request){
         this.file=file;
-        path=request.getSession().getServletContext().getRealPath(IMAGE_PREFIX)+File.separator;
+        path=request.getServletContext().getRealPath(File_PREFIX)+File.separator;
     }
 
     /**
