@@ -64,7 +64,7 @@ public class LoginController {
             } catch (UnknownAccountException uae) {
                 loginBean.setMsg("用户名不存在！");
             } catch (AuthenticationException ae) {
-                System.out.println(ae.getMessage());
+                loginBean.setMsg("用户已被注销！");
             }
         }else {
             loginBean.setMsg("重复登录或登录出错！");
