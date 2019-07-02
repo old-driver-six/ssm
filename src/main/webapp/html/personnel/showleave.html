@@ -4,97 +4,11 @@
     <title>显示请假条详情</title>
     <!--监听表单提交的js-->
     <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+    <link rel="stylesheet" href="../../statics/css/showLeave.css">
     <script src="../../statics/js/jquery-3.1.1.js"></script>
     <script src="../../statics/layui/layui.js"></script>
     <script src="../../statics/js/basevalue.js"></script>
-    <script>
-        var id;
-        var index;     //富文本对象的id
-        var layedit;   //layui调用富文本的对象
-        layui.use('layedit', function(){
-            layedit = layui.layedit;
-            index=layedit.build('demo'); //建立编辑器
-        });
-        $(function () {
-            if(id){
-                return;
-            }
-            id=setTimeout(function () {
-           // alert($("#showJuit").html())
-                //将请假内容显示在富文本编辑器中
-                layedit.setContent(index,$("#showJuit").html());
-            },100);
-            $("#Preservation").on("click",function () {
-                var $leaveId=$("#leaveId").val();           //请假条
-                var $Title=$("#leaveTitle").val();       //获取到请假表题
-                var $pressing=$("#pressing").val();      //请假紧急程度!
-                var $LeaveNumber=$("#LeaveNumber").val();   //请假天数
-                var $Type=$("#ltype").val();                //请假类型
-                var $createDate=$("#date1").val();          //请假起始时间
-                var $sendDate=$("#date2").val();            //请假结束时间
-                var demo=layedit.getContent(index);         //获取到请假原因
-                console.log("请假原因:"+demo);
-                console.log("请假天数"+$LeaveNumber)
-                $.ajax({
-                    url:path+"/leave/update.do",
-                    type:"post",
-                    data:JSON.stringify({
-                        "leaveProcessing":$pressing,
-                        "leaveTitle":$Title,
-                        "leaveType":$Type,
-                        "leaveTime":$LeaveNumber,
-                        "leaveStarttime":$createDate,
-                        "leaveSendtime":$sendDate,
-                        "leaveReason":demo,
-                        "leaveId":$leaveId,
-                    }),
-                    contentType:"application/json;charset=utf-8",
-                    dataType:'json',
-                    success:function (e) {
-                        console.log(e);
-                        if(e.code==0){
-                            layer.msg("修改成功！")
-                        }else {
-                            layer.msg(e.msg);
-                        }
-                    },
-                    error:function (e) {
-                        console.log(e);
-                    }
-                })
-            })
-            })
-    </script>
-    <style>
-       .titleLeave{
-           width: 200px;
-           margin: 0 auto;
-           text-align: center;
-       }
-        .titleLeave>h1{
-            margin-top: 30px;
-            font-family: 黑体;
-            color: #578fe4;
-        }
-        .contextLeave{
-            width: 1000px;
-            margin: 50px auto;
-        }
-        .wth{
-            width: 49%;
-        }
-        .selt{
-            width: 150px;
-            text-align: center;
-            height: 30px;
-        }
-        .top{
-            margin-top: 20px;
-        }
-        .contextLeave>h3{
-            margin-left: 18px;
-        }
-    </style>
+    <script src="../../statics/js/showLeave.js"></script>
 </head>
 <body>
     <div class="leaveMain">
