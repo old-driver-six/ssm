@@ -44,6 +44,32 @@ public class Rent {
      * 租赁状态
      */
     private Integer rentCond;
+    /**
+     * 用户id
+     */
+    private Integer rentStaffId;
+
+    /**
+     * 用户
+     * @return
+     */
+    private Staff staff;
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public Integer getRentStaffId() {
+        return rentStaffId;
+    }
+
+    public void setRentStaffId(Integer rentStaffId) {
+        this.rentStaffId = rentStaffId;
+    }
 
     /**
      * 租赁id(主键)

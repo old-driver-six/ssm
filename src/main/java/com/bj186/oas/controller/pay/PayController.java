@@ -1,14 +1,17 @@
 package com.bj186.oas.controller.pay;
 
+import com.bj186.oas.Util.OAResoult;
+import com.bj186.oas.entity.system.Like;
 import com.bj186.oas.exception.NullNameException;
+import com.bj186.oas.pojo.Department;
 import com.bj186.oas.pojo.Pay;
+import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.service.pay.PayService;
+import com.bj186.oas.service.system.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ import java.util.List;
 @RequestMapping("/pay")
 @SessionAttributes(value = {"sessionVal"},types = {String.class})
 public class PayController {
+
     @Autowired
     private PayService payService;
 
@@ -35,16 +39,17 @@ public class PayController {
      */
     @RequestMapping("/addPay")
     @ResponseBody
-    public String addPay(@RequestBody Pay pay) throws NullNameException {
+    public String addPay(@RequestBody Pay pay
+                         )throws NullNameException {
         System.out.println(pay);
 //       利用异常，改写操作
-        if (pay.getPayId().equals("")) {
-            throw new NullNameException("薪资id不能为空");
-        } else {
+//        if (pay.getPayId().equals("")) {
+//            throw new NullNameException("薪资id不能为空");
+//        } else {
             String s = payService.addPay(pay);
             System.out.println(s);
             return s;
-        }
+//        }
     }
 
     /**
@@ -53,25 +58,28 @@ public class PayController {
      */
     @RequestMapping("selectPay")
     @ResponseBody
-    public List<Pay> selectAllPay(){
-        List<Pay> pays = payService.selectAllPay();
-        System.out.println(pays);
-        return pays;
+    public Object selectAllPay(@RequestParam("page")  Integer pageNum,@RequestParam("limit") Integer pageSize){
+        Object o = payService.selectAllPay(pageNum, pageSize);
+        return o;
 
     }
 
     /**
-     * 通过薪资id查询薪资
-     * @param payId 薪资id
+     * 通过部门查询薪资
+     * @param dep_name 薪资id
      * @return
      */
     @RequestMapping("selectByPrimaryKey")
     @ResponseBody
-    public Pay selectByPrimaryKey(@RequestBody Integer payId) {
-        return payService.selectByPrimaryKey(payId);
-
+    public Pay selectByPrimaryKey(@RequestBody String dep_name) {
+        return payService.selectByPrimaryKey(dep_name);
     }
 
+    @RequestMapping("selectStaffPay")
+    @ResponseBody
+    public Object selectStaffPay(@RequestParam(name="filed",required = true, defaultValue ="")String filed,@RequestParam(name = "value",required = true, defaultValue ="") String value,@RequestParam("limit") Integer pageSize,@RequestParam("page") Integer pageNum){
+       return payService.selectStaffPay(filed,value,pageSize,pageNum);
+    }
     /**
      * 修改
      * @param pay
@@ -91,7 +99,8 @@ public class PayController {
      */
     @RequestMapping("deleteByPrimaryKey")
     @ResponseBody
-    public String deleteByPrimaryKey(Integer payId){
+    public String deleteByPrimaryKey(@RequestBody Integer payId){
+        System.out.println(payId);
         return payService.deleteByPrimaryKey(payId);
     }
 }

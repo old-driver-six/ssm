@@ -1,8 +1,10 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Pay;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PayMapper {
     /**
@@ -15,23 +17,30 @@ public interface PayMapper {
      *
      * @mbggenerated 2019-06-18
      */
-    int insert(Pay record);
+    int insert(Pay pay);
 
     /**
      *
      * @mbggenerated 2019-06-18
      */
     int insertSelective(Pay record);
-
+//
+//    /**
+//     * 查询所有
+//     * @return
+//     */
+//    Integer countAll();
     /**
-     *
+     *模糊查询
      * @mbggenerated 2019-06-18
      */
-    Pay selectByPrimaryKey(Integer paydepid);
+
+    List<Pay> select(Pay pay);
+
     /**
      * 查询薪资表所有信息
      */
-    List<Pay> selectAllPay();
+    List<Pay> selectAllPay(@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize);
     /**
      *
      * @mbggenerated 2019-06-18

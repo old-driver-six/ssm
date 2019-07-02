@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.bj186.oas.pojo.Reimburse" >
     <id column="reim_id" property="reimId" jdbcType="INTEGER" />
     <result column="reim_staffid" property="reimStaffid" jdbcType="INTEGER" />
-    <result column="reim_depid" property="reimDepid" jdbcType="INTEGER" />
+    <!--<result column="reim_depid" property="reimDepid" jdbcType="INTEGER" />-->
     <result column="reim_matter" property="reimMatter" jdbcType="VARCHAR" />
     <result column="reim_starttime" property="reimStarttime" jdbcType="TIMESTAMP" />
     <result column="reim_endtime" property="reimEndtime" jdbcType="TIMESTAMP" />
@@ -13,8 +13,11 @@
     <result column="reim_stay" property="reimStay" jdbcType="DECIMAL" />
     <result column="reim_referr" property="reimReferr" jdbcType="DECIMAL" />
   </resultMap>
+  <resultMap id="BaseResultMap2" type="com.bj186.oas.pojo.Reimburse" extends="BaseResultMap">
+    <association property="staff" resultMap="com.bj186.oas.mapper.StaffMapper.BaseResultMap"></association>
+  </resultMap>
   <sql id="Base_Column_List" >
-    reim_id, reim_staffid, reim_depid, reim_matter, reim_starttime, reim_endtime, reim_place, 
+    reim_id, reim_staffid, reim_matter, reim_starttime, reim_endtime, reim_place,
     reim_traffic, reim_stay, reim_referr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -23,16 +26,20 @@
     from oas_reimburse
     where reim_id = #{reimId,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
+    select *from (select * from oas_reimburse left join oas_staff on reim_staffid=staff_id) a left join oas_department on a.staff_depID=dep_id
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_reimburse
     where reim_id = #{reimId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.Reimburse" >
-    insert into oas_reimburse (reim_id, reim_staffid, reim_depid, 
+    insert into oas_reimburse (reim_id, reim_staffid,
       reim_matter, reim_starttime, reim_endtime, 
       reim_place, reim_traffic, reim_stay, 
       reim_referr)
-    values (#{reimId,jdbcType=INTEGER}, #{reimStaffid,jdbcType=INTEGER}, #{reimDepid,jdbcType=INTEGER}, 
+    values (#{reimId,jdbcType=INTEGER}, #{reimStaffid,jdbcType=INTEGER},
       #{reimMatter,jdbcType=VARCHAR}, #{reimStarttime,jdbcType=TIMESTAMP}, #{reimEndtime,jdbcType=TIMESTAMP}, 
       #{reimPlace,jdbcType=VARCHAR}, #{reimTraffic,jdbcType=DECIMAL}, #{reimStay,jdbcType=DECIMAL}, 
       #{reimReferr,jdbcType=DECIMAL})
@@ -46,9 +53,9 @@
       <if test="reimStaffid != null" >
         reim_staffid,
       </if>
-      <if test="reimDepid != null" >
-        reim_depid,
-      </if>
+      <!--<if test="reimDepid != null" >-->
+        <!--reim_depid,-->
+      <!--</if>-->
       <if test="reimMatter != null" >
         reim_matter,
       </if>
@@ -78,9 +85,9 @@
       <if test="reimStaffid != null" >
         #{reimStaffid,jdbcType=INTEGER},
       </if>
-      <if test="reimDepid != null" >
-        #{reimDepid,jdbcType=INTEGER},
-      </if>
+      <!--<if test="reimDepid != null" >-->
+        <!--#{reimDepid,jdbcType=INTEGER},-->
+      <!--</if>-->
       <if test="reimMatter != null" >
         #{reimMatter,jdbcType=VARCHAR},
       </if>
@@ -110,9 +117,9 @@
       <if test="reimStaffid != null" >
         reim_staffid = #{reimStaffid,jdbcType=INTEGER},
       </if>
-      <if test="reimDepid != null" >
-        reim_depid = #{reimDepid,jdbcType=INTEGER},
-      </if>
+      <!--<if test="reimDepid != null" >-->
+        <!--reim_depid = #{reimDepid,jdbcType=INTEGER},-->
+      <!--</if>-->
       <if test="reimMatter != null" >
         reim_matter = #{reimMatter,jdbcType=VARCHAR},
       </if>
@@ -140,7 +147,7 @@
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Reimburse" >
     update oas_reimburse
     set reim_staffid = #{reimStaffid,jdbcType=INTEGER},
-      reim_depid = #{reimDepid,jdbcType=INTEGER},
+--       reim_depid = #{reimDepid,jdbcType=INTEGER},
       reim_matter = #{reimMatter,jdbcType=VARCHAR},
       reim_starttime = #{reimStarttime,jdbcType=TIMESTAMP},
       reim_endtime = #{reimEndtime,jdbcType=TIMESTAMP},

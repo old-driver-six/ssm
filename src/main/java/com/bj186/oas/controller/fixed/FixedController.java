@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -35,17 +36,15 @@ public class FixedController {
 
     @RequestMapping("selectAllFixed")
     @ResponseBody
-    public List<Fixed> selectAllFixed() {
-        List<Fixed> fixeds = fixedService.selectAllFixed();
-        for (Fixed f:fixeds
-        ) {
-            System.out.println(f);
-        }
-        return fixeds;
+    public Object selectAllFixed(@RequestParam("page")  Integer pageNum, @RequestParam("limit") Integer pageSize) {
+        return fixedService.selectAllFixed(pageNum, pageSize);
+
+
     }
 
-
-    public String updateByPrimaryKey(Fixed fixed) {
+    @RequestMapping("updateByPrimaryKey")
+    @ResponseBody
+    public String updateByPrimaryKey(@RequestBody Fixed fixed) {
         return fixedService.updateByPrimaryKey(fixed);
     }
 }

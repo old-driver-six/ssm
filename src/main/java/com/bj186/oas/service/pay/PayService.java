@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface PayService {
     public String addPay(Pay pay) throws NullNameException;
-    public List<Pay> selectAllPay();
-    public Pay selectByPrimaryKey(Integer paydepid);
+    public Object selectAllPay(Integer pageNum,Integer pageSize);
+    public Pay selectByPrimaryKey(String dep_id);
     public String updateByPrimaryKey(Pay pay);
-//    public Integer updateByPrimaryKeySelective(Integer payId);
     public String deleteByPrimaryKey(Integer payId);
-//    public Integer insertSelective(Pay pay);
+    public Object selectStaffPay(String filed, String value, Integer pageSize, Integer pageNum);
+
 }

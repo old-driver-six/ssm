@@ -21,7 +21,7 @@
 
     <collection property="powerList" resultMap="com.bj186.oas.mapper.PowerMapper.BaseResultMap"></collection>
     <!--报销级联（一（staff）对多（reim））-->
-    <collection property="reimburses" resultMap="com.bj186.oas.mapper.ReimburseMapper.BaseResultMap"></collection>
+
     <!--报销凭证级联（一（staff）对多（proof））-->
     <collection property="proofs" resultMap="com.bj186.oas.mapper.ProofMapper.BaseResultMap"></collection>
   </resultMap>
@@ -30,6 +30,14 @@
   <resultMap id="BaseResultMap2" type="com.bj186.oas.pojo.Staff" extends="BaseResultMap">
     <collection property="paysList" resultMap="com.bj186.oas.mapper.PayMapper.BaseResultMap"></collection>
   </resultMap>
+
+  <resultMap id="BaseResultMap3" type="com.bj186.oas.pojo.Staff" extends="BaseResultMap2">
+  <collection property="reimburses" resultMap="com.bj186.oas.mapper.ReimburseMapper.BaseResultMap"></collection>
+  </resultMap>
+  <resultMap id="BaseResultMap4" type="com.bj186.oas.pojo.Staff" extends="BaseResultMap">
+    <collection property="rents" resultMap="com.bj186.oas.mapper.RentMapper.BaseResultMap"></collection>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     staff_id, staff_name, staff_sex, staff_age, staff_phone, staff_idntityCardID, staff_birthday,
     staff_positionID, staff_adress, staff_wage, staff_email, staff_depID

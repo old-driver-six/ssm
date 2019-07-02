@@ -6,11 +6,13 @@
     <result column="fixe_name" property="fixeName" jdbcType="VARCHAR" />
     <result column="fix_unit" property="fixUnit" jdbcType="VARCHAR" />
     <result column="fix_number" property="fixNumber" jdbcType="INTEGER" />
+    <result column="fix_rentnumber" property="fixRentNumber" jdbcType="INTEGER" />
+    <result column="fix_surpnumber" property="fixSurpNumber" jdbcType="INTEGER" />
     <result column="fix_amount" property="fixAmount" jdbcType="DECIMAL" />
     <result column="fix_remarks" property="fixRemarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    fix_id, fixe_name, fix_unit, fix_number, fix_amount, fix_remarks
+    fix_id, fixe_name, fix_unit, fix_number,fix_rentnumber,fix_surpnumber,fix_amount, fix_remarks
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -21,7 +23,7 @@
   <select id="selectAllFixed" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
-    from oas_fixed
+    from oas_fixed limit #{pageNum},#{pageSize}
 
   </select>
 
@@ -31,10 +33,10 @@
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.Fixed" >
     insert into oas_fixed (fix_id,fixe_name,fix_unit,
-      fix_number,fix_amount,fix_remarks
+      fix_number,fix_rentnumber,fix_surpnumber,fix_amount,fix_remarks
       )
     values (#{fixId,jdbcType=INTEGER}, #{fixeName,jdbcType=VARCHAR}, #{fixUnit,jdbcType=VARCHAR},
-      #{fixNumber,jdbcType=INTEGER}, #{fixAmount,jdbcType=DECIMAL}, #{fixRemarks,jdbcType=VARCHAR}
+      #{fixNumber,jdbcType=INTEGER},#{fixRentNumber,jdbcType=INTEGER},#{fixSurpNumber,jdbcType=INTEGER}, #{fixAmount,jdbcType=DECIMAL}, #{fixRemarks,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Fixed" >
@@ -51,6 +53,12 @@
       </if>
       <if test="fixNumber != null" >
         fix_number,
+      </if>
+      <if test="fixRentNumber != null" >
+        fix_rentnumber,
+      </if>
+      <if test="fixSurpNumber != null" >
+        fix_surpnumber,
       </if>
       <if test="fixAmount != null" >
         fix_ amount,
@@ -72,6 +80,12 @@
       <if test="fixNumber != null" >
         #{fixNumber,jdbcType=INTEGER},
       </if>
+      <if test="fixRentNumber != null" >
+        #{fixRentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="fixSurpNumber != null" >
+        #{fixSurpNumber,jdbcType=INTEGER},
+      </if>
       <if test="fixAmount != null" >
         #{fixAmount,jdbcType=DECIMAL},
       </if>
@@ -92,6 +106,12 @@
       <if test="fixNumber != null" >
         fix_number = #{fixNumber,jdbcType=INTEGER},
       </if>
+      <if test="fixRentNumber != null" >
+        fix_rentnumber = #{fixRentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="fixSurpNumber != null" >
+        fix_surpnumber = #{fixSurpNumber,jdbcType=INTEGER},
+      </if>
       <if test="fixAmount != null" >
         fix_ amount = #{fixAmount,jdbcType=DECIMAL},
       </if>
@@ -103,11 +123,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Fixed" >
     update oas_fixed
-    set fixe_name = #{fixeName,jdbcType=VARCHAR},
-      fix_unit = #{fixUnit,jdbcType=VARCHAR},
-      fix_number = #{fixNumber,jdbcType=INTEGER},
-      fix_ amount = #{fixAmount,jdbcType=DECIMAL},
-      fix_remarks = #{fixRemarks,jdbcType=VARCHAR}
-    where fix_id = #{fixId,jdbcType=INTEGER}
+    set fixe_name=#{fixeName,jdbcType=VARCHAR},
+      fix_unit=#{fixUnit,jdbcType=VARCHAR},
+      fix_number=#{fixNumber,jdbcType=INTEGER},
+      fix_rentnumber=#{fixRentNumber,jdbcType=INTEGER},
+      fix_surpnumber=#{fixSurpNumber,jdbcType=INTEGER},
+      fix_amount=#{fixAmount,jdbcType=DECIMAL},
+      fix_remarks=#{fixRemarks,jdbcType=VARCHAR}
+    where fix_id=#{fixId,jdbcType=INTEGER}
   </update>
 </mapper>

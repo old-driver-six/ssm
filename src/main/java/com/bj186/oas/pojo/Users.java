@@ -1,9 +1,10 @@
 package com.bj186.oas.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Users {
+public class Users implements Serializable {
     /**
      * 用户ID（主键 10001自动递增)
      */

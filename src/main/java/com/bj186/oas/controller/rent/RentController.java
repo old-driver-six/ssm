@@ -21,7 +21,8 @@ public class RentController {
     @RequestMapping("insertRent")
     @ResponseBody
     public String insertRent(@RequestBody Rent rent){
-      return rentService.insert(rent);
+//      return rentService.insert(rent);
+        return null;
     }
     @RequestMapping("updateRent")
     @ResponseBody

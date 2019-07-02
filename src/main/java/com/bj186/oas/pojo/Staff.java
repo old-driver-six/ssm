@@ -149,6 +149,19 @@ public class Staff {
         this.proofs = proofs;
     }
     /**
+     * 租赁
+     */
+    private List<Rent> rents = new ArrayList<>();
+
+    public List<Rent> getRents() {
+        return rents;
+    }
+
+    public void setRents(List<Rent> rents) {
+        this.rents = rents;
+    }
+
+    /**
      * 员工ID（主键 10001自增）
      * @return staff_id 员工ID（主键 10001自增）
      */

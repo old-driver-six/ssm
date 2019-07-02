@@ -1,6 +1,7 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Fixed;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface FixedMapper {
     /**
      * 查询所有固定资产
      */
-    List<Fixed> selectAllFixed();
+    List<Fixed> selectAllFixed(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
     /**
      *
      * @mbggenerated 2019-06-18

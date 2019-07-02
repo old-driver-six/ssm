@@ -8,7 +8,7 @@ import java.util.List;
 public interface FixedService {
     String deleteByPrimaryKey(Integer fixId);
     String insert(Fixed fixed);
-    List<Fixed> selectAllFixed();
+    Object selectAllFixed(Integer pageNum,Integer pageSize);
     Fixed selectByPrimaryKey(Integer fixId);
     String updateByPrimaryKey(Fixed fixed);
 

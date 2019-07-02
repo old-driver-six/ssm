@@ -18,14 +18,14 @@ public class Pay {
      */
     private Staff staff;
 
-    /**
-     * 部门编号（外键）
-     */
-    private Integer payDepid;
-    /**
-     * 部门
-     */
-    private Department department;
+//    /**
+//     * 部门编号（外键）
+//     */
+//    private Integer payDepid;
+//    /**
+//     * 部门
+//     */
+//    private Department department;
 
     /**
      * 日期
@@ -91,21 +91,21 @@ public class Pay {
         this.payStaffid = payStaffid;
     }
 
-    /**
-     * 部门编号（外键）
-     * @return pay_depid 部门编号（外键）
-     */
-    public Integer getPayDepid() {
-        return payDepid;
-    }
-
-    /**
-     * 部门编号（外键）
-     * @param payDepid 部门编号（外键）
-     */
-    public void setPayDepid(Integer payDepid) {
-        this.payDepid = payDepid;
-    }
+//    /**
+//     * 部门编号（外键）
+//     * @return pay_depid 部门编号（外键）
+//     */
+//    public Integer getPayDepid() {
+//        return payDepid;
+//    }
+//
+//    /**
+//     * 部门编号（外键）
+//     * @param payDepid 部门编号（外键）
+//     */
+//    public void setPayDepid(Integer payDepid) {
+//        this.payDepid = payDepid;
+//    }
 
     /**
      * 日期
@@ -210,12 +210,12 @@ public class Pay {
     public void setStaff(Staff staff) {
         this.staff = staff;
     }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
+//
+//    public Department getDepartment() {
+//        return department;
+//    }
+//
+//    public void setDepartment(Department department) {
+//        this.department = department;
+//    }
 }

@@ -24,6 +24,30 @@ public class Fixed {
      * 数量
      */
     private Integer fixNumber;
+    /**
+     * 租赁数量
+     */
+     private Integer fixRentNumber;
+    /**
+     * 租赁后剩余数量
+     */
+     private Integer fixSurpNumber;
+
+    public Integer getFixRentNumber() {
+        return fixRentNumber;
+    }
+
+    public void setFixRentNumber(Integer fixRentNumber) {
+        this.fixRentNumber = fixRentNumber;
+    }
+
+    public Integer getFixSurpNumber() {
+        return fixSurpNumber;
+    }
+
+    public void setFixSurpNumber(Integer fixSurpNumber) {
+        this.fixSurpNumber = fixSurpNumber;
+    }
 
     /**
      * 总计金额
