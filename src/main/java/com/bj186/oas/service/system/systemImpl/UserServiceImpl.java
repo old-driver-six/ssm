@@ -182,6 +182,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer Departure(Integer staffID) {
         if( usersMapper.Departure(staffID)==1){
+            Department department = staffMapper.selectByPrimaryKey(staffID).getDepartment();
+            department.setDepNumber(department.getDepNumber()-1);
+            departmentMapper.updateByPrimaryKeySelective(department);
             return 200;
         }
         return -1;

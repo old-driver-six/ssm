@@ -112,7 +112,7 @@
   <update id="Departure" parameterType="com.bj186.oas.pojo.Users" >
     update oas_users
     set users_state = '-1'
-    where users_id = #{usersId,jdbcType=INTEGER}
+    where users_staffId = #{staffId,jdbcType=INTEGER}
   </update>
 
   <update id="Reinstatement" parameterType="com.bj186.oas.pojo.Users" >

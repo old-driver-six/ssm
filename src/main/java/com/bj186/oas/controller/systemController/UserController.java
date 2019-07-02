@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -43,12 +42,12 @@ public class UserController  extends HttpServlet {
 
     @RequestMapping("index")
     public String index() {
-        return "/system/user-management";
+        return "system/user-manage";
     }
 
     @RequestMapping("detailed")
     public String detailed() {
-        return "/system/detailed";
+        return "system/user-detailed";
     }
 
     @RequestMapping("/index2")
@@ -169,6 +168,18 @@ public class UserController  extends HttpServlet {
         System.out.println();
         return oaResoult;
     }
+
+    @RequestMapping("/departure")
+    @ResponseBody
+    public OAResoult Departure(@RequestBody Staff  staff) {
+        Integer suspension = userService.Departure(staff.getStaffId());
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(suspension);
+        System.out.println();
+        return oaResoult;
+    }
+
+
 
     /**
      * 复职功能

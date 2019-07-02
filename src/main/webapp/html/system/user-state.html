@@ -67,6 +67,7 @@
             <div class="layui-card-body">
         <div class="layui-btn-container">
         <a class="layui-btn layui-btn-sm" lay-event="office">复职</a>
+            <a class="layui-btn layui-btn-sm" lay-event="office2">离职</a>
             </div>
             </div>
         </div>
@@ -134,6 +135,25 @@
                         }
                     })
                 });
+            }
+            if(layEvent ==='office2'){
+                var json={'staffId':data.staffId}
+                $.ajax({
+                    url: "/user/departure"
+                    ,type: "post",    //访问方式
+                    data:JSON.stringify(json),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    success: function (d) {
+                        if (d.code==200){
+                            layer.msg("离职成功！")
+                            tableIns.reload()
+                        }
+                        else {
+                            layer.msg("离职失败！")
+                        }
+                    }
+                })
             }
         });
     });
