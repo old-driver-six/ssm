@@ -47,7 +47,8 @@
         </form>
     </div>
     <xblock >
-        <div class="checkingInTable ">
+        <div class="checkingInTable">
+            <button class="layui-btn"  type="button" id="uploadButton"> <i class="layui-icon">&#xe67c;</i>导入考勤记录文件</button>
             <button class="layui-btn " onclick="x_admin_show('添加考勤记录','checkingin-add.html',1000)"><i class="layui-icon">&#xe608;</i>添加考勤记录</button>
         </div>
     </xblock>
@@ -59,13 +60,32 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 </script>
+
 <script type="text/html" id="toolbarDemo">
 </script>
 
+<script type="text/html" id="titleTpl">
+    {{#if (d.checkinginState == 0) { }}
+    <span>正常考勤</span>
+    {{# }else if(d.checkinginState == 1){ }}
+    <span>外勤</span>
+    {{# }else if(d.checkinginState  == 2){ }}
+    <span>请假</span>
+    {{# }else if(d.checkinginState  == 3){ }}
+    <span>非考勤日</span>
+    {{# }else if(d.checkinginState  == 4){ }}
+    <span>旷工</span>
+    {{# } }}
+</script>
+
 <script>
-    //生成考勤记录
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
+    layui.use(['layer','jquery', 'table', 'form','laydate','upload'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            table = layui.table,
+            form = layui.form,
+            laydate = layui.laydate,
+            upload = layui.upload;
 
         //执行一个laydate实例
         laydate.render({
@@ -76,14 +96,17 @@
         laydate.render({
             elem: '#end' //指定元素
         });
-    });
 
-
-    layui.use(['layer','jquery', 'table', 'form'], function () {
-        var $ = layui.jquery,
-            layer = layui.layer,
-            table = layui.table,
-            form = layui.form;
+        upload.render({
+            elem: '#uploadButton' //绑定元素
+            ,url: '/upload' //上传接口
+            ,done: function(res){
+                //上传完毕回调
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
 
         var tableIns = table.render({
              method: 'post'
@@ -111,7 +134,7 @@
                 ,{field: 'checkStaffId', title: '考勤员工ID', width:180}
                 ,{field: 'checkinginStarttime', title: '上班时间', width:180,sort:true}
                 ,{field: 'checkinginSendtime', title: '下班时间', width:180,sort:true}
-                ,{field: 'checkinginState', title: '考勤表状态', width:180,sort:true}
+                ,{field: 'checkinginState', title: '考勤表状态',templet:'#titleTpl',width:180}
                 ,{fixed: 'right', width: 180, align:'center', toolbar: '#barDemo'}
             ]]
 
