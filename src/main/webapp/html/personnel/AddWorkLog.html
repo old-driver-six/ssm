@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>添加工作日志</title>
-    <link href="../../layui/css/layui.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../layui/css/layui.css">
-    <script src="../../js/jquery-3.1.1.js"></script>
-    <script src="../../layui/layui.js"></script>
-    <script src="../../js/basevalue.js"></script>
-    <link rel="stylesheet" href="../../css/personnel.css">
+    <link href="../../statics/layui/css/layui.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+    <script src="../../statics/js/jquery-3.1.1.js"></script>
+    <script src="../../statics/layui/layui.js"></script>
+    <script src="../../statics/js/basevalue.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../../statics/css/personnel.css">
     <script>
         var index=null;     //富文本对象的id
         var layedit=null;   //layui调用富文本的对象
@@ -17,7 +18,7 @@
             index=layedit.build('demo'); //建立编辑器
         });
         $(function () {
-            var sid=10007;
+            var sid=$.cookie('uId');
             $("#Preservation").on('click',function () {
                 $.ajax({
                     url:path+"/workLog/save.do",

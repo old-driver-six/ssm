@@ -4,11 +4,12 @@
     <title>创建请假条</title>
     <!--监听表单提交的js-->
    <!-- <link rel="stylesheet" href="../css/reset.css">-->
-    <link rel="stylesheet" href="../../layui/css/layui.css">
-    <script src="../../js/jquery-3.1.1.js"></script>
-    <script src="../../layui/layui.js"></script>
-    <script src="../../js/basevalue.js"></script>
-    <link rel="stylesheet" href="../../css/personnel.css">
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+    <script src="../../statics/js/jquery-3.1.1.js"></script>
+    <script src="../../statics/layui/layui.js"></script>
+    <script src="../../statics/js/basevalue.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../../statics/css/personnel.css">
     <script>
         var index=null;     //富文本对象的id
         var layedit=null;   //layui调用富文本的对象
@@ -36,6 +37,7 @@
                         "leaveStarttime":$createDate,
                         "leaveSendtime":$sendDate,
                         "leaveReason":demo,
+                        'leaveStaffId':$.cookie('uId'),
                     }),
                     contentType:"application/json;charset=utf-8",
                     dataType:'json',
@@ -81,6 +83,7 @@
                     <input type="text" id="LeaveNumber" class="layui-input">
                 </div>
             </div>
+
             <div class="layui-inline wth top">
                 <label class="layui-form-label">请假类型:</label>
                 <div class="layui-input-inline">

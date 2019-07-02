@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看请假申请</title>
+    <link rel="stylesheet" href="../../statics/css/personnel.css">
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+    <script src="../../statics/js/jquery-3.1.1.js"></script>
+    <script src="../../statics/layui/layui.js"></script>
+    <script src="../../statics/js/basevalue.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <script>
+        $(function () {
+            //var sid=$.cookie('uId');
+            var location = window.location.toString();
+            var TableKay=location.split("?")[1];
+            console.log(TableKay);
+            if(TableKay){
+                $.ajax({
+                    url:path+'/leave/getStfLeave.do',
+                    type:'post',
+                    data:{'lid':TableKay},
+                    dataType:'json',
+                    success:function (e) {
+                        if(e.code==0){
+                            //解析数据给下面的输入框赋值!
+                            console.log(e.data);
+                            creatFrom(e.data);
+                            //数据解析完成之后将隐藏的按钮启用
+                        }else {
+                            layer.msg(e.msg);
+                        }
+                    },
+                    error:function (e) {
+                        console.log(e);
+                    }
+                })
+            }
+            function creatFrom(data) {
+                $('#leaveName').val(data.staffName);
+                $('#leaveDep').val(data.depName);
+                $('#leaveTitle').val(data.dataInfo[0].leaveTitle);
+                $('#pressing').get(0).selectedIndex=data.dataInfo[0].leaveProcessing;
+                $('#LeaveNumber').val(data.dataInfo[0].leaveTime);
+                $('#ltype').get(0).selectedIndex=data.dataInfo[0].leaveType;
+                $('#date1').val(data.dataInfo[0].leaveStarttime);
+                $('#date2').val(data.dataInfo[0].leaveSendtime);
+                $('#leaveReason').html(data.dataInfo[0].leaveReason);
+                $('#lid').data('lid',data.dataInfo[0].leaveId);
+                $('#leaveName').data('uid',data.dataInfo[0].leaveStaffId);
+                if(data.dataInfo[0].leaveState==1){
+                    $('#leaveState').val("审核不通过!");
+                }
+                if(data.dataInfo[0].leaveState==0){
+                    $('#leaveState').val("已审核通过!")
+                }
+                if(!data.dataInfo[0].leaveState){
+                    $('#leaveState').val('未审核!')
+                }
+
+                $('#leavePow').val(data.positionName);
+            }
+
+            /**
+             * 动态绑定审核事件
+             */
+            $('#Preservation').on('click',function () {
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    var index=layer.open({
+                        type: 2
+                        ,area:['800px','600px']
+                        ,content: "Opinion.html"
+                        ,shade: 0.6
+                        ,moveType: 1 //拖拽模式，0或者1
+                        ,title: '领导审核意见' //不显示标题栏
+                        ,offset:['0px','400px']
+                        ,closeBtn: 1
+                        ,anim: 1
+                        ,id: '12' //设定一个id，防止重复弹出
+                        ,btnAlign: 'c'
+                        ,success:function (layero, index) {
+                            var body=layer.getChildFrame('body',index);
+                            body.find('#from').html($('#LeaveNumber').val())
+                            body.find('#from1').html($('#lid').data('lid'));
+                            body.find('#from3').html($('#leaveName').data('uid'));
+                        }
+                    });
+                });
+            })
+
+            /**
+             * 动态绑定领导意见查询事件
+             */
+            $('#sel').on('click',function () {
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    var index=layer.open({
+                        type: 2
+                        ,area:['800px','600px']
+                        ,content: "ShowOpinion.html"
+                        ,shade: 0.6
+                        ,moveType: 1 //拖拽模式，0或者1
+                        ,title: '领导审核意见' //不显示标题栏
+                        ,offset:['0px','400px']
+                        ,closeBtn: 1
+                        ,anim: 1
+                        ,id: '12' //设定一个id，防止重复弹出
+                        ,btnAlign: 'c'
+                        ,success:function (layero, index) {
+                            var body=layer.getChildFrame('body',index);
+                            body.find('#from').html($('#lid').data('lid'));
+                        }
+                    });
+                });
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="leaveMain">
+    <div class="titleLeave">
+        <h1>请假申请</h1>
+        <span>Leave application</span>
+    </div>
+    <div class="contextLeave">
+        <div class="layui-inline wth top" id="lid">
+            <label class="layui-form-label">请假人:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="leaveName" class="layui-input" disabled="disabled" >
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">所属部门:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="leaveDep" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">职位:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="leavePow" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">请假状态:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="leaveState" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">请假标题:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="leaveTitle" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">紧急程度:</label>
+            <div class="layui-input-inline">
+                <select class="selt" id="pressing" disabled="disabled">
+                    <option value="正常">正常</option>
+                    <option value="紧急">紧急</option>
+                    <option value="重要">重要</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">请假天数:</label>
+            <div class="layui-input-inline">
+                <input type="text" id="LeaveNumber" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">请假类型:</label>
+            <div class="layui-input-inline">
+                <select class="selt" id="ltype" disabled="disabled">
+                    <option value="0">事假</option>
+                    <option value="1">年假</option>
+                    <option value="2">婚假</option>
+                    <option value="3">产假</option>
+                    <option value="3">病假</option>
+                    <option value="3">其他</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline wth top">
+            <label class="layui-form-label" style="width: 100px">请假起始日期:</label>
+            <div class="layui-input-inline">
+                <input type="date" id="date1" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-inline wth top">
+            <label class="layui-form-label" style="width: 100px">请假结束日期:</label>
+            <div class="layui-input-inline">
+                <input type="date" id="date2" disabled="disabled">
+            </div>
+        </div>
+        <h3 class="top">请假原因:</h3>
+        <div class="top">
+            <div id="leaveReason" disabled="disabled" style="width: 750px;height: 200px;border: #9F9F9F 1px solid; margin-left: 8%">
+
+            </div>
+        </div>
+        <div class="top" style="margin-left: 40%">
+            <button class="layui-btn layui-btn-normal" id="Preservation" type="button">审核</button>
+            <button class="layui-btn layui-btn-normal" id="sel" type="button">领导意见</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

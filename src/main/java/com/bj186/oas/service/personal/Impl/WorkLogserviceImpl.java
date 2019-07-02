@@ -192,18 +192,19 @@ public class WorkLogserviceImpl implements WorkLogService {
      * @return
      */
     @Override
-    public OAResoult<Paging<WorkLog>> selWorkLog(String createDate1, String createDate2, Integer type, Integer sid, Integer pageSize, Integer pageThis) {
+    public OAResoult<List<WorkLog>> selWorkLog(String createDate1, String createDate2, Integer type, Integer sid, Integer pageSize, Integer pageThis) {
         WorkLogUtil util = getWorkLogUtil(createDate1, createDate2, type);
         util=getWorkLogUtil(pageThis,pageSize,util);
         util.setWorklogCreateid(sid);
         Paging<WorkLog> workLogPaging = workLogMapper.selLimitWork(util);
-        OAResoult<Paging<WorkLog>> resoult=new OAResoult<>();
+        OAResoult<List<WorkLog>> resoult=new OAResoult<>();
         resoult.setCode(0);
         if("".equals(workLogPaging)||null==workLogPaging){
             resoult.setMsg("当前查询条没有数据!");
             return resoult;
         }
-        resoult.setData(workLogPaging);
+        resoult.setData(workLogPaging.getData());
+        resoult.setCount(workLogPaging.getCot());
         return resoult;
     }
 
@@ -216,8 +217,12 @@ public class WorkLogserviceImpl implements WorkLogService {
      * @return  工具实体类
      */
     private WorkLogUtil getWorkLogUtil(String createDate1, String createDate2, Integer type){
-        createDate1=createDate1+"%";        //传递过来的时间可能没有百分号需要加上
-        createDate2=createDate2+"%";
+        if(!"".equals(createDate1)){
+            createDate1=createDate1+"%";        //传递过来的时间可能没有百分号需要加上
+        }
+        if(!"".equals(createDate2)){
+            createDate2=createDate2+"%";
+        }
         WorkLogUtil util=new WorkLogUtil();
         if(type==2){
             util.setWorklogUpdatetime1(createDate1);

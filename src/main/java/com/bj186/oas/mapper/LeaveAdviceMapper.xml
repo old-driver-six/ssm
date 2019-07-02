@@ -132,6 +132,10 @@
     order by le.leave_ceateTime DESC
   </select>
 
+  <select id="selByLeaveId" parameterType="string" resultMap="BaseResultMap">
+    SELECT * FROM oas_leaveadvice where oas_leaveadvice.advicelid=#{lid}
+  </select>
+
   <resultMap id="OpinionMap" type="com.bj186.oas.pojo.personalpojo.LeaveOpinionUtil">
     <id column="leaveAdvice_id" property="leaveadviceId" jdbcType="VARCHAR" />
     <result column="leave_state" property="leaveState" jdbcType="CHAR" />

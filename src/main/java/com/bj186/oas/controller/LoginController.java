@@ -1,15 +1,13 @@
 package com.bj186.oas.controller;
 
 import com.bj186.oas.Util.MD5;
-import com.bj186.oas.Util.OAResoult;
+import com.bj186.oas.WebSoket.SpringWebSocketHander;
 import com.bj186.oas.entity.LoginBean;
-import com.bj186.oas.entity.UpdatePwd;
 import com.bj186.oas.entity.common.SelectAllBean;
 import com.bj186.oas.mapper.UsersMapper;
 import com.bj186.oas.pojo.Staff;
 import com.bj186.oas.pojo.Users;
 import com.bj186.oas.service.common.NoticeService;
-import com.bj186.oas.service.system.UserService;
 import com.bj186.oas.shiro.MyLogoutFilter;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -17,6 +15,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -34,12 +34,10 @@ public class LoginController {
     MyLogoutFilter myLogoutFilter;
     @Autowired
     NoticeService noticeService;
-    @Autowired
-    UserService userService;
 
     @RequestMapping(value = "/login")
     @ResponseBody
-    public LoginBean selectUser(@RequestBody Users users) {
+    public LoginBean selectUser(@RequestBody Users users,HttpServletRequest request) {
         LoginBean loginBean = new LoginBean();
         System.out.println(666);
         System.out.println("username=" + users.getUsersPhone());
@@ -64,12 +62,14 @@ public class LoginController {
             } catch (UnknownAccountException uae) {
                 loginBean.setMsg("用户名不存在！");
             } catch (AuthenticationException ae) {
-                loginBean.setMsg("用户已被注销！");
+                System.out.println(ae.getMessage());
             }
         }else {
             loginBean.setMsg("重复登录或登录出错！");
         }
         System.out.println(loginBean);
+        HttpSession session = request.getSession();
+        session.setAttribute("SESSION_USERNAME", loginBean.getuId()+"");
         return loginBean;
     }
 
@@ -83,14 +83,6 @@ public class LoginController {
             e.printStackTrace();
         }
         return false;
-    }
-    @RequestMapping(value = "/updatePwd")
-    @ResponseBody
-    public OAResoult updatePwd(@RequestBody UpdatePwd updatePwd) {
-        Integer integer = userService.updatePwd(updatePwd);
-        OAResoult oaResoult = new OAResoult();
-        oaResoult.setCode(integer);
-        return oaResoult;
     }
 
     @RequestMapping(value = "/lo")
@@ -114,5 +106,4 @@ public class LoginController {
 
     // 注册时，进行shiro加密，返回加密后的结果，如果在加入shiro之前，存在用户密码不是此方式加密的，那么将无法登录
     // 使用用户名作为盐值
-
 }

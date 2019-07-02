@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>显示审核意见</title>
+    <link rel="stylesheet" href="../../statics/css/personnel.css">
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css">
+    <script src="../../statics/js/basevalue.js"></script>
+    <script src="../../statics/js/jquery-3.1.1.js"></script>
+    <script src="../../statics/layui/layui.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <style>
+        .showAndHind{
+            visibility:hidden;
+        }
+        .show{
+            visibility: visible;
+        }
+    </style>
+    <script>
+        $(function () {
+            $.ajax({
+                url:path+'/leave/getLeaveAvice.do',
+                type:'post',
+                data:{'lid':$("#from").html()},
+               /* data:{'lid':'1e3c660b461f4c2282ae2d75b9e05402'},*/
+                dataType:'json',
+                success:function (e) {
+                    console.log(e)
+                    if(e.code==0){
+                        createFrom(e.data);
+                    }
+                    if(e.code==-1){
+                        alert(e.msg);
+                    }
+                },
+                error:function (e) {
+                    console.log(e)
+                }
+            })
+            function createFrom(date) {
+                console.log();
+              var $divs= $('.showAndHind');
+                if(date.advicegroupstate){
+                    $($divs[0]).addClass('show');
+                }
+                if(date.advicepartstate){
+                   $($divs[1]).addClass('show');
+                }
+                if(date.advicesumstate){
+                    $($divs[2]).addClass('show');
+                }
+                $('#pressing').get(0).selectedIndex=date.advicegroupstate;
+                $('#leaveReason').html(date.advicegroup);
+                $('#pressing1').get(0).selectedIndex=date.advicepartstate;
+                $('#leaveReason1').html(date.advicepart);
+                $('#pressing2').get(0).selectedIndex=date.advicesumstate;
+                $('#leaveReason2').html(date.advicesum);
+
+            }
+        })
+    </script>
+</head>
+<body>
+<div class="contextLeave" style="width: 90%;margin-left: 5%" >
+    <span id="from" style="display: none"></span>
+    <div class="showAndHind top">
+        <h3>小组意见:</h3>
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">意见:</label>
+            <div class="layui-input-inline">
+                <select class="selt" id="pressing" disabled="disabled">
+                    <option value="0">同意</option>
+                    <option value="1">不同意</option>
+                </select>
+            </div>
+        </div>
+        <div class="top">
+            <h4 style="margin-left: 8%">批复:</h4>
+            <div id="leaveReason" class="top" disabled="disabled" style="width: 600px;height: 100px;border: #9F9F9F 1px solid; margin-left: 8%">
+
+            </div>
+        </div>
+    </div>
+    <div class="showAndHind top">
+        <h3>主管意见:</h3>
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">意见:</label>
+            <div class="layui-input-inline">
+                <select class="selt" id="pressing1" disabled="disabled">
+                    <option value="0">同意</option>
+                    <option value="1">不同意</option>
+                </select>
+            </div>
+        </div>
+        <div class="top">
+            <h4 style="margin-left: 8%">批复:</h4>
+            <div id="leaveReason1" class="top" disabled="disabled" style="width: 600px;height: 100px;border: #9F9F9F 1px solid; margin-left: 8%">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="showAndHind top">
+        <h3>部门经理意见:</h3>
+        <div class="layui-inline wth top">
+            <label class="layui-form-label">意见:</label>
+            <div class="layui-input-inline">
+                <select class="selt" id="pressing2" disabled="disabled">
+                    <option value="0">同意</option>
+                    <option value="1">不同意</option>
+                </select>
+            </div>
+        </div>
+        <div class="top">
+            <h4 style="margin-left: 8%">批复:</h4>
+                <div id="leaveReason2" class="top" disabled="disabled" style="width: 600px;height: 100px;border: #9F9F9F 1px solid; margin-left: 8%">
+
+                </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

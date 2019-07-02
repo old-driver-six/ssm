@@ -7,6 +7,7 @@
     <result column="worklog_createdate" property="worklogCreatedate" jdbcType="TIMESTAMP" />
     <result column="worklog_updatetime" property="worklogUpdatetime" jdbcType="TIMESTAMP" />
     <result column="worklog_createID" property="worklogCreateid" jdbcType="INTEGER" />
+    <result column="worklog_content" property="worklogContent" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.WorkLog" extends="BaseResultMap" >
     <result column="worklog_content" property="worklogContent" jdbcType="LONGVARCHAR" />
@@ -143,20 +144,20 @@
       通过创建时间区间查询
     -->
     <!--大于传递进来的时间-->
-    <if test="workLogCreatedate1!=null">
+    <if test="workLogCreatedate1!=null and workLogCreatedate1!=''">
       and worklog_createdate &gt;=#{workLogCreatedate1}
     </if>
     <!--小于传递进来的时间-->
-    <if test="workLogCreatedate2!=null">
+    <if test="workLogCreatedate2!=null and workLogCreatedate2!=''">
       and worklog_createdate &lt;=#{workLogCreatedate2}
     </if>
     <!--通过修改时间查询!-->
     <!--大于传递进来的时间-->
-    <if test="worklogUpdatetime1!=null">
+    <if test="worklogUpdatetime1!=null and worklogUpdatetime1!=null">
       and worklog_updatetime &gt;=#{worklogUpdatetime1}
     </if>
     <!--小于传递进来的时间-->
-    <if test="worklogUpdatetime2!=null">
+    <if test="worklogUpdatetime2!=null and worklogUpdatetime2!=null">
       and worklog_updatetime &lt;=#{worklogUpdatetime2}
     </if>
   </sql>

@@ -90,7 +90,7 @@ public interface WorkLogService {
      * @param pageThis
      * @return
      */
-    OAResoult<Paging<WorkLog>> selWorkLog(String createDate1,String createDate2,Integer type,Integer sid,Integer pageSize, Integer pageThis);
+    OAResoult<List<WorkLog>> selWorkLog(String createDate1,String createDate2,Integer type,Integer sid,Integer pageSize, Integer pageThis);
 
 
 

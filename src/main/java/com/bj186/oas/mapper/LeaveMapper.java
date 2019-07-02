@@ -1,10 +1,7 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Leave;
-import com.bj186.oas.pojo.personalpojo.GetLeaveUtil;
-import com.bj186.oas.pojo.personalpojo.Page;
-import com.bj186.oas.pojo.personalpojo.Paging;
-import com.bj186.oas.pojo.personalpojo.ShowLeave;
+import com.bj186.oas.pojo.personalpojo.*;
 
 import java.util.List;
 
@@ -56,4 +53,13 @@ public interface LeaveMapper {
     List<ShowLeave> showLeaves(Integer sid);
 
     Paging<ShowLeave> showLeaveLimit(Page<GetLeaveUtil> page);
+
+    /**
+     * 通过表的id查询出请假表的信息
+     * 请假人,所属部门,职务,请假表信息等
+     * @param lid
+     * @return
+     */
+    StaffInfo<Leave> getLeaveAdive(String lid);
+    StaffInfo<Leave> getLeaveAdiveId(String lid);
 }

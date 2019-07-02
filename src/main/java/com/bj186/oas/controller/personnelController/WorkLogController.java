@@ -2,8 +2,10 @@ package com.bj186.oas.controller.personnelController;
 
 import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.exception.NullNameException;
+import com.bj186.oas.pojo.Leave;
 import com.bj186.oas.pojo.WorkLog;
 import com.bj186.oas.pojo.personalpojo.Paging;
+import com.bj186.oas.pojo.personalpojo.StaffInfo;
 import com.bj186.oas.pojo.personalpojo.WorkLogUtil;
 import com.bj186.oas.service.personal.WorkLogService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -18,7 +21,6 @@ import java.util.List;
 public class WorkLogController {
     @Resource
     private WorkLogService workLogService;
-
     /**
      * 添加日志
      * @param worklogName
@@ -84,11 +86,13 @@ public class WorkLogController {
             return resoult;
         }
     }
-
     @RequestMapping("/selLimit.do")
     @ResponseBody
-    public OAResoult<List<WorkLog>> selLimit(Integer sid, Integer page, Integer limit){
-        System.out.println(sid+" "+page+" "+limit);
+    public OAResoult<List<WorkLog>> selLimit(Integer sid, Integer page, Integer limit, Integer type, String data1,String data2){
+       if(!"".equals(data1)||!"".equals(data2)){
+          return workLogService.selWorkLog(data1,data2,type,sid,limit,page);
+       }
         return workLogService.selWorkLog(sid, limit, page);
     }
+
 }

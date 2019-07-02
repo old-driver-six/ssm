@@ -43,12 +43,14 @@ public class LeaveServiceImpl implements LeaveService {
         oaResoult.setMsg("服务器繁忙,请稍后再试!");
         leave.setLeaveId(UUIDUtil.getUUID());                   //后端赋值
         leave.setLeaveCeatetime(System.currentTimeMillis());    //后端赋值
-        leave.setLeaveState("1");                               //默认未审核成功!
+        //leave.setLeaveState("1");                               //默认未审核成功!
         int insert = mapper.insert(leave);
         if(insert>0){
             oaResoult.setCode(200);
             oaResoult.setMsg("添加成功,正在通知领导审批!");
-            oaResoult.setData(createMessages(leave.getLeaveStaffId(),leave.getLeaveId()));     //调用产生消息类,产生一个新的消息
+            List<Massgs> messages = createMessages(leave.getLeaveStaffId(), leave.getLeaveId());
+            System.out.println(messages);
+            oaResoult.setData(messages);     //调用产生消息类,产生一个新的消息
         }
         return oaResoult;
     }
@@ -87,7 +89,7 @@ public class LeaveServiceImpl implements LeaveService {
             }
             if(leaveTime>3){
                 List<Massgs<String>> masg = returnTowMasg(lid, opinion, state, sid, uid,null);
-                if(massgs!=null||massgs.isEmpty()){     //如果返回的消息不为空,则可以继续操作
+                if(massgs!=null&&!massgs.isEmpty()){     //如果返回的消息不为空,则可以继续操作
                     masg.get(0).setMsg("组长审批通过!");
                     resoult.setCode(200);
                     resoult.setData(masg);
@@ -203,10 +205,10 @@ public class LeaveServiceImpl implements LeaveService {
         map.put("sid",sid);
         switch (s){
             case "员工":
-                map.put("groupLer","组长");
+                map.put("groupLer","主管");
                 lerid=staffMapper.SelGouop(map);
                 break;
-            case "组长":
+            case "主管":
                 map.put("groupLer","经理");
                 lerid=staffMapper.SelGouop(map);
                 break;
@@ -283,7 +285,7 @@ public class LeaveServiceImpl implements LeaveService {
     private List<Massgs<String>>  returnTowMasg(String lid,String opinion, String state,Integer sid,Integer uid,String lidvid)throws Exception{
         String psot = staffMapper.SelPsot(sid);
         List<Massgs<String>> resout=new ArrayList<>();
-        if("组长".equals(psot)){
+        if("主管".equals(psot)){
             List<Integer> integers = returnLer(sid);        //只有一个经理,所以直接给经理广播消息就好了
             /**
              * 判断组长审核是否通过,如果没有通过则直接返回给提交请假申请的用户
@@ -294,8 +296,8 @@ public class LeaveServiceImpl implements LeaveService {
                 return resout;
             }
             Massgs<String> massgs = returnGroupMasg(lid, opinion, state,uid, sid);
-            resout.get(0).setMsg("组长审核不通过!");
-
+            massgs.setMsg("主管审核不通过!");
+            resout.add(massgs);
             return resout;
         }
         if ("经理".equals(psot)){
@@ -343,7 +345,7 @@ public class LeaveServiceImpl implements LeaveService {
         lidvid = leaveUtil.insertAdvice(lid, opinion, state, psot, lidvid);
         //System.out.println("返回的表主键:"+lidvid);
         if(!"".equals(lidvid)||null!=lidvid){     //判断是添加成功
-            if("组长".equals(psot)){      //如果职位是组长
+            if("主管".equals(psot)){      //如果职位是组长
                 if(!"0".equals(state)){     //如果组长审核没通过,直接返回给操作用户!
                     resout.add(createOPinionMsg(sid, uid, lidvid));
                     return resout;

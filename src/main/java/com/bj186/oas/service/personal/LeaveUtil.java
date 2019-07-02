@@ -27,7 +27,7 @@ public class LeaveUtil {
         LeaveAdvice advice=new LeaveAdvice();
         Integer integer=-1;
         advice.setLeaveadviceId(livid);
-        if("组长".equals(post)){
+        if("主管".equals(post)){
             advice.setAdvicegroup(opinion);
             advice.setAdvicegroupstate(state);
         }

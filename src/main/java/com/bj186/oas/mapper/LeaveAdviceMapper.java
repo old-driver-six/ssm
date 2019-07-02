@@ -48,4 +48,12 @@ public interface LeaveAdviceMapper {
      * @return
      */
     List<LeaveOpinionUtil> selByadvicelid(String lid);
+
+    /**
+     * 通过请假条id查询请假意见(用户看到的数据)
+     * @param lid
+     * @return
+     */
+    List<LeaveAdvice> selByLeaveId(String lid);
+
 }

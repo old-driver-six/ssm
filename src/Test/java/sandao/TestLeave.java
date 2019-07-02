@@ -5,10 +5,7 @@ import com.bj186.oas.Util.OAResoult;
 import com.bj186.oas.Util.UUIDUtil;
 import com.bj186.oas.mapper.LeaveMapper;
 import com.bj186.oas.pojo.Leave;
-import com.bj186.oas.pojo.personalpojo.GetLeaveUtil;
-import com.bj186.oas.pojo.personalpojo.Page;
-import com.bj186.oas.pojo.personalpojo.Paging;
-import com.bj186.oas.pojo.personalpojo.ShowLeave;
+import com.bj186.oas.pojo.personalpojo.*;
 import com.bj186.oas.service.personal.LeaveService;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,11 +32,11 @@ public class TestLeave {
         LeaveService bean = ac.getBean(LeaveService.class);
         Leave leave=new Leave();
         leave.setLeaveId(UUIDUtil.getUUID());
-        leave.setLeaveStaffId(10006);
+        leave.setLeaveStaffId(10007);
         leave.setLeaveProcessing("正常");
         leave.setLeaveTitle("生病了");
         leave.setLeaveType("1");
-        leave.setLeaveTime(4);
+        leave.setLeaveTime(16);
         leave.setLeaveState("1");
         leave.setLeaveReason("生病了,难受!");
         leave.setLeaveCeatetime(System.currentTimeMillis());
@@ -121,5 +118,11 @@ public class TestLeave {
         getLeaveUtil.setSendDate(parse);
         page.setEntity(getLeaveUtil);
         Paging<ShowLeave> paging = bean.showLeaveLimit(page);
+    }
+    @Test
+    public void Test7(){
+        LeaveMapper bean = ac.getBean(LeaveMapper.class);
+        StaffInfo<Leave> leaveAdive = bean.getLeaveAdive("01e6079e1f6249799b0210fa81473c7e");
+        System.out.println(leaveAdive);
     }
 }

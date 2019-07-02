@@ -12,6 +12,7 @@
     <result column="leave_sendTime" property="leaveSendtime" jdbcType="TIMESTAMP" />
     <result column="leave_state" property="leaveState" jdbcType="CHAR" />
     <result column="leave_ceateTime" property="leaveCeatetime" jdbcType="BIGINT" />
+    <result column="leave_reason" property="leaveReason" jdbcType="BIGINT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.bj186.oas.pojo.Leave" extends="BaseResultMap" >
     <result column="leave_reason" property="leaveReason" jdbcType="LONGVARCHAR" />
@@ -287,5 +288,45 @@
     <where>
       <include refid="selJuit"/>
     </where>
+  </sql>
+
+  <!--审核请假信息-->
+  <select id="getLeaveAdive" resultMap="getLeaveAdiveMap" parameterType="string">
+   <include refid="getLeaveSql"/>
+    <where>
+      leave_Id=#{lid}
+    </where>
+  </select>
+
+  <!--通过详情id查询审核查询请假信息!-->
+  <select id="getLeaveAdiveId" resultMap="getLeaveAdiveMap" parameterType="string">
+    <include refid="getLeaveSql"/>
+    LEFT JOIN oas_leaveadvice
+    ON advicelid=oas_leave.leave_Id
+    <where>
+      leaveAdvice_id=#{advieId}
+      <!--去除重复-->
+      group by leave_Id
+    </where>
+  </select>
+  <resultMap id="getLeaveAdiveMap" type="com.bj186.oas.pojo.personalpojo.StaffInfo">
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="dep_name" property="depName" jdbcType="VARCHAR" />
+    <result column="position_name" property="positionName" jdbcType="VARCHAR" />
+    <collection property="dataInfo" resultMap="BaseResultMap"/>
+  </resultMap>
+
+  <!--通过id查询sql片段-->
+  <sql id="getLeaveSql">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    ,
+    <include refid="com.bj186.oas.mapper.CalendarMapper.showStaffInfo"/>
+    from oas_leave
+    LEFT JOIN oas_staff
+    on leave_staff_id=staff_id
+    <include refid="com.bj186.oas.mapper.CalendarMapper.leftJoinStaffDepPos"/>
   </sql>
 </mapper>

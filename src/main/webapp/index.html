@@ -18,6 +18,8 @@
     <script src="statics/js/jquery.cookies.2.2.0.js"></script>
     <script src="statics/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="statics/js/xadmin.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/sockjs-client/1.1.1/sockjs.js"></script>
+    <script type="text/javascript" src="statics/js/webSokcetUtil.js"></script>
     <script>
         $(function () {
             console.log($.cookie("name"))
@@ -115,20 +117,61 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="/systemServlet?method=admin_list" class="title-send">
+                        <a href="javascript:;" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>信息管理</cite>
+                            <cite>请假管理</cite>
                         </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a _href="html/personnel/Addleave.html" class="title-send">
+                                    <i class="iconfostatics/htmlnt">&#xe6a7;</i>
+                                    <cite>添加请假申请</cite>
+                                </a>
+                            </li >
+                            <li>
+                                <a _href="html/personnel/SelLeave.html" class="title-send" id="showLeave">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>查询请假记录</cite>
+                                </a>
+                            </li >
+                        </ul>
                     </li >
                     <li>
-                        <a _href="/systemServlet?method=admin_rule" class="title-send">
+                        <a href="javascript:;" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>权限管理</cite>
+                            <cite>日志管理</cite>
                         </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a _href="html/personnel/AddWorkLog.html" class="title-send">
+                                    <i class="iconfostatics/htmlnt">&#xe6a7;</i>
+                                    <cite>添加日志</cite>
+                                </a>
+                            </li >
+                            <li>
+                                <a _href="html/personnel/workLog-List.html" class="title-send" id="showWorkLog">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>查询日志</cite>
+                                </a>
+                            </li >
+                        </ul>
+                    </li >
+                    <li>
+                        <a href="javascript:;" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>审核管理</cite>
+                        </a>
+                        <ul class="sub-menu" id="Toexamine">
+                          <!--  <li>
+                                <a _href="statics/html/personnel/LeaveExamination.html?sadnadaksfhakshfa123" class="title-send" >
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>查询日志</cite>
+                                </a>
+                            </li >-->
+                        </ul>
                     </li >
                 </ul>
             </li>
-
             <li>
                 <a href="javascript:;">
                     <i class="iconfont">&#xe724;</i>
@@ -239,7 +282,7 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>部门管理</cite>
                         </a>
-                    </li >
+                    </li>
                     <li>
                         <a _href="html/system/position-manage.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
