@@ -57,7 +57,7 @@ $(function () {
             var layer = layui.layer;
             var index=layer.open({
                 type: 2
-                ,area:['800px','600px']
+                ,area:['600px','400px']
                 ,content: "Opinion.html"
                 ,shade: 0.6
                 ,moveType: 1 //拖拽模式，0或者1
@@ -85,11 +85,11 @@ $(function () {
             var layer = layui.layer;
             var index=layer.open({
                 type: 2
-                ,area:['800px','600px']
+                ,area:['600px','400px']
                 ,content: "ShowOpinion.html"
                 ,shade: 0.6
                 ,moveType: 1 //拖拽模式，0或者1
-                ,title: '领导审核意见' //不显示标题栏
+                ,title: '领导意见' //不显示标题栏
                 ,offset:['0px','400px']
                 ,closeBtn: 1
                 ,anim: 1

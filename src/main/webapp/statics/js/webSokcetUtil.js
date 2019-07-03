@@ -48,7 +48,7 @@ window.close=function()
 function msgTO(data){
     alert("你有一个新的请假审核请注意查收!");
     var _li='<li class="menu-current">'+
-        '<a href="html/personnel/LeaveExamination.html?'+data+'" class="title-send">'+
+        '<a _href="html/personnel/LeaveExamination.html?'+data+'" class="title-send">'+
         '<i class="iconfostatics/htmlnt">&#xe6a7;</i>'+
         '<cite>请假审核</cite>'+
         '</a>'+
@@ -58,6 +58,7 @@ function msgTO(data){
     layer.use('element',function () {
         layui.element.init();
     });
+
 
 }
 
