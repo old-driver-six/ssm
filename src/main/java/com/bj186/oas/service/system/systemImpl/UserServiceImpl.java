@@ -204,49 +204,36 @@ public class UserServiceImpl implements UserService {
      * @return success 成功 error 失败
      */
     @Override
-    public String insert(User user) {
+    public Integer insert(Staff user,List<Integer> powerIdList) {
 
-        Staff staff = new Staff();
-
-        staff.setStaffName("叶123123");
-        staff.setStaffPhone("13281989189");
-        staff.setStaffAge((byte)21);
-        staff.setStaffAdress("成都");
-        staff.setStaffBirthday(new Date());
-        staff.setStaffEmail("193572912@qq.com");
-        staff.setStaffIdntitycardid("511521199712166158");
-        staff.setStaffSex("1");
-        staff.setStaffWage("15k");
-
-        Department department = new Department();
-        department.setDepId(2);
-        staff.setDepartment(department);
-
-        Position position = new Position();
-        position.setPositionId(1);
-        staff.setPosition(position);
-
-        staffMapper.insert(staff);
-
-//        List<Power> powerList = new ArrayList<>();
-        String[] strings = new String[]{"制度发布","公告发布"};
-        int[] ints = new int[]{1,3};
-        for (int i : ints) {
+        System.out.println(222);
+        if(staffMapper.insert(user)==0){
+            return -1;
+        }
+        for (int i : powerIdList) {
             StaffPower staffPower = new StaffPower();
             staffPower.setSpPowerid(i);
-            staffPower.setSpStaffid(staff.getStaffId());
-           staffPowerMapper.insert(staffPower);
+            staffPower.setSpStaffid(user.getStaffId());
+            if(staffPowerMapper.insert(staffPower)==0)
+                return -1;
+        }
+        System.out.println(888);
+        Users users = new Users();
+        users.setStaffId(user.getStaffId());
+        users.setUsersState("0");
+        users.setUsersPassword(MD5.getMd5(user.getStaffPhone(), user.getStaffPhone().substring(5)));
+        System.out.println(999);
+        if(usersMapper.insert(users) == 0){
+            return -1;
         }
 
-        Users users = new Users();
-        String md5 = MD5.getMd5(staff.getStaffPhone(), staff.getStaffPhone().substring(5));
-        users.setUsersPassword(md5);
-        users.setUsersPhone(staff.getStaffPhone());
-        users.setUsersState("0");
+            Department department = staffMapper.selectByPrimaryKey(user.getStaffId()).getDepartment();
+            department.setDepNumber(department.getDepNumber()+1);
+           if(departmentMapper.updateByPrimaryKeySelective(department)==0){
+               return -1;
+           }
+            return 200;
 
-        usersMapper.insert(users);
-
-        return "success";
     }
 
     /**
@@ -291,11 +278,12 @@ public class UserServiceImpl implements UserService {
         }
 
         Position position = new Position();
+
         position.setPositionId(user.getPositionId());
         staff.setPosition(position);
 
         Department department = departmentMapper.selectById(user.getDepId());
-        if(user.getPositionId()==2 || user.getPositionId()==1){
+        if(user.getPositionId()==2){
             Integer depManagerid = department.getDepManagerid();
             Staff staff1 = staffMapper.selectByPrimaryKey(depManagerid);
             position.setPositionId(4);
@@ -305,6 +293,9 @@ public class UserServiceImpl implements UserService {
             department.setDepManagerid(staff.getStaffId());
             departmentMapper.updateByPrimaryKeySelective(department);
         }
+
+
+
         staff.setDepartment(department);
 
 
@@ -324,9 +315,6 @@ public class UserServiceImpl implements UserService {
         }
 
         Users users = new Users();
-        String md5 = MD5.getMd5(staff.getStaffPhone(), staff.getStaffPhone().substring(5));
-        users.setUsersPassword(md5);
-        users.setStaffId(staff.getStaffId());
         users.setUsersState("0");
 
         if(usersMapper.updateByStaffId(users)==0)

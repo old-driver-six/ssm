@@ -148,7 +148,7 @@ left join oas_power b on a.sp_powerID = b.power_id
       )
   </insert>
 
-  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Staff" >
+  <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Staff" useGeneratedKeys="true" keyProperty="staffId">
     insert into oas_staff
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="staffId != null" >

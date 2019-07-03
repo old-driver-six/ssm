@@ -63,6 +63,17 @@
         })
 
     </script>
+    <style>
+        /* 滚动条 */
+        ::-webkit-scrollbar{width:10px;height:10px;}
+        ::-webkit-scrollbar-button:vertical{display:none;}
+        ::-webkit-scrollbar-track:vertical{background-color:black;}
+        ::-webkit-scrollbar-track-piece{background-color:#F5F5F5;}
+        ::-webkit-scrollbar-thumb:vertical{margin-right:10px; background-color:#A6A6A6;}
+        ::-webkit-scrollbar-thumb:vertical:hover{background-color:#aaa;}
+        ::-webkit-scrollbar-corner:vertical{background-color:#535353;}
+        /*::-webkit-scrollbar-resizer:vertical{background-color:#FF6E00;}*/}
+    </style>
 </head>
 <body>
 <!-- 顶部开始 -->
@@ -96,7 +107,7 @@
 <!-- 中部开始 -->
 <!-- 左侧菜单开始 -->
 
-<div class="left-nav">
+<div class="left-nav" style="overflow:auto;">
     <div id="side-nav">
         <ul id="nav">
             <li >
@@ -283,6 +294,12 @@
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
+                    <li>
+                        <a _href="html/system/user-insert.html" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>员工入职</cite>
+                        </a>
+                    </li >
                     <li>
                         <a _href="html/system/user-manage.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>

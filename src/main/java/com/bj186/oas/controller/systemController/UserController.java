@@ -151,8 +151,15 @@ public class UserController  extends HttpServlet {
      */
     @RequestMapping("/insert")
     @ResponseBody
-    public String insert() {
-        return userService.insert(new User());
+    public OAResoult insert(@RequestBody User user) {
+        System.out.println(111);
+        user.getDepartment().setDepId(user.getDepId());
+        user.getPosition().setPositionId(user.getPositionId());
+        Integer insert = userService.insert(user, user.getPowerIdList());
+        OAResoult oaResoult = new OAResoult();
+        oaResoult.setCode(insert);
+        System.out.println();
+        return oaResoult;
     }
 
     /**

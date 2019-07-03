@@ -19,6 +19,7 @@ public interface UsersMapper {
     int suspension(Integer usersID);
     int office(Integer staffID);
     int lizhi(Integer staffID);
+
     //离职
     int Departure(Integer usersID);
     //复职

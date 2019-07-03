@@ -66,12 +66,12 @@ public class Staff {
     /**
      * 部门
      */
-    private Department department;
+    private Department department  = new Department();
 
     /**
      * 职务
      */
-    private Position position;
+    private Position position = new Position();
 
     /**
      * 权限

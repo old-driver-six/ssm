@@ -27,10 +27,10 @@ public class TestUser {
         like.setPageNum(1);
 //        userController.select(like);
     }
-    @Test
-    public void insert(){
-        userController.insert();
-    }
+//    @Test
+//    public void insert(){
+//        userController.insert();
+//    }
 
 
 }

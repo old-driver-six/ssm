@@ -33,9 +33,9 @@
     where users_id = #{usersId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bj186.oas.pojo.Users" >
-    insert into oas_users (users_id, users_phone, users_password, 
+    insert into oas_users (users_id, users_staffId, users_password,
       users_state)
-    values (#{usersId,jdbcType=INTEGER}, #{usersPhone,jdbcType=VARCHAR}, #{usersPassword,jdbcType=VARCHAR}, 
+    values (#{usersId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{usersPassword,jdbcType=VARCHAR},
       #{usersState,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bj186.oas.pojo.Users" >

@@ -14,7 +14,7 @@ public interface UserService {
    List<Staff> select(String filed, String value, Integer pageSize, Integer pageNum);
    List<Staff> selectByDep(String depName,String filed, String value,Integer pageSize, Integer pageNum);
    List<Staff> selectAll();
-   String insert(User user);
+   Integer insert(Staff user,List<Integer> powerIdList);
    Integer update(User user);
    Integer updateRes(Users users);
    String delete(Integer staffID);
