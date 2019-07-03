@@ -314,11 +314,12 @@ public class UserServiceImpl implements UserService {
                 return -1;
         }
 
-        Users users = new Users();
-        users.setUsersState("0");
-
-        if(usersMapper.updateByStaffId(users)==0)
-            return -1;
+//        Users users = new Users();
+//        users.setStaffId(user.getStaffId());
+//        users.setUsersState("0");
+//
+//        if(usersMapper.updateByStaffId(users)==0)
+//            return -1;
 
         return 200;
     }
