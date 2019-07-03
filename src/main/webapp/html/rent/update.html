@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <script>
+        //Demo
+        layui.use('form', function(){
+            var form = layui.form
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                var object = data.field;
+                console.log(object)
+                $.ajax(
+                    {
+                        url: "/rent/updateRent", //访问路径
+                        type: "post",    //访问方式
+                        data:JSON.stringify(object), //传入服务端的数据
+                        dataType: "json",
+                        cache:false,
+                        contentType:'application/json;charset=utf-8',
+                        success: function (object) {
+                            console.log(object)
+                            if (object=='true'){
+                                alert("修改成功！");
+                                $('#jsForm')[0].reset()
+                            }
+                            else {
+                                alert('修改失败')
+                            }
+                        }
+                    }
+                );
+                return false;
+            });
+            form.render();
+        });
+    </script>
+</head>
+<body>
+<form class="layui-form" action="" id="jsForm">
+    <div class="layui-form-item">
+        <div class="layui-card-header">租赁信息录入表格</div>
+        <label class="layui-form-label">租赁物品id</label>
+        <div class="layui-input-block">
+            <input type="text" class="rentId" name="rentId" lay-verify="required"  disabled style="height: 35px;width: 165px;background:#40AFFE;border: 0.5px solid silver">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">租赁数量</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="rentNumber"  autocomplete="off" class="rentNumber"style="height: 35px;width: 165px;border: 0.5px solid silver">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">租赁起始时间</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="rentStarttime"  autocomplete="off" class="rentStarttime"style="height: 35px;width: 165px;border: 0.5px solid silver">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">租赁结束时间</label>
+            <div class="layui-input-inline" style="width: 100px;">
+                <input type="text" name="rentEndtime"  autocomplete="off" class="rentEndtime"style="height: 35px;width: 165px;border: 0.5px solid silver">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">租赁状态</label>
+        <div class="layui-input-block">
+            <select name="rentCond" lay-verify="required">
+                <option value=""></option>
+                <option value="0">未租赁</option>
+                <option value="1">正在租赁</option>
+                <option value="2">已租赁</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn"  lay-submit lay-filter="formDemo"  style="background: lawngreen;">立即提交</button>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>

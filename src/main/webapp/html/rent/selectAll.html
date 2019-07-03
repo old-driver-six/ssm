@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户列表</title>
+    <link rel="stylesheet" href="../../statics/layui/css/layui.css" media="all">
+    <script src="../../statics/js/jquery.min.js"></script>
+    <script src="../../statics/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../statics/js/xadmin.js"></script>
+    <script src="../../statics/js/jquery.cookie.js"></script>
+    <script src="../../statics/js/jquery.cookies.2.2.0.js"></script>
+    <!--<script type="text/javascript" src="../js/member-list.js" ></script>-->
+
+</head>
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">表格</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+
+</div>
+<div class="x-body" style="height: 50px">
+
+    <div class="layui-row"style="width: 450px;float: left;">
+        <div class="layui-form layui-col-md12 x-so" >
+            <div class="layui-col-md6" style="width: 100px;float: left;margin-right: 10px">
+                <select name="filed" lay-verify="">
+                    <option value="">请选择搜索条件</option>
+                    <!--<option value="staff_ID">ID</option>-->
+                    <option value="staff_name">姓名</option>
+                    <option value="dep_Name">部门</option>
+                    <!--<option value="position_name">职位</option>-->
+                </select>
+            </div>
+            &nbsp;
+            <div class="layui-input-inline">
+                <input class="layui-input" placeholder="搜索值" name="value" id="value" value="">
+            </div>
+            <div class="layui-input-inline">
+                <button class="layui-btn" lay-submit=""  lay-filter="search" onclick="likeFind()"><i class="layui-icon">&#xe615;</i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-right: 10px;float: right">
+        <button class="layui-btn layui-btn-danger" onclick="putAll()"><i class="layui-icon"></i>导出</button>
+        <button class="layui-btn layui-btn-danger"onclick="All()"><i class="layui-icon"></i>批量删除</button>
+
+
+    </div>
+</div>
+
+<table id="demo" lay-filter="test" style="float: left"></table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script>
+    var tableIns;
+    // function putAll() {
+    //     var date = layui.table.checkStatus("id").data;
+    //     console.log(date)
+    //     $.ajax({
+    //
+    //         url: "/user?method=put"
+    //         , type: "post",    //访问方式
+    //         data: {dt: JSON.stringify(date)},
+    //         dataType: "text",
+    //         success: function (data) {
+    //             console.log(data)
+    //             if (data) {
+    //                 alert("打印成功")
+    //                 // tableIns.reload()
+    //             }
+    //             else {
+    //                 alert("打印失败")
+    //             }
+    //         }
+    //     })
+    //
+    // }
+    function All(){
+        layer.confirm('确定删除吗？',function (index) {
+            // layui.table.checkStatus('id').del()
+            layer.close(index)
+            var str = ""
+            for (var i = 0; i <= layui.table.checkStatus('id').data.length - 1; i++) {
+                str += layui.table.checkStatus('id').data[i].staffID + ","
+            }
+            console.log(str)
+            var str1 = str.substring(0, str.length - 1)
+            console.log(str1)
+            $.ajax({
+
+                url: "/user?method=delete"
+                , type: "post",    //访问方式
+                data: {dt: JSON.stringify(str1)},
+                dataType: "text",
+                success: function (data) {
+                    console.log(data)
+                    if (data) {
+                        layer.msg("删除成功")
+                        tableIns.reload()
+                    }
+                    else {
+                        layer.msg("删除失败")
+                    }
+                }
+            })
+        })
+
+    }
+    layui.use(['table'], function(){
+        var table = layui.table;
+        console.log(table)
+
+        //第一个实例
+        // 因为是js模拟的数据, 所以分页,指定每页记录数功能暂无法体现 ,待换成servlet即可
+        tableIns=table.render({
+            elem:'#demo'
+            ,limit:6
+            ,id:'id'
+            ,limits:[2,4,6]
+            ,height:312
+            ,url: '/rent/selectAll' //数据接口 , 这里我用js模拟了一个要请求的数据, 将来要用servlet来响应
+            ,method:"post"
+            ,page:true //开启分页
+            ,cols: [[ //表头 ,注意：field的值必须和json中的数据的键名保持一致
+                //title是用来显示的字段名
+                //员工姓名；手机号；邮箱；身份证号码；职位工资；入职时间；性别；备注
+                {type: 'checkbox', fixed: 'left'}
+                ,{field: 'rentId',title: 'ID', sort: true, fixed: 'left'}
+                ,{field: 'fixed', title: '资产名称',templet:'<div>{{d.fixed.fixeName}}</div>'}
+                ,{field: 'rentNumber', title: '租赁数量'}
+                ,{field: 'rentStarttime', title: '租赁起始时间', sort: true}
+                ,{field: 'rentEndtime', title: '租赁结束时间' ,sort: true}
+                ,{field: 'rentCond', title: '租赁状态',sort: true}
+                ,{field: 'staff', title: '员工',sort: true,templet:'<div>{{d.staff.staffName}}</div>'}
+
+                ,{fixed: 'right',  align:'center', toolbar: '#barDemo', width:300}
+            ]],
+            parseData:function (e) {
+                console.log(e)
+
+            }
+        });
+
+        //templet:'<div>{{d.staff.staffName}}</div>'}
+        //监听行工具事件
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+
+            if(layEvent === 'detail'){
+                // layer.msg('查看操作');
+
+            } else if(layEvent === 'del'){
+                console.log(data)
+                layer.confirm('真的删除行么', function(index){
+                    obj.del(); //删除对应行（tr）的DOM结构
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    var object = data.rentId;
+
+                    console.log(object)
+                    $.ajax({
+                        url: "/rent/deleteRent"
+                        ,cache:false
+                        ,type: 'post',    //访问方式
+                        data:JSON.stringify(object),
+                         dataType: 'json',
+                        contentType:'application/json;charset=utf-8',
+                        success: function (object) {
+                            console.log(object)
+                            if (object=='true'){
+                                layer.msg("删除成功")
+                                tableIns.reload()
+                            }
+                            else {
+                                layer.msg("删除失败")
+                            }
+
+                        }
+                        // ,end:function(){
+                        //     console.log(111)
+                        //     tableIns.reload()
+                        // }
+                    })
+                });
+            }
+            else if(layEvent === 'edit'){
+                // layer.msg('编辑操作');
+                var data = obj.data;
+                layer.open({
+                    title : "编辑用户",
+                    type:2,
+                    area:['400px','400px'],
+                    content:'update.html',
+                    success : function(layero, index){
+                        var body = layui.layer.getChildFrame('body', index);
+                        if(data){
+                            // 取到弹出层里的元素，并把编辑的内容放进去
+                            body.find(".rentId").val(data.rentId);  //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
+                            // body.find(".payDate").val(data.payDate);  //用户
+                            // body.find(".sex input[value="+data.sex+"]").prop("checked","checked");  //性别，单选按钮
+                            body.find(".rentNumber").val(data.rentNumber);  //年龄
+                            body.find(".rentStarttime").val(data.rentStarttime);  //身份证号
+                            body.find(".rentEndtime").val(data.rentEndtime);  //登录时间
+                            body.find(".rentCond").val(data.rentCond);  //登录名
+                            // body.find(".paySalary").val(data.paySalary);  //职位
+                            // 记得重新渲染表单
+                        }
+                        setTimeout(function(){
+                            layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
+                                tips: 3
+                            });
+                        },500)
+                    }
+                    ,end:function(){
+                        console.log(111)
+
+                        tableIns.reload()
+                    }
+                })
+
+            }
+        });
+
+    });
+
+    function likeFind () {
+        console.log($('select[name="filed"]').val())
+        console.log($('input[name="value"]').val())
+        tableIns.reload({//重载表格
+            url:"/pay/selectStaffPay",
+            // // contentType:'application/json'
+            where: {
+                // uid:$.cookie('uId'),
+                filed:$('select[name="filed"]').val(),
+                value:$('input[name="value"]').val(),
+            }
+            // ,page: {
+            //     curr: 1 //重新从第 1 页开始
+            // }
+        });
+        $('input[name="value"]').val("")
+        console.log('成功')//查询完毕清空
+    }
+</script>
+</body>
+</html>
