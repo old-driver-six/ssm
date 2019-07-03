@@ -53,7 +53,8 @@
 
   </select>
   <select id="selectAllVague" resultMap="BaseResultMap" parameterType="Map">
-    SELECT * FROM oas_announcements WHERE ${field} like ${content} and announcements_state = 0
+   SELECT * FROM oas_announcements a left join oas_staff b on a.announcements_notifierId
+    = b.staff_id WHERE ${field} like ${value} and announcements_state = 0
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     SELECT * FROM oas_announcements a left join oas_staff b on a.announcements_notifierId
