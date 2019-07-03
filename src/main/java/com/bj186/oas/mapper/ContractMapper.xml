@@ -23,7 +23,7 @@
     contract_content
   </sql>
 
-  <select id="selectContractByStaffId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectContractByStaffId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     SELECT * FROM (SELECT * FROM oas_contract c
     LEFT JOIN oas_staff s ON c.contract_secondPartyId = s.staff_id) a
     LEFT JOIN oas_pay p ON p.pay_id =a.contract_salaryId
@@ -38,7 +38,7 @@
   SELECT * FROM (SELECT * FROM oas_contract c
   LEFT JOIN (SELECT * FROM oas_staff s
   <if test="uState!=null">
-  LEFT JOIN oas_users u ON s.staff_phone = u.users_phone
+  LEFT JOIN oas_users u ON s.staff_id = u.users_staffid
   WHERE u.users_state = ${uState}
   </if>
    ) s

@@ -27,10 +27,16 @@
                       laydate = layui.laydate;
 
 
-                  laydate.render({
-                      elem: '#date' //指定元素
-                      ,type: 'datetime'
-                  });
+              laydate.render({
+                  elem: '#contractEntrydate' //指定元素
+                  ,type: 'datetime'
+              });
+
+              laydate.render({
+                  elem: '#contractSigndate' //指定元素
+                  ,type: 'datetime'
+              });
+
 
               //自定义验证规则
                   form.verify({});

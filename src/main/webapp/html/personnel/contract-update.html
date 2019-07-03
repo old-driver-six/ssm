@@ -23,89 +23,71 @@
                       form = layui.form,
                       laydate = layui.laydate;
 
-              var saleID = getQueryString("saleID");
-              console.log(saleID);
+              var staffId = getQueryString("staffId");
+              console.log(staffId);
+              var databean = {'staffId':staffId,'uId': $.cookie('uId')};
+              console.log(databean)
               $.ajax({
-                  url:'/SaleServlet?method=saleSelectByID',
+                  url:'/personnel/selectContractByStaffId',
                   type:"post",
-                  data:{"saleID":saleID},
+                  data:JSON.stringify(databean),
                   dataType:'json',
+                  contentType:'application/json;charset=UTF-8',
                   success:function (json) {
-                    var jsonData = json;
-                    console.log(jsonData.date);
-                    $("#staffID").attr("value",jsonData.staffID);
-                    $("#date").attr("value",jsonData.date);
-                    $("#receiptMoney").attr("value",jsonData.receiptMoney);
-                    $("#spendMoney").attr("value",jsonData.spendMoney);
-                    $("#profitAndLost").attr("value",jsonData.profitAndLost);
-                      $.ajax({
-                          url:'/SaleServlet?method=saleDescription',
-                          type:"post",
-                          data:{"saleID":saleID},
-                          dataType:'json',
-                          success:function (json) {
-                              var jsonData = json;
-                              console.log(jsonData.date);
-                              $("#saleDescription").val(jsonData.saleDescription);
-                          },
-                          error:function (e) {
-                          }
-                      });
+                      $("#staffId").attr("value",json.staff.staffId);
+                      $("#contractFirstparty").attr("value",json.contractFirstparty);
+                      $("#contractSecondparty").attr("value",json.contractSecondparty);
+                      $("#contractEntrydate").attr("value",json.contractEntrydate);
+                      $("#contractSigndate").attr("value",json.contractSigndate);
+                      $("#contractContent").val(json.contractContent);
+
                   },
                   error:function (e) {
                   }
               });
 
-
               laydate.render({
-                      elem: '#date' //指定元素
+                      elem: '#contractEntrydate' //指定元素
                       ,type: 'datetime'
                   });
 
+              laydate.render({
+                  elem: '#contractSigndate' //指定元素
+                  ,type: 'datetime'
+              });
 
-                  //自定义验证规则
+
+
+              //自定义验证规则
                   form.verify({});
 
-                  //监听提交
-                  form.on('submit(update)', function (data) {
-                      var  updateSale = data.field;
-                      var  SaleDescription = data.field.saleDescription;
-                      var  updateSaleDescription ={ "SaleDescription":SaleDescription };
-                      updateSale.saleID = saleID;
-                      updateSaleDescription.saleID = saleID;
-                      delete  updateSale.saleDescription;
-                      console.log(updateSale);
-                      console.log(updateSaleDescription)
-                      $.ajax({
-                          url:'/SaleServlet?method=updateSale',
-                          type:"post",
-                          data:{"updateSale":JSON.stringify(updateSale)},
-                          dataType:'json',
-                          success:function (json) {
-                              console.log(json.date);
-                              $.ajax({
-                                  url:'/SaleServlet?method=updateSaleDescription',
-                                  type:"post",
-                                  data:{"updateSaleDescription":JSON.stringify(updateSaleDescription)},
-                                  dataType:'json',
-                                  success:function (json) {
-                                  },
-                                  error:function (e) {
-                                  }
-                              });
-                              layer.alert("保存成功", {icon: 6}, function () {
-                                  // 获得frame索引
-                                  var index = parent.layer.getFrameIndex(window.name);
-                                  //关闭当前frame
-                                  parent.layer.close(index);
-                                  window.parent.location.reload();
-                              });
-                          },
-                          error:function (e) {
-                          }
-                      });
-                      return false;
+              //监听提交
+              form.on('submit(update)', function (data) {
+                  data.field.uId=$.cookie('uId');
+                  data.field.checkinginId=checkinginId;
+                  console.log(data)
+                  $.ajax({
+                      url:'/CheckingIn/updateCheckingIn',
+                      type:"post",
+                      data:JSON.stringify(data.field),
+                      dataType:'json',
+                      contentType:'application/json;charset=UTF-8',
+                      success:function (json) {
+                          console.log(json.date);
+                          layer.alert("保存成功", {icon: 6}, function () {
+                              // 获得frame索引
+                              var index = parent.layer.getFrameIndex(window.name);
+                              //关闭当前frame
+                              parent.layer.close(index);
+                              window.parent.location.reload();
+                          });
+                      },
+                      error:function (e) {
+                      }
                   });
+                  return false;
+              });
+
 
           });
           function getQueryString(name) {

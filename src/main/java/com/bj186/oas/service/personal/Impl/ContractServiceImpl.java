@@ -97,7 +97,7 @@ public class ContractServiceImpl implements ContractService {
      * @return contractsList
      */
     @Override
-    public List<Contract> selectContractsByRequirement(Integer uId,String filed,String value,String pageNow,String pageLimit) {
+    public List<Contract> selectContractsByRequirement(Integer uId,String userState,String filed,String value,String pageNow,String pageLimit) {
         //获取当前用户的部门
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Department staffDepartment = staff.getDepartment();
@@ -105,6 +105,7 @@ public class ContractServiceImpl implements ContractService {
         if (depId == 1||depId == 3){
             //人事部可以按条件查询合同
             Map<String,Object> map = new LinkedHashMap<>();
+            map.put("uState",userState);
             map.put("field",filed);
             map.put("value", "\'%"+value+"%\'");
             map.put("LimitParameter_1",(Integer.parseInt(pageNow)-1)*Integer.parseInt(pageLimit));

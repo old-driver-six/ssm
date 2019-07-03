@@ -174,4 +174,18 @@ public class Contract {
         this.pay = pay;
     }
 
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "contractId='" + contractId + '\'' +
+                ", contractFirstparty='" + contractFirstparty + '\'' +
+                ", contractSecondparty='" + contractSecondparty + '\'' +
+                ", contractEntrydate=" + contractEntrydate +
+                ", contractSigndate=" + contractSigndate +
+                ", contractContent='" + contractContent + '\'' +
+                ", staff=" + staff +
+                ", pay=" + pay +
+                '}';
+    }
 }

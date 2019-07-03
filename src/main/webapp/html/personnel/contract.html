@@ -32,15 +32,18 @@
 <div class="x-body">
     <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" action="">
-            <div class="layui-input-inline">
-            <input class="layui-input" placeholder="合同入职日期" name="contractEntrydate" id="contractEntrydate">
-            </div>
-            <div class="layui-input-inline">
-            <input class="layui-input" placeholder="合同签订日期" name="contractSigndate" id="contractSigndate" >
-            </div>
+
              <div class="layui-input-inline">
              <input type="text" name="staffId"  placeholder="输入员工ID查询合同" autocomplete="off" class="layui-input">
              </div>
+
+            <div class="layui-input-inline">
+                <select id="userState" name="userState" lay-verify="">
+                    <option value="1">在职</option>
+                    <option value="0">离职</option>
+                </select>
+            </div>
+
             <div class="layui-input-inline">
                 <button class="layui-btn"  lay-submit lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
             </div>
@@ -50,10 +53,6 @@
         <div class="contractTable ">
             <button class="layui-btn " onclick="x_admin_show('添加合同','contract-add.html',1000)">
                 <i class="layui-icon">&#xe608;</i>添加合同</button>
-            <button class="layui-btn " id="currentStaff">
-                <i class="layui-icon">&#xe608;</i>查询在职合同</button>
-            <button class="layui-btn " id="formeStaff" >
-                <i class="layui-icon">&#xe608;</i>查询离职合同</button>
         </div>
     </xblock>
 
@@ -64,6 +63,7 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看描述</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="toolbarDemo">
 </script>
@@ -74,18 +74,7 @@
         var $ = layui.jquery,
             layer = layui.layer,
             table = layui.table,
-            form = layui.form,
-            laydate = layui.laydate;
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#contractEntrydate' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#contractSigndate' //指定元素
-        });
+            form = layui.form;
 
         var tableIns = table.render({
              method: 'post'
@@ -113,7 +102,7 @@
                 ,{field: 'contractSigndate', title: '合同签订时间', width:160,sort:true}
                 ,{field: 'staff', title: '合同员工ID',width:160,sort:true,templet:'<div>{{d.staff.staffId}}</div>'}
                 ,{field: 'pay', title: '基础薪资',width:160,sort:true,templet:'<div>{{d.pay.payWage}}</div>' }
-                ,{fixed: 'right', width: 160, align:'center', toolbar: '#barDemo'}
+                ,{fixed: 'right', width: 180, align:'center', toolbar: '#barDemo'}
             ]]
 
         });
@@ -124,15 +113,19 @@
             layEvent = obj.event; //获得 lay-event 对应的值
             var tr = obj.tr;
             if(layEvent === 'detail'){
+                console.log(data.staff.staffId)
+                console.log($.cookie('uId'))
+                var databean = {'staffId':data.staff.staffId,'uId': $.cookie('uId')};
                 $.ajax({
-                    url:'/',
+                    url:'/personnel/selectContractByStaffId',
                     type:"post",
-                    data:{"staffId":data.staff},
+                    data:JSON.stringify(databean),
+                    contentType:'application/json;charset=UTF-8',
                     dataType:'json',
                     success:function (json) {
                         console.log(json);
-                        if (json !== null){
-                            layer.alert()
+                        if (json.contractContent !== null){
+                            layer.alert(json.contractContent)
                         } else {
                          layer.msg('该合同内容为空')
                         }
@@ -151,8 +144,8 @@
                 });
             } else if(layEvent === 'edit'){
                 console.log(data.contractId);
-                x_admin_show('修改考勤表','contract-update.html?contractId='+
-                    data.staff,800);
+                x_admin_show('修改合同','contract-update.html?staffId='+
+                    data.staff.staffId,800);
 
             }
     });
@@ -165,15 +158,14 @@
 // 日期ID查询功能
 
         form.on('submit(search)', function(data){
-            console.log(data.field.contractEntrydate);
-            console.log(data.field.contractSigndate);
             console.log(data.field.staffId);
+            console.log(data.field.userState);
             tableIns.reload({
-                url:'/',
+                url:'/personnel/selectContractsByRequirement',
                 where:{
-                    contractEntrydate:data.field.contractEntrydate,
-                    contractSigndate:data.field.contractSigndate,
-                    staffId:data.field.staffId
+                    staffId:data.field.staffId,
+                    userState:data.field.userState,
+                    'uId': $.cookie('uId')
                 }
                 //设定异步数据接口的额外参数
                 ,page: {

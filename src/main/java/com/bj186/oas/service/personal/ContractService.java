@@ -41,7 +41,7 @@ public interface ContractService {
      * @param pageLimit
      * @return
      */
-     List<Contract> selectContractsByRequirement(Integer uId, String filed, String value, String pageNow, String pageLimit);
+     List<Contract> selectContractsByRequirement(Integer uId, String userState,String filed, String value, String pageNow, String pageLimit);
 
     /**
      * 通过员工ID修改合同
