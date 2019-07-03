@@ -31,7 +31,7 @@ public class UserRealm extends AuthorizingRealm {
         if (user.getUsersState().equals("1"))
             throw new LockedAccountException("用户已被冻结！");
         if (user.getUsersState().equals("-1"))
-            throw new AuthenticationException("用户已被冻结！");
+            throw new AuthenticationException();
         System.out.println("doGetAuthenticationInfo username=" + user.getUsersPhone());
         System.out.println("doGetAuthenticationInfo password=" + user.getUsersPassword());
 
