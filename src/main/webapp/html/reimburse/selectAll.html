@@ -58,8 +58,8 @@
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
 </script>
 <script>
     var tableIns;
@@ -128,21 +128,22 @@
             ,id:'id'
             ,limits:[2,4,6]
             ,height:312
-            ,url: '/fixed/selectAllFixed' //数据接口 , 这里我用js模拟了一个要请求的数据, 将来要用servlet来响应
+            ,url: '/reimburse/selectAll' //数据接口 , 这里我用js模拟了一个要请求的数据, 将来要用servlet来响应
             ,method:"post"
             ,page:true //开启分页
             ,cols: [[ //表头 ,注意：field的值必须和json中的数据的键名保持一致
                 //title是用来显示的字段名
                 //员工姓名；手机号；邮箱；身份证号码；职位工资；入职时间；性别；备注
                 {type: 'checkbox', fixed: 'left'}
-                ,{field: 'fixId',title: 'ID', sort: true, fixed: 'left'}
-                ,{field: 'fixeName', title: '资产名称'}
-                ,{field: 'fixUnit', title: '单位'}
-                ,{field: 'fixNumber', title: '数量', sort: true}
-                ,{field: 'fixRentNumber', title: '租赁数量' ,sort: true}
-                ,{field: 'fixSurpNumber', title: '为租数量',sort: true}
-                ,{field: 'fixAmount', title: '总计金额'}
-                ,{field: 'fixRemarks', title: '备注'}
+                ,{field: 'reimId',title: 'ID', sort: true, fixed: 'left'}
+                ,{field: 'staff', title: '员工',templet:'<div>{{d.staff.staffName}}</div>'}
+                ,{field: 'reimMatter', title: '出差事由'}
+                ,{field: 'reimStarttime', title: '出差起始时间' ,sort: true}
+                ,{field: 'reimEndtime', title: '出差结束时间',sort: true}
+                ,{field: 'reimPlace', title: '出差地'}
+                ,{field: 'reimTraffic', title: '交通费用'}
+                ,{field: 'reimStay', title: '住宿费用'}
+                ,{field: 'reimReferr', title: '费用总计'}
                 ,{fixed: 'right',  align:'center', toolbar: '#barDemo', width:300}
             ]],
             parseData:function (e) {
@@ -207,12 +208,12 @@
                         var body = layui.layer.getChildFrame('body', index);
                         if(data){
                             // 取到弹出层里的元素，并把编辑的内容放进去
-                            body.find(".fixId").val(data.fixId);  //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
+                            body.find(".reimId").val(data.reimId);  //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
                             body.find(".fixeName").val(data.fixeName);  //用户
                             // body.find(".sex input[value="+data.sex+"]").prop("checked","checked");  //性别，单选按钮
-                            body.find(".fixUnit").val(data.fixUnit);  //年龄
-                            body.find(".fixNumber").val(data.fixNumber);  //身份证号
-                            body.find(".fixRentNumber").val(data.fixRentNumber);  //登录时间
+                            body.find(".reimMatter").val(data.reimMatter);  //年龄
+                            body.find(".reimStarttime").val(data.reimStarttime);  //身份证号
+                            body.find(".reimEndtime").val(data.reimEndtime);  //登录时间
                             body.find(".fixSurpNumber").val(data.fixSurpNumber);  //登录名
                             body.find(".fixAmount").val(data.fixAmount);
                             body.find(".fixRemarks").val(data.fixRemarks);

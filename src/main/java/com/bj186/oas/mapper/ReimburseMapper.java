@@ -1,6 +1,7 @@
 package com.bj186.oas.mapper;
 
 import com.bj186.oas.pojo.Reimburse;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface ReimburseMapper {
     /**
      * 查询所有
      */
-    List<Reimburse> selectAll();
+    List<Reimburse> selectAll(@Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
 
     /**
      *

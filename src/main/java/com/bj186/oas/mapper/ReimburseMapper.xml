@@ -28,6 +28,7 @@
   </select>
   <select id="selectAll" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
     select *from (select * from oas_reimburse left join oas_staff on reim_staffid=staff_id) a left join oas_department on a.staff_depID=dep_id
+    limit #{pageNum},#{pageSize}
 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

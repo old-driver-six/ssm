@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ReimburseService {
     Reimburse selectByPrimaryKey(Integer reimId);
-    List<Reimburse> selectAll();
+    Object selectAll(Integer pageNum,Integer pageSize);
 }
