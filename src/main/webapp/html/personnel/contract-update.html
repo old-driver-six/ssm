@@ -124,59 +124,68 @@
       </script>
   </head>
   <body class="x-body">
-  <form class="layui-form" action="sale.html">
+  <form class="layui-form" action="">
       <div class="layui-form-item">
           <label  class="layui-form-label">
-              <span class="x-red">*</span>财务人员ID
+              <span class="x-red">*</span>合同员工ID
           </label>
           <div class="layui-input-inline">
-              <input type="text" id="staffID" name="staffID" autocomplete="off" class="layui-input" required lay-verify="required" >
+              <input type="text" id="staffId" name="staffId" autocomplete="off" class="layui-input" required lay-verify="required" >
+          </div>
+      </div>
+
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>合同甲方
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="contractFirstparty" name="contractFirstparty" autocomplete="off" class="layui-input" required lay-verify="required" >
+          </div>
+      </div>
+
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>合同乙方
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="contractSecondparty" name="receiptMoney" required lay-verify="required"
+                     autocomplete="off" class="layui-input">
+          </div>
+      </div>
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>入职时间
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="contractEntrydate" name="contractEntrydate" required lay-verify="required"
+                     autocomplete="off" class="layui-input">
+          </div>
+      </div>
+
+      <div class="layui-form-item">
+          <label  class="layui-form-label">
+              <span class="x-red">*</span>签订时间
+          </label>
+          <div class="layui-input-inline">
+              <input type="text" id="contractSigndate" name="contractSigndate" required lay-verify="required"
+                     autocomplete="off" class="layui-input">
+          </div>
+      </div>
+
+      <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">
+              合同内容
+          </label>
+          <div class="layui-input-block">
+              <textarea placeholder="请输入内容" id="contractContent" name="contractContent" class="layui-textarea" style="width: 600px;height: 280px"></textarea>
           </div>
       </div>
 
       <div class="layui-form-item layui-col-md12 x-so">
-          <label   for="staffID" class="layui-form-label">
-              <span class="x-red">*</span>统计时间
+          <label    class="layui-form-label">
+              <span class="x-red">*</span>基础工资
           </label>
-          <input class="layui-input " placeholder="日期"  id="date" name="date" required lay-verify="required">
-      </div>
-
-      <div class="layui-form-item">
-          <label  class="layui-form-label">
-              <span class="x-red">*</span>收款金额
-          </label>
-          <div class="layui-input-inline">
-              <input type="text" id="receiptMoney" name="receiptMoney" required lay-verify="required"
-                     autocomplete="off" class="layui-input">
-          </div>
-      </div>
-      <div class="layui-form-item">
-          <label  class="layui-form-label">
-              <span class="x-red">*</span>支出金额
-          </label>
-          <div class="layui-input-inline">
-              <input type="text" id="spendMoney" name="spendMoney" required lay-verify="required"
-                     autocomplete="off" class="layui-input">
-          </div>
-      </div>
-
-          <div class="layui-form-item">
-              <label  class="layui-form-label">
-                  <span class="x-red">*</span>盈损金额
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="profitAndLost" name="profitAndLost" required lay-verify="required"
-                         autocomplete="off" class="layui-input">
-              </div>
-          </div>
-
-      <div class="layui-form-item layui-form-text">
-          <label for="saleDescription" class="layui-form-label">
-              描述
-          </label>
-          <div class="layui-input-block">
-              <textarea placeholder="请输入内容" id="saleDescription" name="saleDescription" class="layui-textarea" style="width: 600px;height: 280px"></textarea>
-          </div>
+          <input class="layui-input "  id="salary"  name="salary" required lay-verify="required">
       </div>
 
       <div class="layui-form-item">

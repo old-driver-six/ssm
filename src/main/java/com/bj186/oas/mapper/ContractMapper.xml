@@ -30,7 +30,7 @@
     WHERE a.staff_id = #{id}
   </select>
 
-  <select id="countAllContracts" resultType="java.lang.String">
+  <select id="countAllContracts" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM oas_contract
   </select>
 
@@ -179,9 +179,6 @@
       </if>
       <if test="contractSecondparty != null" >
         contract_secondParty = #{contractSecondparty,jdbcType=VARCHAR},
-      </if>
-      <if test="staff.staffId != null" >
-        contract_secondPartyId = #{staff.staffId,jdbcType=INTEGER},
       </if>
       <if test="contractEntrydate != null" >
         contract_entryDate = #{contractEntrydate,jdbcType=TIMESTAMP},

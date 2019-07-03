@@ -22,9 +22,9 @@
 <div class="x-nav">
       <span class="layui-breadcrumb">
         <a href="">首页</a>
-        <a href="">考勤</a>
+        <a href="">人事管理</a>
         <a>
-          <cite>考勤记录</cite></a>
+          <cite>考勤事务</cite></a>
       </span>
     <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:38px">ဂ</i></a>
@@ -164,9 +164,7 @@
 
 
 // 日期ID查询功能
-        // 1.选择根据日期还是根据ID查询
-        // 2.判断是否冲突；
-        // 3.发送ajax请求，并附带参数id；
+
         form.on('submit(search)', function(data){
             console.log(data.field.start);
             console.log(data.field.end);

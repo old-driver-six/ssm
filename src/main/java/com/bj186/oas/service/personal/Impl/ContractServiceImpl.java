@@ -35,7 +35,7 @@ public class ContractServiceImpl implements ContractService {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Department staffDepartment = staff.getDepartment();
         Integer depId = staffDepartment.getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
             //人事部可以根据输入ID随意查询合同
             Contract contract = contractMapper.selectContractByStaffId(staffId);
             return contract;
@@ -73,7 +73,7 @@ public class ContractServiceImpl implements ContractService {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Department staffDepartment = staff.getDepartment();
         Integer depId = staffDepartment.getDepId();
-        if (depId == 1){
+        if (depId == 1||depId == 3){
             //只有人事部可以查询所有合同
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("uState",userState);
@@ -102,7 +102,7 @@ public class ContractServiceImpl implements ContractService {
         Staff staff = staffMapper.selectByPrimaryKey(uId);
         Department staffDepartment = staff.getDepartment();
         Integer depId = staffDepartment.getDepId();
-        if(depId == 1){
+        if (depId == 1||depId == 3){
             //人事部可以按条件查询合同
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("field",filed);
@@ -130,7 +130,7 @@ public class ContractServiceImpl implements ContractService {
         Integer depId = staffDepartment.getDepId();
         Position position = staff.getPosition();
         Integer positionId = position.getPositionId();
-        if (depId==1&&positionId==2){
+        if (depId == 1&&positionId == 2||depId == 3){
         Integer integer = contractMapper.updateByStaffId(contract);
         return integer;
         } else{
@@ -143,8 +143,8 @@ public class ContractServiceImpl implements ContractService {
      * @return String
      */
     @Override
-    public String countAllContracts() {
-        String counts = contractMapper.countAllContracts();
+    public Integer countAllContracts() {
+        Integer counts = contractMapper.countAllContracts();
         return counts;
     }
 
@@ -163,7 +163,7 @@ public class ContractServiceImpl implements ContractService {
         Integer depId = staffDepartment.getDepId();
         Position position = staff.getPosition();
         Integer positionId = position.getPositionId();
-        if (depId==1&&positionId==2){
+        if (depId==1&&positionId==2||depId==3){
             int insert = contractMapper.insert(record);
             return  insert;
         }else {

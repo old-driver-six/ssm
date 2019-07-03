@@ -53,9 +53,9 @@ public interface ContractService {
 
      /**
      * 统计所有合同数
-     * @return String
+     * @return
      */
-    String countAllContracts();
+    Integer countAllContracts();
 
 
     /**

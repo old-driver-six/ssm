@@ -52,7 +52,7 @@ public interface ContractMapper {
      *
      * @return
      */
-    String countAllContracts();
+    Integer countAllContracts();
 
     /**
      *
