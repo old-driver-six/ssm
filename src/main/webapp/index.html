@@ -63,17 +63,6 @@
         })
 
     </script>
-    <style>
-        /* 滚动条 */
-        ::-webkit-scrollbar{width:10px;height:10px;}
-        ::-webkit-scrollbar-button:vertical{display:none;}
-        ::-webkit-scrollbar-track:vertical{background-color:black;}
-        ::-webkit-scrollbar-track-piece{background-color:#F5F5F5;}
-        ::-webkit-scrollbar-thumb:vertical{margin-right:10px; background-color:#A6A6A6;}
-        ::-webkit-scrollbar-thumb:vertical:hover{background-color:#aaa;}
-        ::-webkit-scrollbar-corner:vertical{background-color:#535353;}
-        /*::-webkit-scrollbar-resizer:vertical{background-color:#FF6E00;}*/}
-    </style>
 </head>
 <body>
 <!-- 顶部开始 -->
@@ -107,7 +96,7 @@
 <!-- 中部开始 -->
 <!-- 左侧菜单开始 -->
 
-<div class="left-nav" style="overflow:auto;">
+<div class="left-nav">
     <div id="side-nav">
         <ul id="nav">
             <li >
@@ -117,7 +106,7 @@
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a _href="html/echarts1.html"><i class="iconfont">&#xe6a7;</i><cite>控制台</cite></a></li >
+                    <li><a _href="http://www.baidu.com"><i class="iconfont">&#xe6a7;</i><cite>控制台</cite></a></li >
                 </ul>
             </li>
             <li>
@@ -225,9 +214,15 @@
                         </a>
                     </li >
                     <li>
-                        <a _href="/ToProInfo.do" class="title-send">
+                        <a _href="html/rent/selectAll.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>采购清单</cite>
+                            <cite>物品管理</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="html/rent/add.html" class="title-send">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>物品添加</cite>
                         </a>
                     </li >
                 </ul>
@@ -240,13 +235,13 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="html/personnel/checkingin.html" class="title-send">
+                        <a _href="statics/html/checkingin.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>考勤事务</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="html/personnel/contract.html" class="title-send">
+                        <a _href="statics/html/contract.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>合同事务</cite>
                         </a>
@@ -281,9 +276,10 @@
                     <li>
                         <a _href="html/fixed/add.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>资产管理</cite>
+                            <cite>资产添加</cite>
                         </a>
                     </li >
+
                 </ul>
             </li>
 
@@ -294,12 +290,6 @@
                     <i class="iconfont nav_right">&#xe6a7;</i>
                 </a>
                 <ul class="sub-menu">
-                    <li>
-                        <a _href="html/system/user-insert.html" class="title-send">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>员工入职</cite>
-                        </a>
-                    </li >
                     <li>
                         <a _href="html/system/user-manage.html" class="title-send">
                             <i class="iconfont">&#xe6a7;</i>
@@ -357,7 +347,7 @@
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src="html/echarts1.html" frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                <iframe src="http://www.baidu.com" frameborder="0" scrolling="yes" class="x-iframe"></iframe>
             </div>
         </div>
     </div>

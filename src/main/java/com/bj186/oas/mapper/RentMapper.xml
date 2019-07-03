@@ -13,6 +13,9 @@
   <resultMap id="BaseResultMap2" type="com.bj186.oas.pojo.Rent" extends="BaseResultMap">
     <association property="staff" resultMap="com.bj186.oas.mapper.StaffMapper.BaseResultMap"></association>
   </resultMap>
+  <resultMap id="BaseResultMap3" type="com.bj186.oas.pojo.Rent" extends="BaseResultMap2">
+    <association property="fixed" resultMap="com.bj186.oas.mapper.FixedMapper.BaseResultMap"></association>
+  </resultMap>
 
   <sql id="Base_Column_List" >
     rent_id, rent_fixid, rent_number, rent_starttime, rent_endtime, rent_cond,rent_staffid
@@ -23,6 +26,11 @@
     from oas_rent
     where rent_id = #{rentId,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap3" parameterType="java.lang.Integer" >
+   select *from (select *from (select * from oas_rent left join oas_fixed on rent_fixid=fix_id) r left join oas_staff on r.rent_staffid=staff_id) s
+   left join oas_department on s.staff_depID=dep_id limit #{pageNum},#{pageSize}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from oas_rent
     where rent_id = #{rentId,jdbcType=INTEGER}
@@ -111,12 +119,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.bj186.oas.pojo.Rent" >
     update oas_rent
-    set rent_fixid = #{rentFixid,jdbcType=INTEGER},
+    set
       rent_number = #{rentNumber,jdbcType=INTEGER},
       rent_starttime = #{rentStarttime,jdbcType=TIMESTAMP},
       rent_endtime = #{rentEndtime,jdbcType=TIMESTAMP},
       rent_cond = #{rentCond,jdbcType=INTEGER}
-      rent_staffid = #{rentStaffId,jdbcType=INTEGER}
+
     where rent_id = #{rentId,jdbcType=INTEGER}
   </update>
 </mapper>

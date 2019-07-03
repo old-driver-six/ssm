@@ -77,7 +77,9 @@ public class PayController {
 
     @RequestMapping("selectStaffPay")
     @ResponseBody
-    public Object selectStaffPay(@RequestParam(name="filed",required = true, defaultValue ="")String filed,@RequestParam(name = "value",required = true, defaultValue ="") String value,@RequestParam("limit") Integer pageSize,@RequestParam("page") Integer pageNum){
+    public Object selectStaffPay(@RequestParam(name="filed",required = true, defaultValue ="")String filed,
+                                 @RequestParam(name = "value",required = true, defaultValue ="") String value,
+                                 @RequestParam("limit") Integer pageSize,@RequestParam("page") Integer pageNum){
        return payService.selectStaffPay(filed,value,pageSize,pageNum);
     }
     /**

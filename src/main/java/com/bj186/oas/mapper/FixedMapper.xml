@@ -11,6 +11,9 @@
     <result column="fix_amount" property="fixAmount" jdbcType="DECIMAL" />
     <result column="fix_remarks" property="fixRemarks" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BaseResultMap2" type="com.bj186.oas.pojo.Fixed" extends="BaseResultMap">
+    <collection property="rents" resultMap="com.bj186.oas.mapper.RentMapper.BaseResultMap"></collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     fix_id, fixe_name, fix_unit, fix_number,fix_rentnumber,fix_surpnumber,fix_amount, fix_remarks
   </sql>

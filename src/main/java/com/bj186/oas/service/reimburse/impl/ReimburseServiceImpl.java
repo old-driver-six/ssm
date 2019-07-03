@@ -17,7 +17,7 @@ public class ReimburseServiceImpl implements ReimburseService {
         return null;
     }
 
-    @Transactional
+    @Override
     public List<Reimburse> selectAll() {
         return reimburseMapper.selectAll();
     }
