@@ -55,6 +55,8 @@ public class LoginController {
                 loginBean.setDepName(staff.getDepartment().getDepName());
                 loginBean.setStaffName(staff.getStaffName());
                 loginBean.setuId(staff.getStaffId());
+                HttpSession session = request.getSession();
+                session.setAttribute("SESSION_USERNAME", loginBean.getuId()+"");
             } catch (IncorrectCredentialsException ice) {
                 loginBean.setMsg("密码错误！");
             } catch (LockedAccountException lae) {
@@ -68,8 +70,6 @@ public class LoginController {
             loginBean.setMsg("重复登录或登录出错！");
         }
         System.out.println(loginBean);
-        HttpSession session = request.getSession();
-        session.setAttribute("SESSION_USERNAME", loginBean.getuId()+"");
         return loginBean;
     }
 
