@@ -24,42 +24,45 @@
 </div>
 <div class="x-body" style="height: 50px">
 
-    <div class="layui-row"style="width: 450px;float: left;">
-        <div class="layui-form layui-col-md12 x-so" >
-            <div class="layui-col-md6" style="width: 100px;float: left;margin-right: 10px">
-                <select name="filed" lay-verify="">
-                    <option value="">请选择搜索条件</option>
-                    <!--<option value="staff_ID">ID</option>-->
-                    <option value="staff_name">姓名</option>
-                    <option value="dep_Name">部门</option>
-                    <!--<option value="position_name">职位</option>-->
-                </select>
-            </div>
-            &nbsp;
-            <div class="layui-input-inline">
-                <input class="layui-input" placeholder="搜索值" name="value" id="value" value="">
-            </div>
-            <div class="layui-input-inline">
-                <button class="layui-btn" lay-submit=""  lay-filter="search" onclick="likeFind()"><i class="layui-icon">&#xe615;</i></button>
-            </div>
-        </div>
+    <!--<div class="layui-row"style="width: 450px;float: left;">-->
+        <!--<div class="layui-form layui-col-md12 x-so" >-->
+            <!--<div class="layui-col-md6" style="width: 100px;float: left;margin-right: 10px">-->
+                <!--<select name="filed" lay-verify="">-->
+                    <!--<option value="">请选择搜索条件</option>-->
+                    <!--&lt;!&ndash;<option value="staff_ID">ID</option>&ndash;&gt;-->
+                    <!--<option value="staff_name">姓名</option>-->
+                    <!--<option value="dep_Name">部门</option>-->
+                    <!--&lt;!&ndash;<option value="position_name">职位</option>&ndash;&gt;-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--&nbsp;-->
+            <!--<div class="layui-input-inline">-->
+                <!--<input class="layui-input" placeholder="搜索值" name="value" id="value" value="">-->
+            <!--</div>-->
+            <!--<div class="layui-input-inline">-->
+                <!--<button class="layui-btn" lay-submit=""  lay-filter="search" onclick="likeFind()"><i class="layui-icon">&#xe615;</i></button>-->
+            <!--</div>-->
+        <!--</div>-->
 
-    </div>
+    <!--</div>-->
 
-    <div style="margin-right: 10px;float: right">
-        <button class="layui-btn layui-btn-danger" onclick="putAll()"><i class="layui-icon"></i>导出</button>
-        <button class="layui-btn layui-btn-danger"onclick="All()"><i class="layui-icon"></i>批量删除</button>
+    <!--<div style="margin-right: 10px;float: right">-->
+        <!--<button class="layui-btn layui-btn-danger" onclick="putAll()"><i class="layui-icon"></i>导出</button>-->
+        <!--<button class="layui-btn layui-btn-danger"onclick="All()"><i class="layui-icon"></i>批量删除</button>-->
 
 
-    </div>
+    <!--</div>-->
 </div>
 
 <table id="demo" lay-filter="test" style="float: left"></table>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a> -->
+    <a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
     <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+</script>
+
+<script type="text/html" id="toolbarDemo">
 </script>
 <script>
     var tableIns;
@@ -127,7 +130,9 @@
             ,limit:6
             ,id:'id'
             ,limits:[2,4,6]
-            ,height:312
+            ,height:490
+            ,width:1020
+            ,toolbar: 'toolbarDemo'
             ,url: '/reimburse/selectAll' //数据接口 , 这里我用js模拟了一个要请求的数据, 将来要用servlet来响应
             ,method:"post"
             ,page:true //开启分页
@@ -137,12 +142,12 @@
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'reimId',title: 'ID', sort: true, fixed: 'left'}
                 ,{field: 'staff', title: '员工',templet:'<div>{{d.staff.staffName}}</div>'}
-                ,{field: 'reimMatter', title: '出差事由'}
-                ,{field: 'reimStarttime', title: '出差起始时间' ,sort: true}
-                ,{field: 'reimEndtime', title: '出差结束时间',sort: true}
-                ,{field: 'reimPlace', title: '出差地'}
-                ,{field: 'reimTraffic', title: '交通费用'}
-                ,{field: 'reimStay', title: '住宿费用'}
+                // ,{field: 'reimMatter', title: '出差事由'}
+                // ,{field: 'reimStarttime', title: '出差起始时间' ,sort: true}
+                // ,{field: 'reimEndtime', title: '出差结束时间',sort: true}
+                // ,{field: 'reimPlace', title: '出差地'}
+                // ,{field: 'reimTraffic', title: '交通费用'}
+                // ,{field: 'reimStay', title: '住宿费用'}
                 ,{field: 'reimReferr', title: '费用总计'}
                 ,{fixed: 'right',  align:'center', toolbar: '#barDemo', width:300}
             ]],
@@ -154,7 +159,7 @@
 
         //templet:'<div>{{d.staff.staffName}}</div>'}
         //监听行工具事件
-        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，Time 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
 
                 ,layEvent = obj.event; //获得 lay-event 对应的值
@@ -200,8 +205,9 @@
                 // layer.msg('编辑操作');
                 var data = obj.data;
                 layer.open({
-                    title : "编辑用户",
+                    title : "详情",
                     type:2,
+                    toolbar: 'toolbarDemo',
                     area:['500px','500px'],
                     content:'update.html',
                     success : function(layero, index){
@@ -209,14 +215,15 @@
                         if(data){
                             // 取到弹出层里的元素，并把编辑的内容放进去
                             body.find(".reimId").val(data.reimId);  //将选中的数据的id传到编辑页面的隐藏域，便于根据ID修改数据
-                            body.find(".fixeName").val(data.fixeName);  //用户
+                            // body.find(".staffName").val(data.r);  //用户
                             // body.find(".sex input[value="+data.sex+"]").prop("checked","checked");  //性别，单选按钮
                             body.find(".reimMatter").val(data.reimMatter);  //年龄
                             body.find(".reimStarttime").val(data.reimStarttime);  //身份证号
                             body.find(".reimEndtime").val(data.reimEndtime);  //登录时间
-                            body.find(".fixSurpNumber").val(data.fixSurpNumber);  //登录名
-                            body.find(".fixAmount").val(data.fixAmount);
-                            body.find(".fixRemarks").val(data.fixRemarks);
+                            body.find(".reimPlace").val(data.reimPlace);  //登录名
+                            body.find(".reimTraffic").val(data.reimTraffic);
+                            body.find(".reimStay").val(data.reimStay);
+                            body.find(".reimReferr").val(data.reimReferr);
                             //职位
                             // 记得重新渲染表单
                         }

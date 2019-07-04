@@ -64,7 +64,11 @@ public class RentServiceImpl implements RentService {
 //                rent.setRentFixid(fixed.getFixId());
 //                if (s.equals("true")){
 //                    rent.setRentStaffId(staffId);
-                    int insert = rentMapper.insert(rent);
+        Fixed fixed = new Fixed();
+        Integer rentNumber = rent.getRentNumber();
+        fixed.setFixRentNumber(rentNumber);
+        fixedService.updateByPrimaryKey(fixed);
+        int insert = rentMapper.insert(rent);
                     if (insert>0){
                         succes= "true";
                     }else {

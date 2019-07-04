@@ -54,7 +54,7 @@
       <if test="reimStaffid != null" >
         reim_staffid,
       </if>
-      <!--<if test="reimDepid != null" >-->
+      <!--<if Time="reimDepid != null" >-->
         <!--reim_depid,-->
       <!--</if>-->
       <if test="reimMatter != null" >
@@ -86,7 +86,7 @@
       <if test="reimStaffid != null" >
         #{reimStaffid,jdbcType=INTEGER},
       </if>
-      <!--<if test="reimDepid != null" >-->
+      <!--<if Time="reimDepid != null" >-->
         <!--#{reimDepid,jdbcType=INTEGER},-->
       <!--</if>-->
       <if test="reimMatter != null" >
@@ -118,7 +118,7 @@
       <if test="reimStaffid != null" >
         reim_staffid = #{reimStaffid,jdbcType=INTEGER},
       </if>
-      <!--<if test="reimDepid != null" >-->
+      <!--<if Time="reimDepid != null" >-->
         <!--reim_depid = #{reimDepid,jdbcType=INTEGER},-->
       <!--</if>-->
       <if test="reimMatter != null" >

@@ -20,7 +20,7 @@ public  void test(){
     InputStream inputStream = null;
 
     try {
-        inputStream = new FileInputStream("G:/workspace/ssm/src/Test/java/sandao/test.xls");
+        inputStream = new FileInputStream("G:/workspace/ssm/src/Test/java/sandao/Time.xls");
     } catch (FileNotFoundException e) {
         e.printStackTrace();
     }
